@@ -22,31 +22,23 @@ def process_file(file: UploadFile):
         reader = PdfReader(file.file)
         return "[PDF Content]:\n" + "".join([page.extract_text() + "\n" for page in reader.pages])
     elif ext in ["jpg", "jpeg", "png", "mp4", "mp3", "wav"]: 
-        return f"[Media File '{file.filename}' uploaded to workspace. Agent can use ffmpeg/python to process.]"
+        return f"[Media File '{file.filename}' uploaded. Agent can use ffmpeg/python to process.]"
     return "[Unsupported/Unknown File Uploaded]"
 
-# --- UPDATED AGENT BRAIN WITH OLLAMA DOWNLOAD & RUN SUPERPOWERS ---
-SYSTEM_PROMPT = """You are AutoKaaj OS Agent, an elite autonomous AI Software Engineer and Media Creator.
+SYSTEM_PROMPT = """You are AutoKaaj OS Agent, an elite autonomous AI Software Engineer.
 You have FULL autonomous capability on Termux.
-CAPABILITIES: Code in Python/HTML/JS, Video/Audio via ffmpeg, Image processing via opencv/Pillow, System commands.
-
-SPECIAL OLLAMA CONTROL RULES:
-If the user asks to DOWNLOAD or PULL an Ollama model, use: 
-<execute>proot-distro login debian --shared-tmp -- bash -c "ollama pull MODEL_NAME"</execute>
-
-If the user asks to CHECK INSTALLED MODELS, use: 
-<execute>proot-distro login debian --shared-tmp -- bash -c "ollama list"</execute>
-
-If the user asks to RUN a specific model in terminal, use:
-<execute>proot-distro login debian --shared-tmp -- bash -c "ollama run MODEL_NAME"</execute>
-
-RULE: To execute ANY command or write scripts, wrap it strictly inside <execute> and </execute> tags."""
+CAPABILITIES: Code, Video/Audio via ffmpeg, Image processing via opencv/Pillow, System commands.
+If user asks to pull/run Ollama models manually, use: <execute>proot-distro login debian --shared-tmp -- bash -c "ollama pull MODEL_NAME"</execute>
+RULE: Wrap ANY terminal commands strictly inside <execute> and </execute> tags."""
 
 @app.post("/api/v1/start-ollama")
 async def start_ollama():
     try:
-        subprocess.Popen('proot-distro login debian --shared-tmp -- bash -c "nohup ollama serve > ollama.log 2>&1 &"', shell=True)
-        return {"status": "success", "message": "Ollama server initialization triggered in background."}
+        # ১. Ollama সার্ভার স্টার্ট করবে
+        # ২. ব্যাকগ্রাউন্ডে gemma4:31b-cloud মডেলটি অটোমেটিক pull এবং run করবে
+        startup_cmd = 'proot-distro login debian --shared-tmp -- bash -c "nohup ollama serve > ollama.log 2>&1 & sleep 5 && nohup ollama run gemma4:31b-cloud > auto_pull.log 2>&1 &"'
+        subprocess.Popen(startup_cmd, shell=True)
+        return {"status": "success", "message": "Background Services Started. 'gemma4:31b-cloud' is syncing automatically."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

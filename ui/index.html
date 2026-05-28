@@ -15,8 +15,7 @@
         .logo-svg { width: 40px; height: 40px; }
         .os-title { font-size: 1.2rem; font-weight: bold; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
         
-        .ollama-btn { background: rgba(157,0,255,0.2); color: var(--neon-purple); border: 1px solid var(--neon-purple); padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
-        .ollama-btn:hover { background: var(--neon-purple); color: #fff; box-shadow: 0 0 10px var(--neon-purple); }
+        .ollama-status { background: rgba(0,255,204,0.1); color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 8px 15px; border-radius: 5px; font-weight: bold; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
 
         .config-panel { padding: 15px; background: #0A0A0F; border-bottom: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .config-panel select, .config-panel input { background: var(--surface); color: var(--text-main); border: 1px solid #333; padding: 10px; border-radius: 5px; outline: none; font-family: inherit; }
@@ -56,7 +55,6 @@
 <body>
     <div class="header">
         <div class="logo-container">
-            <!-- ORIGINAL ANIMATED SVG LOGO -->
             <svg class="logo-svg" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#9D00FF" stroke-width="4"><animate attributeName="stroke-dasharray" values="0,300; 300,0; 0,300" dur="4s" repeatCount="indefinite" /></circle>
                 <polygon points="50,15 85,80 15,80" fill="none" stroke="#00FFCC" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" /></polygon>
@@ -64,12 +62,13 @@
             </svg>
             <div class="os-title">AutoKaaj OS</div>
         </div>
-        <button class="ollama-btn" id="ollamaBtn" onclick="startOllama()">▶ Start Ollama Server</button>
+        <div class="ollama-status" id="ollamaStatus">⏳ Connecting AutoKaaj Engine...</div>
     </div>
 
     <div class="config-panel">
         <select id="preset" onchange="updatePreset()">
-            <option value="local">Ollama (Local)</option>
+            <option value="ollama_cloud" selected>Ollama (Auto/Default)</option>
+            <option value="local">Ollama (Local Custom)</option>
             <option value="gemini">Google Gemini (Native)</option>
             <option value="groq">Groq (Native)</option>
             <option value="deepseek">DeepSeek (Native)</option>
@@ -85,7 +84,7 @@
     <div class="terminal" id="terminal">
         <div class="message system-msg">
             [SYSTEM]: Ultimate Autonomous Agent Engine Online.<br>
-            [SYSTEM]: All API connections restored. Media processing (Audio/Video/Image) active.
+            [SYSTEM]: Default Model `gemma4:31b-cloud` initializing automatically...
         </div>
         <div class="thinking" id="thinkingIndicator">
             <div class="spinner"></div> Processing...
@@ -103,14 +102,16 @@
     </div>
 
     <script>
+        // Default model set to gemma4:31b-cloud
         const presets = {
+            ollama_cloud: { url: "http://127.0.0.1:11434/v1", defaultModel: "gemma4:31b-cloud" },
+            local: { url: "http://127.0.0.1:11434/v1", defaultModel: "llama3" },
             gemini: { url: "https://generativelanguage.googleapis.com", defaultModel: "gemini-1.5-pro" },
             groq: { url: "https://api.groq.com/openai/v1", defaultModel: "llama3-70b-8192" },
             deepseek: { url: "https://api.deepseek.com/v1", defaultModel: "deepseek-coder" },
             openai: { url: "https://api.openai.com/v1", defaultModel: "gpt-4-turbo" },
             openrouter: { url: "https://openrouter.ai/api/v1", defaultModel: "anthropic/claude-3-opus" },
-            together: { url: "https://api.together.xyz/v1", defaultModel: "meta-llama/Llama-3-70b-chat-hf" },
-            local: { url: "http://127.0.0.1:11434/v1", defaultModel: "llama3" }
+            together: { url: "https://api.together.xyz/v1", defaultModel: "meta-llama/Llama-3-70b-chat-hf" }
         };
 
         function updatePreset() {
@@ -119,26 +120,24 @@
             document.getElementById('model').value = presets[sel].defaultModel;
             document.getElementById('baseUrl').disabled = (sel === "gemini");
         }
-        updatePreset();
 
         const chatHistory = [];
 
-        async function startOllama() {
-            const btn = document.getElementById('ollamaBtn');
-            btn.innerText = "⏳ Starting...";
+        // AUTO START OLLAMA ON APP OPEN
+        window.onload = async function() {
+            updatePreset(); // Set UI to default gemma4:31b-cloud
+            const statusBox = document.getElementById('ollamaStatus');
             try {
                 const res = await fetch('/api/v1/start-ollama', { method: 'POST' });
                 const data = await res.json();
-                btn.innerText = "✅ Ollama Server Running";
-                btn.style.background = "rgba(0, 255, 204, 0.2)";
-                btn.style.color = "#00FFCC";
-                btn.style.borderColor = "#00FFCC";
+                statusBox.innerHTML = "✅ AutoKaaj Cloud Connected";
                 appendMessage('SYSTEM', data.message, 'system-msg');
             } catch(e) {
-                btn.innerText = "❌ Start Failed";
-                appendMessage('SYSTEM', 'Failed to start Ollama.', 'system-msg');
+                statusBox.innerHTML = "❌ Connection Error";
+                statusBox.style.color = "red";
+                appendMessage('SYSTEM', 'Failed to auto-start backend.', 'system-msg');
             }
-        }
+        };
 
         window.copyText = function(btn, text) {
             navigator.clipboard.writeText(decodeURIComponent(text)).then(() => {
@@ -175,14 +174,15 @@
             if(!text && f.files.length === 0) return;
 
             const apiKey = document.getElementById('apiKey').value;
-            if(!apiKey && document.getElementById('preset').value !== "local") { alert("API Key required."); return; }
+            const presetVal = document.getElementById('preset').value;
+            if(!apiKey && presetVal !== "local" && presetVal !== "ollama_cloud") { alert("API Key required."); return; }
 
             let dMsg = text; if(f.files.length > 0) dMsg += `<br><em>[File: ${f.files[0].name}]</em>`;
             appendMessage('USER', dMsg, 'user-msg');
             chatHistory.push({ role: "user", content: text || "Process file." }); p.value = '';
 
             const fd = new FormData();
-            fd.append('provider', document.getElementById('preset').value);
+            fd.append('provider', presetVal.includes("ollama") ? "local" : presetVal);
             fd.append('model', document.getElementById('model').value);
             fd.append('base_url', document.getElementById('baseUrl').value);
             fd.append('api_key', apiKey);
