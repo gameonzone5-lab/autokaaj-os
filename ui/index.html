@@ -10,37 +10,80 @@
         .header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .logo-svg { width: 40px; height: 40px; animation: rotate 10s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
-        .status-box { border: 1px solid var(--neon-blue); padding: 10px; color: var(--neon-blue); text-align: center; margin-bottom: 10px; }
+        .status-box { border: 1px solid var(--neon-blue); padding: 10px; color: var(--neon-blue); text-align: center; margin-bottom: 10px; font-weight: bold; }
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         input, select { background: #12121A; border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; }
-        .chat-container { height: 40vh; overflow-y: auto; border: 1px solid #222; margin-bottom: 10px; padding: 10px; }
-        .msg { background: #12121A; padding: 10px; margin-bottom: 10px; border-left: 3px solid var(--neon-purple); position: relative; }
+        .chat-container { height: 40vh; overflow-y: auto; border: 1px solid #222; margin-bottom: 10px; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
+        .msg { background: #12121A; padding: 10px; border-left: 3px solid var(--neon-purple); position: relative; word-wrap: break-word; }
+        .msg.agent { border-left-color: var(--neon-blue); }
         .copy-btn { position: absolute; top: 5px; right: 5px; cursor: pointer; color: var(--neon-blue); font-size: 10px; }
         .footer-input { display: flex; gap: 10px; }
+        button { background: var(--neon-blue); color: black; border: none; padding: 10px; cursor: pointer; font-weight: bold; border-radius: 5px;}
     </style>
 </head>
 <body>
     <div class="header">
         <svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="#00FFCC" stroke-width="4" fill="none"/></svg>
-        <h1>AutoKaaj OS</h1>
+        <h1>AutoKaaj OS Agent</h1>
     </div>
-    <div class="status-box" id="status">✅ Free Cloud Active</div>
+    <div class="status-box" id="status">✅ System Ready</div>
     <div class="config-grid">
         <select id="preset"><option>Ollama (Auto/Default)</option><option>Gemini</option><option>Groq</option></select>
-        <input type="text" id="model" value="gemma4:31b-cloud">
-        <input type="text" id="apiUrl" placeholder="http://127.0.0.1:11434/v1" style="grid-column: span 2;">
-        <input type="password" id="apiKey" placeholder="......" style="grid-column: span 2;">
+        <input type="text" id="model" value="llama3">
+        <input type="text" id="apiUrl" placeholder="http://127.0.0.1:11434/api/generate" style="grid-column: span 2;">
+        <input type="password" id="apiKey" placeholder="API Key (If needed)" style="grid-column: span 2;">
     </div>
     <div class="chat-container" id="chat"></div>
     <div class="footer-input">
         <input type="file" id="fileInput">
-        <input type="text" id="prompt" placeholder="Ask Agent...">
+        <input type="text" id="prompt" placeholder="Ask Agent..." onkeypress="if(event.key === 'Enter') send()">
         <button onclick="send()">EXECUTE</button>
     </div>
     <script>
-        function send() {
-            const p = document.getElementById('prompt').value;
-            document.getElementById('chat').innerHTML += `<div class="msg">USER: ${p}<div class="copy-btn">Copy</div></div>`;
+        async function send() {
+            const promptInput = document.getElementById('prompt');
+            const chatBox = document.getElementById('chat');
+            const p = promptInput.value;
+            
+            if(!p) return;
+            promptInput.value = '';
+            
+            // User Message UI
+            chatBox.innerHTML += `<div class="msg"><b>USER:</b> <br>${p}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            document.getElementById('status').innerText = "⏳ Agent Thinking...";
+            document.getElementById('status').style.color = "yellow";
+
+            const payload = {
+                prompt: p,
+                preset: document.getElementById('preset').value,
+                model: document.getElementById('model').value,
+                apiUrl: document.getElementById('apiUrl').value,
+                apiKey: document.getElementById('apiKey').value
+            };
+
+            try {
+                // Real API Request to Backend
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                const replyText = data.reply.replace(/\n/g, '<br>');
+                
+                // Agent Message UI
+                chatBox.innerHTML += `<div class="msg agent"><b>AUTOKAAJ:</b> <br>${replyText}<div class="copy-btn" onclick="navigator.clipboard.writeText('${data.reply.replace(/'/g, "\\'")}')">Copy</div></div>`;
+                
+                document.getElementById('status').innerText = "✅ System Ready";
+                document.getElementById('status').style.color = "var(--neon-blue)";
+            } catch (err) {
+                chatBox.innerHTML += `<div class="msg agent" style="border-left-color:red;"><b>ERROR:</b> <br>Failed to connect to backend server.</div>`;
+                document.getElementById('status').innerText = "❌ Connection Failed";
+                document.getElementById('status').style.color = "red";
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
     </script>
 </body>
