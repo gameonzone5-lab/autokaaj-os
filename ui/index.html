@@ -3,38 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS</title>
+    <title>AutoKaaj OS - Cyberpunk</title>
     <style>
-        body { background: #07070A; color: #fff; font-family: monospace; padding: 10px; }
-        .logo { width: 80px; height: 80px; background: #00FFCC; border-radius: 50%; margin: 0 auto; animation: spin 5s linear infinite; }
+        :root { --bg: #07070A; --neon-blue: #00FFCC; --neon-purple: #9D00FF; --text: #E4E4E7; --surface: #12121A; }
+        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; }
+        .header { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #222; background: var(--surface); }
+        .logo-animated { width: 50px; height: 50px; border: 3px solid var(--neon-blue); border-radius: 50%; animation: spin 4s linear infinite; margin-right: 15px; box-shadow: 0 0 15px var(--neon-blue); }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .chat-area { height: 70vh; overflow-y: auto; border: 1px solid #333; margin: 10px 0; padding: 10px; }
-        .controls { display: flex; gap: 5px; }
-        input { flex: 1; padding: 10px; background: #12121A; border: 1px solid #333; color: white; }
-        button { padding: 10px; background: #00FFCC; color: black; border: none; }
-        .copy-btn { font-size: 10px; color: #9D00FF; cursor: pointer; }
+        .status-bar { padding: 8px; border: 1px solid var(--neon-blue); color: var(--neon-blue); margin: 10px; border-radius: 5px; text-align: center; font-size: 0.8rem; }
+        .config-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        input, select { background: var(--surface); border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; }
+        .chat-container { padding: 15px; height: 55vh; overflow-y: auto; }
+        .msg { background: var(--surface); padding: 12px; margin-bottom: 10px; border-left: 3px solid var(--neon-purple); position: relative; border-radius: 4px; }
+        .copy-btn { position: absolute; top: 5px; right: 5px; cursor: pointer; color: var(--neon-blue); font-size: 10px; text-transform: uppercase; }
+        .input-area { padding: 15px; display: flex; gap: 10px; background: var(--surface); border-top: 1px solid #222; }
+        input[type="text"] { flex: 1; }
+        button { background: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: var(--neon-blue); color: var(--bg); }
     </style>
 </head>
 <body>
-    <div class="logo"></div>
-    <div id="status" style="text-align:center; color:#00FFCC;">Connecting...</div>
-    <select id="modelSelect" style="width:100%; margin:10px 0;">
-        <option value="gemma4:31b-cloud">gemma4:31b-cloud (Default)</option>
-    </select>
-    <div class="chat-area" id="chat"></div>
-    <div class="controls">
-        <input type="text" id="prompt" placeholder="Command...">
+    <div class="header">
+        <div class="logo-animated"></div> 
+        <h1>AutoKaaj OS</h1>
+    </div>
+    <div class="status-bar" id="status">✅ Free Cloud Model Active - gemma4:31b</div>
+    <div class="config-panel">
+        <select id="preset"><option>Ollama (Auto/Default)</option><option>Gemini</option><option>Groq</option><option>OpenAI</option></select>
+        <input type="text" id="model" value="gemma4:31b-cloud">
+        <input type="text" id="apiUrl" placeholder="API Endpoint URL" style="grid-column: span 2;">
+        <input type="password" id="apiKey" placeholder="API Key (Optional)" style="grid-column: span 2;">
+    </div>
+    <div class="chat-container" id="chat">
+        <div class="msg">System: Autonomous Agent Online. Ask me anything.<div class="copy-btn" onclick="copy(this)">Copy</div></div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="prompt" placeholder="Command Agent...">
         <button onclick="send()">EXECUTE</button>
     </div>
     <script>
         async function send() {
             const p = document.getElementById('prompt').value;
-            document.getElementById('chat').innerHTML += `<div style="margin:10px; padding:10px; background:#1a1a1a;">${p} <div class="copy-btn" onclick="copy(this)">Copy</div></div>`;
+            if(!p) return;
+            document.getElementById('chat').innerHTML += `<div class="msg">USER: ${p}<div class="copy-btn" onclick="copy(this)">Copy</div></div>`;
+            document.getElementById('prompt').value = '';
+            // এখানে আপনার ব্যাকএন্ড এপিআই কানেক্ট হবে
         }
-        function copy(el) { navigator.clipboard.writeText(el.parentElement.innerText); }
-        window.onload = async function() {
-            document.getElementById('status').innerText = "✅ Cloud Model Active";
-        }
+        function copy(el) { navigator.clipboard.writeText(el.parentElement.innerText.replace('Copy', '')); alert("Copied!"); }
     </script>
 </body>
 </html>
