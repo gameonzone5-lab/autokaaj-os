@@ -14,14 +14,10 @@
         .logo-container { display: flex; align-items: center; gap: 10px; }
         .logo-svg { width: 40px; height: 40px; }
         .os-title { font-size: 1.2rem; font-weight: bold; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-        
-        .ollama-status { background: rgba(0,255,204,0.1); color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 8px 15px; border-radius: 5px; font-weight: bold; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
-
+        .ollama-status { background: rgba(0,255,204,0.1); color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 0.9rem; }
         .config-panel { padding: 15px; background: #0A0A0F; border-bottom: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .config-panel select, .config-panel input { background: var(--surface); color: var(--text-main); border: 1px solid #333; padding: 10px; border-radius: 5px; outline: none; font-family: inherit; }
-        .config-panel select:focus, .config-panel input:focus { border-color: var(--neon-purple); box-shadow: 0 0 8px rgba(157,0,255,0.5); }
         .full-width { grid-column: span 2; }
-        
         .terminal { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
         .message-container { position: relative; max-width: 85%; align-self: flex-start; }
         .user-container { align-self: flex-end; }
@@ -29,72 +25,49 @@
         .system-msg { background: rgba(0,255,204,0.05); border-left: 3px solid var(--neon-blue); color: var(--neon-blue); }
         .user-msg { background: rgba(157,0,255,0.1); border-right: 3px solid var(--neon-purple); }
         .ai-msg { background: var(--surface); border-left: 3px solid #A3E635; padding-bottom: 35px; } 
-        
         .copy-btn { position: absolute; bottom: 5px; right: 5px; background: #222; color: #A3E635; border: 1px solid #A3E635; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; transition: 0.2s; }
-        .copy-btn:hover { background: #A3E635; color: #000; }
-
-        .thinking { display: none; align-items: center; gap: 10px; color: var(--neon-blue); font-weight: bold; align-self: flex-start; padding: 10px; }
+        .thinking { display: none; align-items: center; gap: 10px; color: var(--neon-blue); font-weight: bold; padding: 10px; }
         .spinner { width: 20px; height: 20px; border: 3px solid rgba(0, 255, 204, 0.3); border-top: 3px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* FIXED RESPONSIVE INPUT AREA */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         .input-area { display: flex; flex-wrap: wrap; padding: 15px; background: var(--surface); border-top: 1px solid #222; gap: 10px; align-items: center; }
         .file-wrapper { flex: 1 1 100%; display: flex; }
         .input-area input[type="file"] { color: var(--text-main); font-size: 12px; }
         .cmd-wrapper { display: flex; flex: 1 1 100%; gap: 10px; }
         .input-area input[type="text"] { flex: 1; padding: 12px; background: #0A0A0F; border: 1px solid #333; color: white; border-radius: 5px; outline: none; }
-        .exec-btn { background: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; white-space: nowrap; }
-        .exec-btn:hover { background: var(--neon-blue); color: var(--bg-color); box-shadow: 0 0 15px var(--neon-blue); }
-        
-        @media (min-width: 600px) {
-            .file-wrapper { flex: 0 0 auto; }
-            .cmd-wrapper { flex: 1; }
-        }
+        .exec-btn { background: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        @media (min-width: 600px) { .file-wrapper { flex: 0 0 auto; } .cmd-wrapper { flex: 1; } }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo-container">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#9D00FF" stroke-width="4"><animate attributeName="stroke-dasharray" values="0,300; 300,0; 0,300" dur="4s" repeatCount="indefinite" /></circle>
-                <polygon points="50,15 85,80 15,80" fill="none" stroke="#00FFCC" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" /></polygon>
-                <circle cx="50" cy="50" r="10" fill="#00FFCC"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" /></circle>
-            </svg>
+            <svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#9D00FF" stroke-width="4"><animate attributeName="stroke-dasharray" values="0,300; 300,0; 0,300" dur="4s" repeatCount="indefinite" /></circle><polygon points="50,15 85,80 15,80" fill="none" stroke="#00FFCC" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" /></polygon><circle cx="50" cy="50" r="10" fill="#00FFCC"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" /></circle></svg>
             <div class="os-title">AutoKaaj OS</div>
         </div>
-        <div class="ollama-status" id="ollamaStatus">⏳ Connecting AutoKaaj Engine...</div>
+        <div class="ollama-status" id="ollamaStatus">⏳ Triggering Free Cloud...</div>
     </div>
 
     <div class="config-panel">
         <select id="preset" onchange="updatePreset()">
-            <option value="ollama_cloud" selected>Ollama (Auto/Default)</option>
-            <option value="local">Ollama (Local Custom)</option>
+            <option value="ollama_cloud" selected>Ollama Cloud (No API Key)</option>
             <option value="gemini">Google Gemini (Native)</option>
             <option value="groq">Groq (Native)</option>
             <option value="deepseek">DeepSeek (Native)</option>
             <option value="openai">OpenAI (Native)</option>
             <option value="openrouter">OpenRouter (Universal)</option>
-            <option value="together">Together AI</option>
         </select>
         <input type="text" id="model" placeholder="Model name">
         <input type="text" id="baseUrl" class="full-width" placeholder="Base URL">
-        <input type="password" id="apiKey" class="full-width" placeholder="Enter API Key (Optional for Local)">
+        <input type="password" id="apiKey" class="full-width" placeholder="Enter API Key">
     </div>
 
     <div class="terminal" id="terminal">
-        <div class="message system-msg">
-            [SYSTEM]: Ultimate Autonomous Agent Engine Online.<br>
-            [SYSTEM]: Default Model `gemma4:31b-cloud` initializing automatically...
-        </div>
-        <div class="thinking" id="thinkingIndicator">
-            <div class="spinner"></div> Processing...
-        </div>
+        <div class="message system-msg">[SYSTEM]: AutoKaaj OS Initializing...</div>
+        <div class="thinking" id="thinkingIndicator"><div class="spinner"></div> Processing...</div>
     </div>
 
     <div class="input-area">
-        <div class="file-wrapper">
-            <input type="file" id="fileInput" accept=".pdf, .jpg, .png, .mp4, .mp3">
-        </div>
+        <div class="file-wrapper"><input type="file" id="fileInput"></div>
         <div class="cmd-wrapper">
             <input type="text" id="prompt" placeholder="Ask Agent to build or execute something..." onkeypress="if(event.key === 'Enter') sendCommand()">
             <button class="exec-btn" onclick="sendCommand()">EXECUTE</button>
@@ -102,50 +75,36 @@
     </div>
 
     <script>
-        // Default model set to gemma4:31b-cloud
         const presets = {
             ollama_cloud: { url: "http://127.0.0.1:11434/v1", defaultModel: "gemma4:31b-cloud" },
-            local: { url: "http://127.0.0.1:11434/v1", defaultModel: "llama3" },
             gemini: { url: "https://generativelanguage.googleapis.com", defaultModel: "gemini-1.5-pro" },
             groq: { url: "https://api.groq.com/openai/v1", defaultModel: "llama3-70b-8192" },
             deepseek: { url: "https://api.deepseek.com/v1", defaultModel: "deepseek-coder" },
             openai: { url: "https://api.openai.com/v1", defaultModel: "gpt-4-turbo" },
-            openrouter: { url: "https://openrouter.ai/api/v1", defaultModel: "anthropic/claude-3-opus" },
-            together: { url: "https://api.together.xyz/v1", defaultModel: "meta-llama/Llama-3-70b-chat-hf" }
+            openrouter: { url: "https://openrouter.ai/api/v1", defaultModel: "anthropic/claude-3-opus" }
         };
 
         function updatePreset() {
             const sel = document.getElementById('preset').value;
             document.getElementById('baseUrl').value = presets[sel].url;
             document.getElementById('model').value = presets[sel].defaultModel;
-            document.getElementById('baseUrl').disabled = (sel === "gemini");
+            document.getElementById('baseUrl').disabled = (sel === "gemini" || sel === "ollama_cloud");
         }
 
         const chatHistory = [];
 
-        // AUTO START OLLAMA ON APP OPEN
         window.onload = async function() {
-            updatePreset(); // Set UI to default gemma4:31b-cloud
+            updatePreset(); 
             const statusBox = document.getElementById('ollamaStatus');
             try {
                 const res = await fetch('/api/v1/start-ollama', { method: 'POST' });
                 const data = await res.json();
-                statusBox.innerHTML = "✅ AutoKaaj Cloud Connected";
-                appendMessage('SYSTEM', data.message, 'system-msg');
+                statusBox.innerHTML = "✅ Free Cloud Active";
+                document.getElementById('terminal').innerHTML += `<div class="message system-msg">[SYSTEM]: Successfully connected to 'gemma4:31b-cloud' via your custom zero-download tunnel.</div>`;
             } catch(e) {
-                statusBox.innerHTML = "❌ Connection Error";
-                statusBox.style.color = "red";
-                appendMessage('SYSTEM', 'Failed to auto-start backend.', 'system-msg');
+                statusBox.innerHTML = "⚠️ Standby Mode";
+                statusBox.style.color = "orange";
             }
-        };
-
-        window.copyText = function(btn, text) {
-            navigator.clipboard.writeText(decodeURIComponent(text)).then(() => {
-                const ori = btn.innerText;
-                btn.innerText = "Copied!";
-                btn.style.background = "#A3E635"; btn.style.color = "#000";
-                setTimeout(() => { btn.innerText = ori; btn.style.background = "#222"; btn.style.color = "#A3E635"; }, 2000);
-            });
         };
 
         function appendMessage(sender, text, className) {
@@ -156,13 +115,6 @@
             const msg = document.createElement('div');
             msg.className = `message ${className}`;
             msg.innerHTML = `<strong>${sender}:</strong><br>${text.replace(/\n/g, '<br>')}`;
-
-            if(className === 'ai-msg') {
-                const btn = document.createElement('button');
-                btn.className = 'copy-btn'; btn.innerText = 'Copy';
-                btn.setAttribute('onclick', `copyText(this, '${encodeURIComponent(text)}')`);
-                msg.appendChild(btn);
-            }
             cont.appendChild(msg); term.insertBefore(cont, think); term.scrollTop = term.scrollHeight;
         }
 
@@ -175,30 +127,28 @@
 
             const apiKey = document.getElementById('apiKey').value;
             const presetVal = document.getElementById('preset').value;
-            if(!apiKey && presetVal !== "local" && presetVal !== "ollama_cloud") { alert("API Key required."); return; }
+            if(!apiKey && presetVal !== "ollama_cloud") { alert("API Key required for this Provider."); return; }
 
-            let dMsg = text; if(f.files.length > 0) dMsg += `<br><em>[File: ${f.files[0].name}]</em>`;
-            appendMessage('USER', dMsg, 'user-msg');
+            appendMessage('USER', text, 'user-msg');
             chatHistory.push({ role: "user", content: text || "Process file." }); p.value = '';
+            th.style.display = 'flex'; document.getElementById('terminal').scrollTop = document.getElementById('terminal').scrollHeight;
 
             const fd = new FormData();
-            fd.append('provider', presetVal.includes("ollama") ? "local" : presetVal);
+            fd.append('provider', presetVal);
             fd.append('model', document.getElementById('model').value);
             fd.append('base_url', document.getElementById('baseUrl').value);
             fd.append('api_key', apiKey);
             fd.append('messages', JSON.stringify(chatHistory));
             if(f.files.length > 0) fd.append('file', f.files[0]);
 
-            th.style.display = 'flex'; document.getElementById('terminal').scrollTop = document.getElementById('terminal').scrollHeight;
-
             try {
                 const res = await fetch('/api/v1/chat', { method: 'POST', body: fd });
                 const data = await res.json();
                 th.style.display = 'none';
-                let reply = "Error.";
-                if(res.ok && data.choices) { reply = data.choices[0].message.content; chatHistory.push({ role: "assistant", content: reply }); }
-                else if(data.detail) reply = data.detail;
-                appendMessage('AUTOKAAJ', reply, 'ai-msg'); f.value = '';
+                if(res.ok && data.choices) { 
+                    appendMessage('AUTOKAAJ', data.choices[0].message.content, 'ai-msg'); 
+                    chatHistory.push({ role: "assistant", content: data.choices[0].message.content });
+                } else { appendMessage('ERROR', data.detail || "Error", 'system-msg'); }
             } catch(e) { th.style.display = 'none'; appendMessage('ERROR', e.message, 'system-msg'); }
         }
     </script>
