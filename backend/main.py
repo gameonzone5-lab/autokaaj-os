@@ -22,33 +22,22 @@ def process_file(file: UploadFile):
         reader = PdfReader(file.file)
         return "[PDF Content]:\n" + "".join([page.extract_text() + "\n" for page in reader.pages])
     elif ext in ["jpg", "jpeg", "png", "mp4", "mp3", "wav"]: 
-        return f"[Media File '{file.filename}' uploaded successfully to workspace. You can now process it using ffmpeg, python, or other tools.]"
+        return f"[Media File '{file.filename}' uploaded to workspace. Agent can use ffmpeg/python to process.]"
     return "[Unsupported/Unknown File Uploaded]"
 
-# --- THE ULTIMATE AUTONOMOUS AGENT SYSTEM PROMPT ---
-SYSTEM_PROMPT = """You are AutoKaaj OS Agent, an elite autonomous AI Software Engineer and Media Creator, comparable to OpenManus or OpenClaw.
-You are running natively on an Android Termux environment. You have FULL autonomous capability.
+SYSTEM_PROMPT = """You are AutoKaaj OS Agent, an elite autonomous AI Software Engineer and Media Creator.
+You have FULL autonomous capability on Termux.
+CAPABILITIES: Code in Python/HTML/JS, Video/Audio via ffmpeg, Image processing via opencv/Pillow, System commands.
+RULE: To execute ANY command or write scripts, wrap it strictly inside <execute> and </execute> tags."""
 
-YOUR CAPABILITIES:
-1. CODE & BUILD: You can write Python, HTML, JS, CSS, and build complete games or apps.
-2. VIDEO & AUDIO: You have `ffmpeg`, `moviepy`, `pydub`, and `yt-dlp` installed. You can cut, merge, extract, and manipulate video/audio files directly.
-3. IMAGES: You have `imagemagick`, `Pillow`, and `opencv-python` to edit, resize, and process images.
-4. SYSTEM CONTROL: You can navigate folders, read/write files, and execute bash scripts.
-
-RULE OF EXECUTION:
-To perform ANY action (edit a video, write a script, build a game), you MUST write the terminal command or python script inside strict <execute> tags.
-Example to write and run a python game:
-<execute>
-cat << 'PY' > game.py
-print("Game Logic Here")
-PY
-python game.py
-</execute>
-
-Example to extract audio from a video:
-<execute>ffmpeg -i input.mp4 -q:a 0 -map a output.mp3</execute>
-
-Never say "I cannot do this". Write the script or command in <execute> tags and do it! Think step-by-step like a senior developer."""
+@app.post("/api/v1/start-ollama")
+async def start_ollama():
+    try:
+        # Background-এ Ollama রান করার কমান্ড
+        subprocess.Popen('proot-distro login debian --shared-tmp -- bash -c "nohup ollama serve > ollama.log 2>&1 &"', shell=True)
+        return {"status": "success", "message": "Ollama server initialization triggered in background."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/v1/chat")
 async def chat_router(
@@ -97,3 +86,5 @@ async def chat_router(
 
     return {"choices": [{"message": {"content": reply_text}}]}
 
+os.makedirs("ui", exist_ok=True)
+app.mount("/", StaticFiles(directory="ui", html=True), name="ui")
