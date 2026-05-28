@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoKaaj OS AI</title>
+    <style>
+        :root {
+            --bg-color: #07070A; --surface: #12121A; --neon-blue: #00FFCC; 
+            --neon-purple: #9D00FF; --text-main: #E4E4E7;
+        }
+        body { margin: 0; padding: 0; background: var(--bg-color); color: var(--text-main); font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--surface); border-bottom: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,204,0.1); }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-svg { width: 40px; height: 40px; }
+        .os-title { font-size: 1.2rem; font-weight: bold; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        
+        .config-panel { padding: 15px; background: #0A0A0F; border-bottom: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .config-panel select, .config-panel input { background: var(--surface); color: var(--text-main); border: 1px solid #333; padding: 10px; border-radius: 5px; outline: none; font-family: inherit; }
+        .config-panel select:focus, .config-panel input:focus { border-color: var(--neon-purple); box-shadow: 0 0 8px rgba(157,0,255,0.5); }
+        .full-width { grid-column: span 2; }
+        
+        .terminal { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 12px; border-radius: 8px; max-width: 85%; line-height: 1.5; word-wrap: break-word; }
+        .system-msg { background: rgba(0,255,204,0.05); border-left: 3px solid var(--neon-blue); color: var(--neon-blue); }
+        .user-msg { background: rgba(157,0,255,0.1); border-right: 3px solid var(--neon-purple); align-self: flex-end; }
+        .ai-msg { background: var(--surface); border-left: 3px solid #A3E635; align-self: flex-start; }
+        
+        .input-area { display: flex; padding: 15px; background: var(--surface); border-top: 1px solid #222; gap: 10px; align-items: center;}
+        .input-area input[type="text"] { flex: 1; padding: 10px; background: #0A0A0F; border: 1px solid #333; color: white; border-radius: 5px; outline: none; }
+        .input-area input[type="file"] { max-width: 200px; color: var(--text-main); font-size: 12px;}
+        button { background: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: var(--neon-blue); color: var(--bg-color); box-shadow: 0 0 15px var(--neon-blue); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#9D00FF" stroke-width="4"><animate attributeName="stroke-dasharray" values="0,300; 300,0; 0,300" dur="4s" repeatCount="indefinite" /></circle>
+                <polygon points="50,15 85,80 15,80" fill="none" stroke="#00FFCC" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" /></polygon>
+                <circle cx="50" cy="50" r="10" fill="#00FFCC"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" /></circle>
+            </svg>
+            <div class="os-title">AutoKaaj OS</div>
+        </div>
+        <div style="color: var(--neon-purple); font-size: 0.9rem;">v2.0 (Multimodal)</div>
+    </div>
+
+    <div class="config-panel">
+        <select id="preset" onchange="updatePreset()">
+            <option value="gemini">Google Gemini (Native)</option>
+            <option value="groq">Groq (Native)</option>
+            <option value="deepseek">DeepSeek (Native)</option>
+            <option value="openai">OpenAI (Native)</option>
+            <option value="openrouter">OpenRouter (Universal)</option>
+            <option value="together">Together AI</option>
+            <option value="local">Ollama (Local)</option>
+            <option value="custom">Custom API</option>
+        </select>
+        <input type="text" id="model" placeholder="Model name">
+        <input type="text" id="baseUrl" class="full-width" placeholder="Base URL">
+        <input type="password" id="apiKey" class="full-width" placeholder="Enter API Key">
+    </div>
+
+    <div class="terminal" id="terminal">
+        <div class="message system-msg">
+            [SYSTEM]: Multimodal Engine Online.<br>
+            [SYSTEM]: Ready to process Text, PDF, and Images.<br>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="file" id="fileInput" accept=".pdf, .jpg, .png">
+        <input type="text" id="prompt" placeholder="Give an instruction or ask about the file..." onkeypress="if(event.key === 'Enter') sendCommand()">
+        <button onclick="sendCommand()">EXECUTE</button>
+    </div>
+
+    <script>
+        const presets = {
+            gemini: { url: "https://generativelanguage.googleapis.com", defaultModel: "gemini-1.5-pro", type: "gemini" },
+            groq: { url: "https://api.groq.com/openai/v1", defaultModel: "llama3-70b-8192", type: "openai_standard" },
+            deepseek: { url: "https://api.deepseek.com/v1", defaultModel: "deepseek-coder", type: "openai_standard" },
+            openai: { url: "https://api.openai.com/v1", defaultModel: "gpt-4-turbo", type: "openai_standard" },
+            openrouter: { url: "https://openrouter.ai/api/v1", defaultModel: "anthropic/claude-3-opus", type: "openai_standard" },
+            together: { url: "https://api.together.xyz/v1", defaultModel: "meta-llama/Llama-3-70b-chat-hf", type: "openai_standard" },
+            local: { url: "http://127.0.0.1:11434/v1", defaultModel: "llama3", type: "openai_standard" },
+            custom: { url: "", defaultModel: "", type: "openai_standard" }
+        };
+
+        function updatePreset() {
+            const selected = document.getElementById('preset').value;
+            const baseUrlInput = document.getElementById('baseUrl');
+            baseUrlInput.value = presets[selected].url;
+            document.getElementById('model').value = presets[selected].defaultModel;
+            baseUrlInput.disabled = (selected === "gemini");
+        }
+        
+        updatePreset();
+        const chatHistory = [];
+        
+        function appendMessage(sender, text, className) {
+            const term = document.getElementById('terminal');
+            const msg = document.createElement('div');
+            msg.className = `message ${className}`;
+            msg.innerHTML = `<strong>${sender}:</strong><br>${text.replace(/\n/g, '<br>')}`;
+            term.appendChild(msg);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        async function sendCommand() {
+            const promptInput = document.getElementById('prompt');
+            const fileInput = document.getElementById('fileInput');
+            const userText = promptInput.value.trim();
+            
+            if(!userText && fileInput.files.length === 0) return;
+
+            const providerKey = document.getElementById('preset').value;
+            const model = document.getElementById('model').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+            const apiKey = document.getElementById('apiKey').value;
+
+            if(!apiKey && providerKey !== "local") {
+                alert("Please provide an API Key.");
+                return;
+            }
+
+            let displayMsg = userText;
+            if(fileInput.files.length > 0) {
+                displayMsg += `<br><em>[Attached File: ${fileInput.files[0].name}]</em>`;
+            }
+            appendMessage('USER', displayMsg, 'user-msg');
+            
+            chatHistory.push({ role: "user", content: userText || "Analyze this file." });
+            promptInput.value = '';
+
+            const formData = new FormData();
+            formData.append('provider', providerKey);
+            formData.append('model', model);
+            formData.append('base_url', baseUrl);
+            formData.append('api_key', apiKey);
+            formData.append('messages', JSON.stringify(chatHistory));
+            
+            if(fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch('/api/v1/chat', {
+                    method: 'POST',
+                    body: formData // No Content-Type header needed for FormData
+                });
+
+                const data = await response.json();
+                
+                let aiReply = "Error processing request.";
+                if(response.ok && data.choices && data.choices.length > 0) {
+                    aiReply = data.choices[0].message.content;
+                    chatHistory.push({ role: "assistant", content: aiReply });
+                } else if(data.detail) {
+                    aiReply = data.detail; 
+                }
+                
+                appendMessage('AUTOKAAJ', aiReply, 'ai-msg');
+                fileInput.value = ''; // Reset file input
+            } catch(e) {
+                appendMessage('SYSTEM ERROR', e.message, 'system-msg');
+            }
+        }
+    </script>
+</body>
+</html>
