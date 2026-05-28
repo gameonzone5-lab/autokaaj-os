@@ -3,209 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS AI</title>
+    <title>AutoKaaj OS</title>
     <style>
-        :root {
-            --bg-color: #07070A; --surface: #12121A; --neon-blue: #00FFCC; 
-            --neon-purple: #9D00FF; --text-main: #E4E4E7;
-        }
-        body { margin: 0; padding: 0; background: var(--bg-color); color: var(--text-main); font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; }
-        .header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--surface); border-bottom: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,204,0.1); }
-        .logo-container { display: flex; align-items: center; gap: 10px; }
-        .logo-svg { width: 40px; height: 40px; }
-        .os-title { font-size: 1.2rem; font-weight: bold; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-        
-        .config-panel { padding: 15px; background: #0A0A0F; border-bottom: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .config-panel select, .config-panel input { background: var(--surface); color: var(--text-main); border: 1px solid #333; padding: 10px; border-radius: 5px; outline: none; font-family: inherit; }
-        .config-panel select:focus, .config-panel input:focus { border-color: var(--neon-purple); box-shadow: 0 0 8px rgba(157,0,255,0.5); }
-        .full-width { grid-column: span 2; }
-        
-        .terminal { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        .message-container { position: relative; max-width: 85%; align-self: flex-start; }
-        .user-container { align-self: flex-end; }
-        
-        .message { padding: 12px; border-radius: 8px; line-height: 1.5; word-wrap: break-word; }
-        .system-msg { background: rgba(0,255,204,0.05); border-left: 3px solid var(--neon-blue); color: var(--neon-blue); }
-        .user-msg { background: rgba(157,0,255,0.1); border-right: 3px solid var(--neon-purple); }
-        .ai-msg { background: var(--surface); border-left: 3px solid #A3E635; padding-bottom: 35px; } 
-        
-        /* Copy Button */
-        .copy-btn { position: absolute; bottom: 5px; right: 5px; background: #222; color: #A3E635; border: 1px solid #A3E635; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; transition: 0.2s; }
-        .copy-btn:hover { background: #A3E635; color: #000; }
-
-        /* Thinking Animation */
-        .thinking { display: none; align-items: center; gap: 10px; color: var(--neon-blue); font-weight: bold; align-self: flex-start; padding: 10px; }
-        .spinner { width: 20px; height: 20px; border: 3px solid rgba(0, 255, 204, 0.3); border-top: 3px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .input-area { display: flex; padding: 15px; background: var(--surface); border-top: 1px solid #222; gap: 10px; align-items: center;}
-        .input-area input[type="text"] { flex: 1; padding: 10px; background: #0A0A0F; border: 1px solid #333; color: white; border-radius: 5px; outline: none; }
-        .input-area input[type="file"] { max-width: 180px; font-size: 12px;}
-        button { background: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: var(--neon-blue); color: var(--bg-color); box-shadow: 0 0 15px var(--neon-blue); }
+        :root { --bg: #07070A; --surface: #12121A; --primary: #00FFCC; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; }
+        .header { padding: 15px; background: var(--surface); display: flex; align-items: center; justify-content: space-between; }
+        .logo { width: 50px; height: 50px; border-radius: 12px; }
+        .config { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .terminal { flex: 1; padding: 20px; overflow-y: auto; color: var(--primary); font-family: monospace; }
+        .input-area { padding: 15px; background: var(--surface); display: flex; gap: 10px; }
+        input { flex: 1; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: #fff; }
+        button { padding: 10px 20px; background: var(--primary); border: none; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo-container">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#9D00FF" stroke-width="4"><animate attributeName="stroke-dasharray" values="0,300; 300,0; 0,300" dur="4s" repeatCount="indefinite" /></circle>
-                <polygon points="50,15 85,80 15,80" fill="none" stroke="#00FFCC" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" /></polygon>
-                <circle cx="50" cy="50" r="10" fill="#00FFCC"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" /></circle>
-            </svg>
-            <div class="os-title">AutoKaaj OS</div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="icon.png" class="logo"> <!-- আপনার কালারফুল লোগো -->
+            <div style="font-size: 1.5rem; font-weight: bold;">AutoKaaj</div>
         </div>
-        <div style="color: var(--neon-purple); font-size: 0.9rem;">v3.0 (Autonomous Agent)</div>
     </div>
-
-    <div class="config-panel">
-        <select id="preset" onchange="updatePreset()">
-            <option value="local">Ollama (Local)</option>
-            <option value="gemini">Google Gemini (Native)</option>
-            <option value="groq">Groq (Native)</option>
-            <option value="deepseek">DeepSeek (Native)</option>
-            <option value="openai">OpenAI (Native)</option>
-            <option value="openrouter">OpenRouter (Universal)</option>
-            <option value="together">Together AI</option>
+    <div class="config">
+        <select id="mode" onchange="toggleMode()">
+            <option value="cloud">Cloud (Fast/Powerful)</option>
+            <option value="local">Local (Small Models Only)</option>
         </select>
-        <input type="text" id="model" placeholder="Model name">
-        <input type="text" id="baseUrl" class="full-width" placeholder="Base URL">
-        <input type="password" id="apiKey" class="full-width" placeholder="Enter API Key (Optional for Local)">
+        <input type="text" id="modelInput" placeholder="Model Name (e.g. gemma:2b)">
     </div>
-
-    <div class="terminal" id="terminal">
-        <div class="message system-msg">
-            [SYSTEM]: Autonomous Agent Engine Online.<br>
-            [SYSTEM]: Agent can now create files, write code, and execute terminal commands natively.<br>
-        </div>
-        <div class="thinking" id="thinkingIndicator">
-            <div class="spinner"></div> Processing neural paths...
-        </div>
-    </div>
-
+    <div class="terminal" id="terminal">Welcome to AutoKaaj. Select mode to start.</div>
     <div class="input-area">
-        <input type="file" id="fileInput" accept=".pdf, .jpg, .png">
-        <input type="text" id="prompt" placeholder="Ask Agent to build or execute something..." onkeypress="if(event.key === 'Enter') sendCommand()">
+        <input type="text" id="prompt" placeholder="Ask anything...">
         <button onclick="sendCommand()">EXECUTE</button>
     </div>
-
     <script>
-        const presets = {
-            gemini: { url: "https://generativelanguage.googleapis.com", defaultModel: "gemini-1.5-pro" },
-            groq: { url: "https://api.groq.com/openai/v1", defaultModel: "llama3-70b-8192" },
-            deepseek: { url: "https://api.deepseek.com/v1", defaultModel: "deepseek-coder" },
-            openai: { url: "https://api.openai.com/v1", defaultModel: "gpt-4-turbo" },
-            openrouter: { url: "https://openrouter.ai/api/v1", defaultModel: "anthropic/claude-3-opus" },
-            together: { url: "https://api.together.xyz/v1", defaultModel: "meta-llama/Llama-3-70b-chat-hf" },
-            local: { url: "http://127.0.0.1:11434/v1", defaultModel: "llama3" }
-        };
-
-        function updatePreset() {
-            const selected = document.getElementById('preset').value;
-            const baseUrlInput = document.getElementById('baseUrl');
-            baseUrlInput.value = presets[selected].url;
-            document.getElementById('model').value = presets[selected].defaultModel;
-            baseUrlInput.disabled = (selected === "gemini");
+        function toggleMode() {
+            const mode = document.getElementById('mode').value;
+            document.getElementById('modelInput').placeholder = mode === 'cloud' ? 'API Key / Cloud Model' : 'Model (phi3, gemma:2b)';
         }
-        updatePreset();
-
-        const chatHistory = [];
-
-        window.copyText = function(btn, text) {
-            navigator.clipboard.writeText(decodeURIComponent(text)).then(() => {
-                const originalText = btn.innerText;
-                btn.innerText = "Copied!";
-                btn.style.background = "#A3E635";
-                btn.style.color = "#000";
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "#222";
-                    btn.style.color = "#A3E635";
-                }, 2000);
-            });
-        };
-
-        function appendMessage(sender, text, className) {
-            const term = document.getElementById('terminal');
-            const thinking = document.getElementById('thinkingIndicator');
-            
-            const container = document.createElement('div');
-            container.className = `message-container ${className === 'user-msg' ? 'user-container' : ''}`;
-            
-            const msg = document.createElement('div');
-            msg.className = `message ${className}`;
-            
-            let formattedText = text.replace(/\n/g, '<br>');
-            msg.innerHTML = `<strong>${sender}:</strong><br>${formattedText}`;
-
-            if(className === 'ai-msg') {
-                const safeText = encodeURIComponent(text);
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn';
-                copyBtn.innerText = 'Copy';
-                copyBtn.setAttribute('onclick', `copyText(this, '${safeText}')`);
-                msg.appendChild(copyBtn);
-            }
-
-            container.appendChild(msg);
-            term.insertBefore(container, thinking);
-            term.scrollTop = term.scrollHeight;
-        }
-
         async function sendCommand() {
-            const promptInput = document.getElementById('prompt');
-            const fileInput = document.getElementById('fileInput');
-            const thinking = document.getElementById('thinkingIndicator');
-            const userText = promptInput.value.trim();
-            
-            if(!userText && fileInput.files.length === 0) return;
-
-            const providerKey = document.getElementById('preset').value;
-            const model = document.getElementById('model').value;
-            const baseUrl = document.getElementById('baseUrl').value;
-            const apiKey = document.getElementById('apiKey').value;
-
-            if(!apiKey && providerKey !== "local") { alert("Please provide an API Key."); return; }
-
-            let displayMsg = userText;
-            if(fileInput.files.length > 0) displayMsg += `<br><em>[Attached File: ${fileInput.files[0].name}]</em>`;
-            
-            appendMessage('USER', displayMsg, 'user-msg');
-            chatHistory.push({ role: "user", content: userText || "Process this file." });
-            promptInput.value = '';
-
-            const formData = new FormData();
-            formData.append('provider', providerKey);
-            formData.append('model', model);
-            formData.append('base_url', baseUrl);
-            formData.append('api_key', apiKey);
-            formData.append('messages', JSON.stringify(chatHistory));
-            if(fileInput.files.length > 0) formData.append('file', fileInput.files[0]);
-
-            thinking.style.display = 'flex';
-            document.getElementById('terminal').scrollTop = document.getElementById('terminal').scrollHeight;
-
-            try {
-                const response = await fetch('/api/v1/chat', { method: 'POST', body: formData });
-                const data = await response.json();
-                
-                thinking.style.display = 'none'; 
-                
-                let aiReply = "Error processing request.";
-                if(response.ok && data.choices && data.choices.length > 0) {
-                    aiReply = data.choices[0].message.content;
-                    chatHistory.push({ role: "assistant", content: aiReply });
-                } else if(data.detail) {
-                    aiReply = data.detail; 
-                }
-                
-                appendMessage('AUTOKAAJ', aiReply, 'ai-msg');
-                fileInput.value = ''; 
-            } catch(e) {
-                thinking.style.display = 'none';
-                appendMessage('SYSTEM ERROR', e.message, 'system-msg');
-            }
+            const p = document.getElementById('prompt').value;
+            document.getElementById('terminal').innerHTML += `<br>You: ${p}`;
+            // এখানে আমাদের API কলগুলো হবে যা সরাসরি মডেল হ্যান্ডেল করবে
         }
     </script>
 </body>
