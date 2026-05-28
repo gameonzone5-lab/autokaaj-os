@@ -17,11 +17,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: Make gradlew executable
-        run: cd android_client && chmod +x gradlew
-        
-      - name: Build APK with Wrapper
-        run: cd android_client && ./gradlew assembleDebug
+      - name: Setup Gradle 8.7
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7'
+          
+      - name: Build APK
+        run: cd android_client && gradle assembleDebug
         
       - name: Upload APK
         uses: actions/upload-artifact@v4
