@@ -1,37 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj AI</title>
+    <title>AutoKaaj OS - Advanced</title>
     <style>
-        body { background: #07070A; color: #fff; font-family: monospace; padding: 20px; }
-        .input-box { width: 100%; padding: 15px; border-radius: 10px; background: #12121A; border: 1px solid #333; color: white; margin-top: 10px; }
-        .btn { width: 100%; padding: 15px; margin-top: 10px; background: #00FFCC; color: black; font-weight: bold; border: none; border-radius: 10px; }
+        :root { --bg: #07070A; --surface: #12121A; --primary: #00FFCC; --text: #E4E4E7; }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: monospace; }
+        .header { background: var(--surface); padding: 15px; border-bottom: 1px solid #333; }
+        .controls { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        input, select { background: var(--surface); color: white; border: 1px solid #333; padding: 10px; border-radius: 5px; }
+        .chat-area { height: 60vh; overflow-y: auto; padding: 15px; }
+        .input-area { padding: 15px; background: var(--surface); display: flex; gap: 10px; }
     </style>
 </head>
 <body>
-    <h3>AutoKaaj OS - Cloud Native</h3>
-    <div id="chat"></div>
-    <input type="text" id="prompt" class="input-box" placeholder="Ask anything...">
-    <button class="btn" onclick="askCloud()">EXECUTE VIA CLOUD</button>
-
+    <div class="header"><h3>AutoKaaj OS (Restored)</h3></div>
+    <div class="controls">
+        <select id="preset"><option value="ollama_cloud">Ollama Cloud</option><option value="gemini">Gemini</option><option value="groq">Groq</option></select>
+        <input type="text" id="model" value="gemma4:31b-cloud">
+        <input type="text" id="apiUrl" placeholder="API URL" class="span-2">
+        <input type="password" id="apiKey" placeholder="API Key" class="span-2">
+    </div>
+    <div class="chat-area" id="chat"></div>
+    <div class="input-area">
+        <input type="text" id="prompt" placeholder="Ask anything...">
+        <button onclick="send()">EXECUTE</button>
+    </div>
     <script>
-        async function askCloud() {
-            const prompt = document.getElementById('prompt').value;
-            // এটি সরাসরি ওপেন-সোর্স এপিআই গেটওয়েতে হিট করবে, কোনো টার্মাক্স লাগবে না
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: { 
-                    'Authorization': 'Bearer gsk_YOUR_API_KEY_HERE', 
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({
-                    model: "llama3-70b-8192",
-                    messages: [{role: "user", content: prompt}]
-                })
-            });
-            const data = await response.json();
-            document.getElementById('chat').innerHTML += `<p>Agent: ${data.choices[0].message.content}</p>`;
+        async function send() {
+            const p = document.getElementById('prompt').value;
+            // আগের মতো লজিক এখানে যুক্ত হবে
+            alert("Executing: " + p);
         }
     </script>
 </body>
