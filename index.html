@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoKaaj OS - Sovereign Autonomous Agent</title>
+    <title>AutoKaaj OS - Sovereign Agent</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; overflow-x: hidden; }
+        
+        /* Header & Twin-Orbit Logo */
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 18px; }
         .logo-container { position: relative; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
-        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; animation: ak-pulse-scan 3s infinite; }
-        @keyframes ak-pulse-scan { 0% { transform: scale(1); } 50% { transform: scale(1.15); color: #00FFCC; } 100% { transform: scale(1); } }
+        .outer-circle { position: absolute; width: 100%; height: 100%; border: 3.5px dashed #00FFCC; border-radius: 50%; animation: rotate-inverse 6s linear infinite; }
+        .inner-svg { width: 75%; height: 75%; animation: rotate-clock 12s linear infinite; }
+        @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        
+        /* 3D Brick Red Typography */
         .brand-name { color: #D23B2A; font-size: 28px; font-weight: 900; text-transform: uppercase; animation: brick-breathe 4s infinite alternate; }
         @keyframes brick-breathe { 0% { text-shadow: 2px 2px 5px rgba(210,59,42,0.4); } 100% { text-shadow: 6px 6px 20px rgba(0,0,0,0.8); transform: translateY(-2px); } }
         .brand-name span { color: #FFD700; }
+
         .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        .config-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        input, textarea, select { width: 100%; padding: 12px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 13px; }
-        .chat-container { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
+        input, textarea, select { width: 100%; padding: 12px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; margin-bottom: 10px; font-family: 'JetBrains Mono'; }
+        
+        .chat-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
         .bubble { padding: 16px; border-radius: 12px; background: #111118; border-left: 4px solid #00FFCC; }
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; }
         .exec-btn { background: #00FFCC; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 700; color: #000; cursor: pointer; }
@@ -27,45 +34,57 @@
 <body>
     <div class="header">
         <div style="display:flex; align-items:center; gap:15px;">
-            <div class="logo-container"><div class="logo-text">AK</div></div>
+            <div class="logo-container">
+                <div class="outer-circle"></div>
+                <svg class="inner-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="32" fill="none" stroke="rgba(160,32,240,0.3)" stroke-width="4"/><path d="M50,10 L50,20 M50,80 L50,90" stroke="#A020F0" stroke-width="6"/></svg>
+            </div>
             <div class="brand-name">AutoKaaj<span>OS</span></div>
         </div>
     </div>
+
     <div class="agent-factory-box">
         <select id="providerSelect" onchange="toggleEngine()">
             <option value="ollama">AutoKaaj Termux Engine (Ollama Local)</option>
-            <option value="custom">Custom API Gateway</option>
+            <option value="custom">Custom Global API Gateway</option>
         </select>
         <input type="text" id="endpoint" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint">
         <input type="text" id="model" value="gemma4:31b-cloud" placeholder="Model Name">
-        <textarea id="prompt" rows="3" placeholder="You are an expert Autonomous Coding Agent. Write python scripts, manage files, and execute commands to solve the user's task."></textarea>
+        <textarea id="prompt" rows="3" placeholder="System Blueprint..."></textarea>
     </div>
+
     <div class="chat-container" id="chatContainer"></div>
+
     <div class="bottom-panel">
         <input type="text" id="cmdInput" placeholder="Assign task...">
         <button class="exec-btn" onclick="runAgent()">EXECUTE</button>
     </div>
+
     <script>
         function toggleEngine() {
             let mode = document.getElementById('providerSelect').value;
             if(mode === 'ollama') document.getElementById('endpoint').value = "http://127.0.0.1:11434/v1";
         }
+
         async function runAgent() {
             let objective = document.getElementById('cmdInput').value;
             let container = document.getElementById('chatContainer');
             container.innerHTML += `<div class="bubble"><b>Goal:</b> ${objective}</div>`;
+
             try {
                 let response = await fetch(document.getElementById('endpoint').value + '/chat/completions', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         model: document.getElementById('model').value,
-                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\nTask: " + objective }],
+                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\n\nTask: " + objective }],
                         stream: false
                     })
                 });
+
                 let data = await response.json();
-                container.innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
+                // স্মার্ট পার্সিং: যে ফরম্যাটেই ডেটা আসুক, এখান থেকে উত্তর বের হবে
+                let output = data.message?.content || data.choices?.[0]?.message?.content || JSON.stringify(data);
+                container.innerHTML += `<div class="bubble">${output}</div>`;
             } catch(e) {
                 container.innerHTML += `<div class="bubble" style="color:#FF007F">Agent Error: ${e.message}</div>`;
             }
