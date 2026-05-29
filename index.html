@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>AutoKaaj OS - High-End Multi-Agent Deployment Core</title>
-    <meta name="description" content="AutoKaaj OS is a premium serverless autonomous AI agent factory running multi-step execution loops with zero third-party dependencies.">
+    <title>AutoKaaj OS - Premium Autonomous Agent Engine</title>
+    <meta name="description" content="AutoKaaj OS is a premium high-end serverless multi-agent platform running multi-step execution loops with advanced 3D interface mechanics.">
     <meta name="keywords" content="AutoKaaj, OpenManus, OpenClaw, AI Agent, Autonomous AI, Serverless Core, Any Model, Gemini">
-    <meta name="robots" content="index, follow">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
@@ -15,39 +14,47 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; overflow-x: hidden; }
         
-        /* Premium OpenManus Style Header */
+        /* Premium Header */
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 18px; }
         .logo-group { display: flex; align-items: center; gap: 15px; }
         
-        /* Twin-Orbit AK Logo */
+        /* Twin-Orbit AK Logo with Intermittent Scan Pulse */
         .logo-container { position: relative; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
         .outer-circle { position: absolute; width: 100%; height: 100%; border: 3.5px dashed #00FFCC; border-radius: 50%; animation: rotate-inverse 6s linear infinite; filter: drop-shadow(0 0 8px rgba(0,255,204,0.4)); }
         .inner-svg { width: 75%; height: 75%; animation: rotate-clock 12s linear infinite; }
-        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; text-shadow: 0 0 10px #A020F0; transform: translateZ(0); }
+        
+        /* AK Dynamic Text & Scan Effect */
+        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; text-shadow: 0 0 10px #A020F0; animation: ak-pulse-scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        
+        @keyframes ak-pulse-scan {
+            0% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px #A020F0); }
+            50% { transform: scale(1.18); filter: brightness(2) drop-shadow(0 0 12px #00FFCC); color: #00FFCC; }
+            100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px #A020F0); color: #FFF; }
+        }
         
         @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         
-        /* Neon Matrix Identity */
-        .brand-name { color: #FFF; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-        .brand-name span { color: #00FFCC; text-shadow: 0 0 15px rgba(0,255,204,0.4); }
+        /* Ultimate 3D Brick Red Premium Typography */
+        .brand-name { color: #B22222; font-size: 27px; font-weight: 900; letter-spacing: -0.5px; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; position: relative; display: inline-block; text-shadow: 0 1px 0 #801818, 0 2px 0 #701515, 0 3px 0 #601212, 0 4px 0 #500F0F, 0 5px 0 #400C0C, 0 8px 10px rgba(0,0,0,0.6); }
+        .brand-name span { color: #8B0000; text-shadow: 0 1px 0 #600000, 0 2px 0 #500000, 0 3px 0 #400000, 0 6px 8px rgba(0,0,0,0.5); margin-left: 4px; }
         
         .vip-btn { background: #13131F; border: 1px solid #FF007F; color: #FF007F; padding: 8px 16px; font-weight: 600; border-radius: 20px; cursor: pointer; font-size: 11px; transition: 0.3s; }
         .vip-btn:hover { background: #FF007F; color: #FFF; box-shadow: 0 0 15px rgba(255,0,127,0.5); }
         
-        /* Agent Factory Studio */
+        /* Agent Factory */
         .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .factory-title { font-size: 13px; font-weight: 700; color: #8F8F9E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .factory-title span { color: #00FFCC; }
         
-        /* Config Grid Matrix */
+        /* Inputs Matrix */
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         select, input, textarea { width: 100%; padding: 14px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; transition: 0.3s; }
         select:focus, input:focus, textarea:focus { border-color: #00FFCC; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
         .full-width { grid-column: span 2; }
         .manual-field { display: none; }
         
-        /* Chat Stream */
+        /* Chat Feed Frame */
         .chat-container { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
         .bubble { padding: 16px; border-radius: 12px; max-width: 95%; line-height: 1.6; font-size: 14px; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -59,14 +66,13 @@
         .user-label { color: #A020F0; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; }
         .bot-label { color: #00FFCC; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; }
         
-        /* Controls Terminal */
+        /* Control Bar Layout */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; z-index: 100; }
         .input-group { display: flex; gap: 10px; }
         .input-group input { flex: 1; background: #111118; border-color: #1C1C2D; }
         .exec-btn { background: #00FFCC; border: none; color: #0A0A0E; font-weight: 700; padding: 0 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 13px; text-transform: uppercase; }
-        .exec-btn:hover { background: #00E6B8; box-shadow: 0 0 20px rgba(0,255,204,0.4); }
         
-        /* 3-Second Quick Counter Ad */
+        /* 3s Fast Test Overlay */
         .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0A0A0E; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
         .ad-title { color: #FF007F; font-size: 24px; font-weight: 800; margin-bottom: 20px; }
         .ad-video-box { width: 100%; max-width: 460px; height: 240px; background: #111118; border: 1px dashed #FF007F; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
@@ -74,7 +80,7 @@
         .skip-btn { background: #161622; border: none; color: #444; padding: 12px 35px; font-weight: bold; border-radius: 8px; cursor: not-allowed; }
         .skip-btn.active { background: #00FFCC; color: #0A0A0E; cursor: pointer; box-shadow: 0 0 15px #00FFCC; }
         
-        /* VIP Panel */
+        /* VIP Popup Block */
         .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111118; border: 1px solid #FF007F; padding: 25px; border-radius: 14px; z-index: 2000; display: none; width: 90%; max-width: 380px; }
         .close-vip { float: right; color: #8F8F9E; cursor: pointer; font-weight: bold; }
     </style>
@@ -91,7 +97,7 @@
                 </svg>
                 <div class="logo-text">AK</div>
             </div>
-            <div class="brand-name">AutoKaaj <span>OS</span></div>
+            <div class="brand-name">AutoKaaj<span>OS</span></div>
         </div>
         <button class="vip-btn" onclick="openVipModal()" id="vipStatusBadge">⭐ Upgrade VIP</button>
     </div>
@@ -260,7 +266,7 @@
                 try {
                     let responseBlock = "";
 
-                    // Direct Native Cloud Endpoint Evaluation (Zero Refusal Network)
+                    // Core Fixed Block: Robust Object Parsing to Completely Eliminate Parsing Exceptions
                     if(engineMode === 'hidden_core') {
                         let finalUrl = `${_DYNAMIC_ENDPOINT}?key=${atob(_DYNAMIC_TOKEN)}`;
                         
@@ -273,7 +279,11 @@
                         });
                         
                         let data = await connection.json();
-                        responseBlock = data.candidates[0].content.parts[0].text;
+                        if (data && data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
+                            responseBlock = data.candidates[0].content.parts[0].text;
+                        } else {
+                            throw new Error("Invalid API Response Format Object Structure");
+                        }
                     } else {
                         // Custom Open-Source Matrix Router Pipeline
                         let targetUrl = document.getElementById('manualEndpoint').value;
@@ -284,7 +294,6 @@
 
                         let finalUrl = targetUrl.endsWith('/') ? targetUrl + 'chat/completions' : targetUrl + '/chat/completions';
                         
-                        // Routing custom matrix safely via universal proxy bypass to resolve local WebView locks
                         if(!targetUrl.includes('localhost') && !targetUrl.includes('127.0.0.1')) {
                             finalUrl = "https://corsproxy.io/?" + encodeURIComponent(finalUrl);
                         }
@@ -316,7 +325,7 @@
                         break;
                     }
                 } catch(error) {
-                    stepLog.innerHTML = `⚠️ Pipeline Node Timeout: Stream gateway returned a parsing exception. Re-routing link channels or re-verifying manual input tags. Retrying...`;
+                    stepLog.innerHTML = `⚠️ Pipeline Node Timeout: Stream gateway returned a parsing exception or invalid key schema. Double-check custom matrix values. Retrying workflow stream...`;
                     break;
                 }
 
