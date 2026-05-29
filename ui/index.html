@@ -1,91 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AutoKaaj OS | Autonomous Agent</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .logo-icon { width: 30px; height: 30px; }
-        .brand-name { color: #00FFCC; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
-        .status-box { border: 1px solid #ff3333; background: rgba(255,51,51,0.05); color: #ff3333; padding: 10px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
-        select:focus, input:focus { border-color: #00FFCC; }
-        .full-width { grid-column: span 2; }
-        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 100px; }
-        .bubble { padding: 15px; border-radius: 8px; max-width: 90%; line-height: 1.5; position: relative; }
-        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
-        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; text-align: left; box-shadow: 3px 3px 10px rgba(160,32,240,0.2); }
-        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 12px; letter-spacing: 1px; }
-        .user-label { color: #A020F0; }
-        .bot-label { color: #99FF33; }
-        .copy-btn { position: absolute; bottom: 5px; right: 5px; background: rgba(153,255,51,0.1); border: 1px solid #99FF33; color: #99FF33; font-size: 10px; padding: 2px 5px; border-radius: 4px; cursor: pointer; }
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; }
-        .file-input-container { margin-bottom: 10px; font-size: 12px; color: #aaa; }
-        .input-group { display: flex; gap: 10px; }
-        .input-group input { flex: 1; }
-        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 20px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
-        .exec-btn:hover { background: #00FFCC; color: #07070A; }
+        body { background: #0A0A0C; color: #FFFFFF; font-family: 'Inter', sans-serif; padding: 15px; padding-bottom: 110px; overflow-x: hidden; }
+
+        /* Tech Background */
+        #tech-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; opacity: 0.15; }
+        .tech-symbol { position: absolute; font-size: 24px; animation: floatUp linear infinite; filter: grayscale(50%); }
+        @keyframes floatUp { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+        /* Header & Logo */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-top: 10px; }
+        .logo-section { display: flex; align-items: center; gap: 8px; }
+        .logo-box { position: relative; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
+        .outer-ring { position: absolute; width: 100%; height: 100%; animation: spin 8s linear infinite; }
+        .inner-gear { position: absolute; width: 100%; height: 100%; animation: spin-rev 6s linear infinite; }
+        .logo-text { position: absolute; z-index: 2; color: #FFD700; font-weight: 900; font-size: 11px; animation: panZoomText 2.5s ease-in-out infinite; }
+        
+        @keyframes panZoomText { 0%, 100% { transform: translateX(-2px) scale(0.95); } 50% { transform: translateX(2px) scale(1.15); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } } 
+        @keyframes spin-rev { 100% { transform: rotate(-360deg); } }
+
+        .logo-box.processing .outer-ring circle { stroke: #39FF14; filter: drop-shadow(0 0 8px #39FF14); } 
+        .logo-box.processing .outer-ring { animation: spin 2.5s linear infinite; } 
+
+        .brand-name { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #FFFFFF; text-shadow: 1px 1px 0px #A020F0, 2px 2px 0px #7000FF; margin-left: 8px; }
+        .brand-name .os { color: #00FFCC; text-shadow: 1px 1px 0px #00B38F, 2px 2px 0px #008066; }
+
+        /* Tabs & Panels */
+        .section-title { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .active-tag { color: #00FFCC; font-weight: 800; }
+        .quota-badge { background: #16161E; border: 1px solid #FFD700; color: #FFD700; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; }
+        
+        .agent-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: #A020F0; border-color: #A020F0; color: #FFFFFF; }
+        .panel { display: none; } .panel.active { display: block; }
+
+        /* Inputs & Textareas */
+        .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; min-height: 80px; margin-bottom: 20px; outline: none; }
+        .mission-profile:focus { border-color: #00FFCC; }
+        
+        .api-panel { background: #111116; border: 1px solid #2A2A35; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .input-label { display: block; color: #00FFCC; font-size: 11px; font-weight: 800; margin-bottom: 6px; margin-top: 10px; text-transform: uppercase; }
+        .api-input { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 12px; border-radius: 6px; font-size: 12px; }
+        .api-input:focus { border-color: #A020F0; outline: none; }
+
+        .env-card { background: #0A0A0C; border: 1px solid #2A2A35; border-radius: 8px; padding: 15px; margin-bottom: 12px; }
+        .env-card h3 { font-size: 14px; color: #FFF; margin-bottom: 5px; }
+        .env-card p { font-size: 11px; color: #888; margin-bottom: 12px; }
+        .action-btn { display: block; width: 100%; text-align: center; padding: 10px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; border: none; }
+        .btn-ollama { background: #00FFCC; color: #000; margin-bottom: 10px; }
+        .btn-model { background: #A020F0; color: #FFF; }
+
+        /* Chat Output */
+        .chat-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .agentic-log { background: #050508; border-left: 2px solid #A020F0; padding: 12px; border-radius: 0 6px 6px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; }
+        .log-step { margin-bottom: 4px; }
+        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #E4E4ED; white-space: pre-wrap; word-wrap: break-word; margin-top: 5px; }
+
+        /* Bottom Panel */
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0C; padding: 15px; border-top: 1px solid #1A1A24; display: flex; gap: 10px; z-index: 100; }
+        .attach-btn { background: #16161E; border: 1px solid #2A2A35; color: #00FFCC; width: 45px; height: 45px; border-radius: 6px; font-size: 20px; cursor: pointer; }
+        .input-box { flex: 1; background: transparent; border: none; color: #FFF; font-size: 14px; padding: 10px 0; outline: none; }
+        .execute-btn { background: #00FFCC; color: #000; font-weight: 800; border: none; padding: 0 20px; height: 45px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
+    <div id="tech-bg"></div>
+
     <div class="header">
-        <svg class="logo-icon" viewBox="0 0 100 100">
-            <polygon points="20,20 80,45 30,75" fill="none" stroke="#00FFCC" stroke-width="5"/>
-            <circle cx="55" cy="50" r="6" fill="#A020F0"/>
-        </svg>
-        <span class="brand-name">AutoKaaj OS</span>
+        <div class="logo-section">
+            <div class="logo-box" id="mainLogo">
+                <svg class="outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#00FFCC" stroke-width="6" stroke-dasharray="10 7" stroke-linecap="round" /></svg>
+                <svg class="inner-gear" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="#A020F0" stroke-width="3" /><g stroke="#A020F0" stroke-width="4" stroke-linecap="round"><line x1="50" y1="30" x2="50" y2="16" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(45 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(90 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(135 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(180 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(225 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(270 50 50)" /><line x1="50" y1="30" x2="50" y2="16" transform="rotate(315 50 50)" /></g></svg>
+                <span class="logo-text">AK</span>
+            </div>
+            <div class="brand-name">AutoKaaj<span class="os">OS</span></div>
+        </div>
     </div>
-    <div class="status-box" id="statusBox">
-        <span>❌ Connection Error</span>
+
+    <div class="section-title">
+        <div>🤖 AUTONOMOUS KERNEL <span class="active-tag">[ACTIVE]</span></div>
+        <div class="quota-badge">Free Quota: 3</div>
     </div>
-    <div class="config-grid">
-        <select id="providerSelect">
-            <option value="ollama">Ollama (Auto/Default)</option>
-            <option value="gemini">Gemini Cloud API</option>
+    
+    <div class="agent-tabs">
+        <div class="tab-btn active" id="btn-agent" onclick="switchTab('agent')">💻 Agent</div>
+        <div class="tab-btn" id="btn-api" onclick="switchTab('api')">🔌 API Config</div>
+        <div class="tab-btn" id="btn-env" onclick="switchTab('env')">🛠️ Auto Setup</div>
+    </div>
+
+    <div id="view-agent" class="panel active">
+        <textarea class="mission-profile" id="systemPrompt" placeholder="Describe Target Mission Profile (e.g., Analyze this data, execute bash script)..."></textarea>
+    </div>
+
+    <div id="view-api" class="panel api-panel">
+        <label class="input-label">Provider Select</label>
+        <select id="preset" class="api-input" onchange="updateProvider()" style="margin-bottom: 10px;">
+            <optgroup label="Local (No Internet Needed)">
+                <option value="ollama">Local - Ollama (gemma4:31b-cloud)</option>
+            </optgroup>
+            <optgroup label="Google">
+                <option value="gemini_pro">Google - Gemini 1.5 Pro</option>
+            </optgroup>
         </select>
-        <input type="text" id="modelInput" value="gemma4:31b-cloud">
-        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
-        <input type="password" id="apiKeyInput" class="full-width" value="......">
+        
+        <label class="input-label">🧠 Model Name</label>
+        <input type="text" id="apiModel" class="api-input" placeholder="gemma4:31b-cloud">
+        
+        <label class="input-label">🌐 API Endpoint URL</label>
+        <input type="text" id="apiEndpoint" class="api-input" placeholder="http://127.0.0.1:11434/api/generate">
+        
+        <label class="input-label">🔑 Custom API Key</label>
+        <input type="password" id="apiKey" class="api-input" placeholder="Enter API Key (Leave blank for local)" onchange="saveKey()">
     </div>
-    <div class="chat-container" id="chatContainer">
-        <div class="bubble system-bubble">
-            How can I help you today?
-            <button class="copy-btn">Copy</button>
-        </div>
-        <div class="bubble user-bubble">
-            <span class="user-label">USER:</span> who r u
-        </div>
-        <div class="bubble system-bubble">
-            <span class="bot-label">AUTOKAAJ:</span>
-            I am <b>AutoKaaj OS Agent</b>, an advanced autonomous AI integrated into your Termux environment.<br><br>
-            Unlike standard chatbots, I can interact directly with your system.
+
+    <div id="view-env" class="panel api-panel">
+        <div class="env-card">
+            <h3>🦙 1-Click System Setup</h3>
+            <p>Automatically install Ollama and set up your local model (gemma4:31b-cloud) so it runs silently in the background.</p>
+            <button class="action-btn btn-ollama" onclick="document.getElementById('userInput').value='Install Ollama via pkg'; runAgent(); switchTab('agent');">⚡ 1. Install & Start Ollama Server</button>
+            <button class="action-btn btn-model" onclick="document.getElementById('userInput').value='Pull and run gemma4:31b-cloud'; runAgent(); switchTab('agent');">📦 2. Auto-Setup Gemma4 Model</button>
         </div>
     </div>
+    
+    <div class="chat-container" id="chat"></div>
+    
     <div class="bottom-panel">
-        <div class="file-input-container">
-            <input type="file" id="fileChooser" style="display:none;" onchange="document.getElementById('fileName').innerText = this.files[0].name">
-            <button onclick="document.getElementById('fileChooser').click()" style="background:#222; border:none; color:#fff; padding:3px 8px; border-radius:4px; font-family:monospace; margin-right:5px;">Choose file</button>
-            <span id="fileName">No file chosen</span>
-        </div>
-        <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Ask Agent to build or execute something...">
-            <button class="exec-btn" onclick="executeCommand()">EXECUTE</button>
-        </div>
+        <input type="file" id="fileUploader" style="display: none;">
+        <button class="attach-btn" onclick="document.getElementById('fileUploader').click()">📎</button>
+        <input type="text" class="input-box" id="userInput" placeholder="Deploy task or upload files..." onkeypress="if(event.key === 'Enter') runAgent()">
+        <button class="execute-btn" onclick="runAgent()">EXECUTE</button>
     </div>
+
     <script>
-        function executeCommand() {
-            let txt = document.getElementById('cmdInput').value;
-            if(!txt) return;
-            let container = document.getElementById('chatContainer');
-            let userDiv = document.createElement('div');
-            userDiv.className = 'bubble user-bubble';
-            userDiv.innerHTML = '<span class="user-label">USER:</span> ' + txt;
-            container.appendChild(userDiv);
-            document.getElementById('cmdInput').value = '';
-            window.scrollTo(0, document.body.scrollHeight);
+        function createTechBackground() {
+            const container = document.getElementById('tech-bg');
+            const symbols = ['🤖', '⚙️', '💻', '🧠', '📄', '⚡', '🔒'];
+            for(let i=0; i<20; i++){ let el=document.createElement('div'); el.className='tech-symbol'; el.innerText=symbols[Math.floor(Math.random()*symbols.length)]; el.style.left=Math.random()*100+'vw'; el.style.animationDuration=(Math.random()*15+10)+'s'; el.style.animationDelay=(Math.random()*5)+'s'; container.appendChild(el); }
+        } createTechBackground();
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(`btn-${tab}`).classList.add('active');
+            document.getElementById(`view-${tab}`).classList.add('active');
+        }
+
+        const providers = {
+            "ollama": { url: "http://127.0.0.1:11434/api/generate", model: "gemma4:31b-cloud" },
+            "gemini_pro": { url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent", model: "gemini-1.5-pro-latest" }
+        };
+
+        function updateProvider() {
+            const val = document.getElementById('preset').value;
+            document.getElementById('apiEndpoint').value = providers[val].url;
+            document.getElementById('apiModel').value = providers[val].model;
+            saveKey();
+        }
+
+        function saveKey() {
+            localStorage.setItem('savedApiKey', document.getElementById('apiKey').value);
+        }
+
+        window.onload = () => {
+            document.getElementById('apiKey').value = localStorage.getItem('savedApiKey') || "";
+            updateProvider();
+        }
+
+        async function runAgent() {
+            const task = document.getElementById('userInput').value;
+            const fileInput = document.getElementById('fileUploader').files[0];
+            if(!task && !fileInput) return;
+            
+            document.getElementById('userInput').value = '';
+            const container = document.getElementById('chat');
+            document.getElementById('mainLogo').classList.add('processing');
+
+            // 1. Create the dark terminal log box
+            let logBox = document.createElement('div');
+            logBox.className = 'agentic-log';
+            container.appendChild(logBox);
+
+            // 2. Define the exact animated steps from the video
+            const steps = [
+                `> [SYSTEM]: AutoKaaj Kernel Initializing...`,
+                `> [CONFIG]: Checking Local Environment...`,
+                `> [AGENT]: Analyzing task: '${task}'`,
+                `> [NETWORK]: Executing Autonomous Task...`
+            ];
+
+            // 3. Animate the typing effect (600ms gap between each line)
+            for (let i = 0; i < steps.length; i++) {
+                setTimeout(() => { 
+                    logBox.innerHTML += `<div class="log-step">${steps[i]}</div>`; 
+                    window.scrollTo(0, document.body.scrollHeight);
+                }, i * 600);
+            }
+
+            // 4. Wait for the animation to finish, then fetch real data
+            setTimeout(async () => {
+                const fd = new FormData();
+                fd.append('prompt', task); 
+                fd.append('model', document.getElementById('apiModel').value);
+                // Hardcoded local server link to fix Connection Failed
+                fd.append('apiUrl', document.getElementById('apiEndpoint').value); 
+                fd.append('apiKey', document.getElementById('apiKey').value);
+                if(fileInput) fd.append('file', fileInput);
+
+                try {
+                    // Send to your Node.js Server
+                    const res = await fetch('http://127.0.0.1:3000/api/execute', { method: 'POST', body: fd, mode: 'cors', credentials: 'omit' }); // { method: 'POST', body: fd });
+                    if(!res.ok) throw new Error("Backend connection failed.");
+                    const data = await res.json();
+                    
+                    // Show actual AI output
+                    let outputWrapper = document.createElement('div');
+                    outputWrapper.innerHTML = `<div class="final-output">${data.reply.replace(/\n/g, '<br>')}</div>`;
+                    container.appendChild(outputWrapper);
+                } catch(e) {
+                    // Show error in red if server is off
+                    logBox.innerHTML += `<div class="log-step" style="color:red; margin-top:5px;">> [ERROR]: Failed to fetch. Ensure Node.js Backend (server.js) is running on port 3000.</div>`;
+                }
+                
+                document.getElementById('mainLogo').classList.remove('processing');
+                document.getElementById('fileUploader').value = '';
+                window.scrollTo(0, document.body.scrollHeight);
+            }, steps.length * 600 + 500);
         }
     </script>
 </body>
