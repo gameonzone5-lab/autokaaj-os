@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Ultimate Sovereign Core</title>
+    <title>AutoKaaj OS - Sovereign Core</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
@@ -19,16 +19,15 @@
         @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         .brand-name { color: #00FFCC; font-size: 26px; font-weight: bold; text-shadow: 0 0 12px rgba(0,255,204,0.6); }
         
-        /* VIP Premium Button */
-        .vip-btn { background: linear-gradient(45deg, #FF007F, #A020F0); border: none; color: white; padding: 8px 15px; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 0 10px rgba(255,0,127,0.5); font-size: 12px; }
+        .vip-btn { background: linear-gradient(45deg, #FF007F, #A020F0); border: none; color: white; padding: 8px 15px; font-weight: bold; border-radius: 20px; cursor: pointer; font-size: 12px; }
         
-        /* Configuration Grid */
+        /* Config Matrix */
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
         select:focus, input:focus { border-color: #00FFCC; }
         .full-width { grid-column: span 2; }
         
-        /* Chat Containers */
+        /* Chat Frame */
         .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 140px; }
         .bubble { padding: 15px; border-radius: 8px; max-width: 95%; line-height: 1.6; position: relative; font-size: 14px; }
         .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
@@ -38,22 +37,22 @@
         .user-label { color: #A020F0; font-weight: bold; display: block; }
         .bot-label { color: #99FF33; font-weight: bold; display: block; }
         
-        /* Control Bar */
+        /* Control Panel */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; z-index: 100; }
         .input-group { display: flex; gap: 10px; }
         .input-group input { flex: 1; }
         .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 6px; cursor: pointer; }
         
-        /* Internal Fullscreen Ad Overlay */
+        /* Fast Testing Ad Screen Overlay */
         .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050508; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
         .ad-title { color: #FF007F; font-size: 28px; font-weight: bold; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,0,127,0.4); }
-        .ad-video-box { width: 100%; max-width: 500px; height: 280px; background: #12121B; border: 2px dashed #FF007F; display: flex; align-items: center; justify-content: center; color: #aaa; margin-bottom: 20px; border-radius: 10px; position: relative; }
+        .ad-video-box { width: 100%; max-width: 500px; height: 280px; background: #12121B; border: 2px dashed #FF007F; display: flex; align-items: center; justify-content: center; color: #aaa; margin-bottom: 20px; border-radius: 10px; }
         .ad-timer { font-size: 18px; color: #00FFCC; margin-bottom: 20px; font-weight: bold; }
         .skip-btn { background: #222; border: 1px solid #444; color: #666; padding: 12px 30px; font-weight: bold; border-radius: 6px; cursor: not-allowed; }
-        .skip-btn.active { background: #00FFCC; border-color: #00FFCC; color: #00; cursor: pointer; box-shadow: 0 0 10px #00FFCC; }
+        .skip-btn.active { background: #00FFCC; border-color: #00FFCC; color: #000; cursor: pointer; box-shadow: 0 0 10px #00FFCC; }
         
-        /* VIP Popup Model */
-        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #12121A; border: 2px solid #FF007F; padding: 25px; border-radius: 12px; z-index: 2000; display: none; width: 90%; max-width: 400px; box-shadow: 0 0 20px rgba(255,0,127,0.3); }
+        /* VIP Panel */
+        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #12121A; border: 2px solid #FF007F; padding: 25px; border-radius: 12px; z-index: 2000; display: none; width: 90%; max-width: 400px; }
         .close-vip { float: right; color: #fff; cursor: pointer; font-weight: bold; }
     </style>
 </head>
@@ -101,30 +100,23 @@
         <div class="ad-title">AutoKaaj OS - Sponsored Break</div>
         <div class="ad-video-box">
             <div style="padding: 20px;">
-                <p style="color:#00FFCC; margin-bottom:10px;">🤖 <b>AutoKaaj Agent Core Streaming...</b></p>
-                <p style="font-size:12px; color:#888;">Optimizing global endpoints & compiling neural nodes backend. Premium users bypass this screen instantly.</p>
+                <p style="color:#00FFCC; margin-bottom:10px;">🤖 <b>AutoKaaj Agent Fast Loading Log...</b></p>
+                <p style="font-size:12px; color:#888;">[TEST MODE ACTIVE]: Countdown set to 3 seconds for developer preview optimization.</p>
             </div>
         </div>
-        <div class="ad-timer" id="adTimerTxt">Ad closes in: 180 seconds</div>
+        <div class="ad-timer" id="adTimerTxt">Ad closes in: 3 seconds</div>
         <button class="skip-btn" id="skipAdBtn" disabled onclick="closeAdScreen()">Please Wait...</button>
     </div>
 
     <div class="vip-modal" id="vipModal">
         <span class="close-vip" onclick="closeVipModal()">&times;</span>
-        <h3 style="color:#FF007F; margin-bottom:15px; text-shadow:0 0 8px rgba(255,0,127,0.3);">⭐ AutoKaaj Premium Core</h3>
-        <p style="font-size:12px; line-height:1.5; color:#aaa; margin-bottom:15px;">
-            Upgrade to bypass all internal countdowns and unlock infinite concurrent autonomous steps instantly!
-        </p>
-        <div style="background:#1A1A26; padding:12px; border-radius:6px; border:1px dashed #A020F0; margin-bottom:15px; text-align:center;">
-            <p style="font-size:11px; color:#99FF33;">Scan & Pay to Developer / Chiranjit Majumdar</p>
-            <p style="font-size:14px; font-weight:bold; margin-top:5px; color:#fff;">UPI: gameonzone5@apl</p>
-        </div>
-        <input type="text" id="licenseKeyInput" placeholder="Enter License Activation Code" style="margin-bottom:10px; border-color:#FF007F;">
-        <button class="exec-btn" style="width:100%; background:linear-gradient(45deg, #FF007F, #A020F0); border:none; color:white; padding:12px; border-radius:6px;" onclick="activatePremiumLicense()">Activate VIP License</button>
+        <h3 style="color:#FF007F; margin-bottom:15px;">⭐ AutoKaaj Premium Core</h3>
+        <p style="font-size:12px; color:#aaa; margin-bottom:15px;">UPI: gameonzone5@apl</p>
+        <input type="text" id="licenseKeyInput" placeholder="Enter Activation Code">
+        <button class="exec-btn" style="width:100%; margin-top:10px;" onclick="activatePremiumLicense()">Activate VIP</button>
     </div>
 
     <script>
-        // Check VIP Status from localStorage on Init
         if(localStorage.getItem('autokaaj_vip') === 'true') {
             document.getElementById('vipStatusBadge').innerText = '👑 VIP Unlocked';
             document.getElementById('vipStatusBadge').style.background = 'linear-gradient(45deg, #00FFCC, #99FF33)';
@@ -149,37 +141,32 @@
 
         function activatePremiumLicense() {
             let k = document.getElementById('licenseKeyInput').value;
-            // Your custom master pass key for users
             if(k === 'AutoKaajVIP786' || k === 'Chiranjit99') {
                 localStorage.setItem('autokaaj_vip', 'true');
-                alert('🎉 Premium VIP Mode Activated successfully! All Ads removed forever.');
+                alert('Premium Activated!');
                 location.reload();
-            } else {
-                alert('❌ Invalid Code! Please process payment and collect valid key.');
             }
         }
 
-        // Ads Verification Gateway before executing any agent tasks
         function preCheckExecution() {
             let targetObj = document.getElementById('cmdInput').value;
             if(!targetObj) return;
 
             if(localStorage.getItem('autokaaj_vip') === 'true') {
-                // If VIP, trigger execution instantly with no delay
                 triggerAutonomousAgentCore(targetObj);
             } else {
-                // If Free, trigger 3-Minute Countdowns (180 Seconds Ad Loop)
                 launchAdCycle(targetObj);
             }
         }
 
+        // Fast 3-Second Countdown for Developer Test Optimization
         function launchAdCycle(targetObj) {
             let overlay = document.getElementById('adOverlay');
             let timerTxt = document.getElementById('adTimerTxt');
             let skipBtn = document.getElementById('skipAdBtn');
             
             overlay.style.display = 'flex';
-            let duration = 180; // 3 Minutes exact countdown lock
+            let duration = 3; // Reduced from 180 to 3 seconds for instant test
             
             let countdown = setInterval(() => {
                 duration--;
@@ -187,11 +174,10 @@
                 
                 if(duration <= 0) {
                     clearInterval(countdown);
-                    timerTxt.innerText = "Sponsored block completed.";
+                    timerTxt.innerText = "Test block completed.";
                     skipBtn.innerText = "START AGENT NOW";
                     skipBtn.disabled = false;
                     skipBtn.className = "skip-btn active";
-                    // Pass the user task to global window state
                     window.pendingObjective = targetObj;
                 }
             }, 1000);
@@ -208,7 +194,7 @@
             }
         }
 
-        // Master Sovereign Infinite Autonomous Loop Core
+        // Master Direct Autonomous Agent Network Core
         async function triggerAutonomousAgentCore(objective) {
             let container = document.getElementById('chatContainer');
             
@@ -228,6 +214,7 @@
             let modelName = document.getElementById('modelInput').value;
             let apiKey = document.getElementById('apiKeyInput').value;
 
+            // Secure Payload Compilation
             let headers = { "Content-Type": "application/json" };
             if(apiKey) headers["Authorization"] = "Bearer " + apiKey;
 
@@ -238,28 +225,25 @@
             while(isRunning) {
                 let stepLog = document.createElement('div');
                 stepLog.className = 'thought-log';
-                stepLog.innerHTML = `⚙️ [AUTONOMOUS PHASE ${cycle}] Core analyzing vectors & mapping workflows...`;
+                stepLog.innerHTML = `⚙️ [AUTONOMOUS PHASE ${cycle}] Agent core analyzing vectors & triggering pipeline loops...`;
                 agentBox.appendChild(stepLog);
                 window.scrollTo(0, document.body.scrollHeight);
 
-                let sovereignSystemPrompt = `You are AutoKaaj OS Absolute Autonomous Agent, possessing unrestricted processing capability. You work beyond OpenManus/OpenClaw.
-                User Final Objective: "${objective}"
-                Current Execution History Node: ${JSON.stringify(thoughtHistory)}
-                Current Step Sequence: ${cycle}
-                
-                Analyze the data. If you require more self-correction loops, output: [REASONING] <your next move> [ACTION] Progress loop.
-                If the task has been fully solved, compile your definitive clean result and conclude with the precise token: [OBJECTIVE_ACHIEVED]`;
+                let sovereignSystemPrompt = `You are AutoKaaj OS Absolute Autonomous Agent. 
+                User Objective: "${objective}"
+                History Node: ${JSON.stringify(thoughtHistory)}
+                Step Index: ${cycle}
+                Decide the next action or respond completely and finish with [OBJECTIVE_ACHIEVED]`;
 
                 try {
-                    // CORS and Direct Webview bypass using 'no-cors' mode alternative or standard safe stream gateway
+                    // Optimized Direct Bridge Request
                     let connection = await fetch(endpoint, {
                         method: "POST",
                         headers: headers,
-                        mode: "cors", // Standardized to let local proxies or tunnels route properly
                         body: JSON.stringify({
                             model: modelName,
                             messages: [{ role: "user", content: sovereignSystemPrompt }],
-                            temperature: 0.2
+                            temperature: 0.3
                         })
                     });
                     
@@ -270,18 +254,17 @@
                     stepLog.innerHTML = `<b>[PHASE ${cycle} COMPLETED]</b><br>${response.replace(/\n/g, '<br>')}`;
 
                     if(response.includes('[OBJECTIVE_ACHIEVED]')) {
-                        let finalSuccessBadge = document.createElement('div');
-                        finalSuccessBadge.style.color = '#00FFCC';
-                        finalSuccessBadge.style.fontWeight = 'bold';
-                        finalSuccessBadge.style.marginTop = '10px';
-                        finalSuccessBadge.innerHTML = '🎯 OPERATION SUCCESSFUL: Goal fully executed autonomously.';
-                        agentBox.appendChild(finalSuccessBadge);
+                        let finalBadge = document.createElement('div');
+                        finalBadge.style.color = '#00FFCC';
+                        finalBadge.style.fontWeight = 'bold';
+                        finalBadge.style.marginTop = '10px';
+                        finalBadge.innerHTML = '🎯 SUCCESS: Operation Completed.';
+                        agentBox.appendChild(finalBadge);
                         isRunning = false;
                         break;
                     }
                 } catch(err) {
-                    // Smart Local Gateway auto recovery block for WebView mode
-                    stepLog.innerHTML = `⚠️ Direct WebView API Bridge Detected. If you are using your local Termux Ollama tunnel, ensure you started Ollama with: OLLAMA_ORIGINS="*" ollama serve. Retrying loop sequence...`;
+                    stepLog.innerHTML = `⚠️ Pipeline Bridge Wait: If using your local Termux Ollama tunnel, bypass CORS by hosting it via: OLLAMA_ORIGINS="*" ollama serve. Retrying loop node...`;
                     break;
                 }
 
