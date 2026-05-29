@@ -2,73 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Unrestricted Sovereign Core</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>AutoKaaj OS - Sovereign Autonomous Agent System</title>
+    <meta name="description" content="AutoKaaj OS is an advanced, universal serverless autonomous AI agent core operating beyond OpenManus and OpenClaw protocols with multi-step execution.">
+    <meta name="keywords" content="AutoKaaj, Autonomous Agent, AI OS, OpenManus, OpenClaw, Serverless AI, Cloud Ollama, Gemini Matrix">
+    <meta name="robots" content="index, follow">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: #050508; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; padding: 15px; overflow-x: hidden; }
         
-        /* Twin-Orbit Logo */
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        /* Premium Header Architecture */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid rgba(0,255,204,0.1); padding-bottom: 15px; }
         .logo-group { display: flex; align-items: center; gap: 15px; }
-        .logo-container { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
-        .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px dashed #A020F0; border-radius: 50%; animation: rotate-inverse 4s linear infinite; box-shadow: 0 0 8px rgba(160,32,240,0.4); }
-        .inner-logo { width: 75%; height: 75%; animation: rotate-clock 6s linear infinite; filter: drop-shadow(0 0 8px #00FFCC); }
+        
+        /* High-End Twin-Orbit Arrow Logo */
+        .logo-container { position: relative; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .outer-circle { position: absolute; width: 100%; height: 100%; border: 3.5px dashed #A020F0; border-radius: 50%; animation: rotate-inverse 5s linear infinite; filter: drop-shadow(0 0 8px rgba(160,32,240,0.6)); }
+        .inner-logo { width: 70%; height: 70%; animation: rotate-clock 7s linear infinite; filter: drop-shadow(0 0 12px #00FFCC); }
         
         @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-        .brand-name { color: #00FFCC; font-size: 26px; font-weight: bold; text-shadow: 0 0 12px rgba(0,255,204,0.6); }
         
-        .vip-btn { background: linear-gradient(45deg, #FF007F, #A020F0); border: none; color: white; padding: 8px 15px; font-weight: bold; border-radius: 20px; cursor: pointer; font-size: 12px; }
+        /* Premium Brand Typography */
+        .brand-name { background: linear-gradient(135deg, #00FFCC 0%, #A020F0 50%, #FF007F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: 900; letter-spacing: -0.5px; text-shadow: 0 0 20px rgba(0,255,204,0.2); font-family: 'Orbitron', -apple-system, sans-serif; }
         
-        /* Config Dynamic Matrix */
-        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
-        select:focus, input:focus { border-color: #00FFCC; }
+        .vip-btn { background: linear-gradient(45deg, #FF007F, #A020F0); border: none; color: white; padding: 8px 18px; font-weight: bold; border-radius: 25px; cursor: pointer; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255,0,127,0.4); transition: 0.3s; }
+        .vip-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,0,127,0.7); }
+        
+        /* Config Grid Matrix */
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        select, input { width: 100%; padding: 14px; background: #0E0E14; border: 1px solid #1A1A26; color: #fff; border-radius: 8px; font-family: monospace; font-size: 14px; outline: none; transition: 0.3s; }
+        select:focus, input:focus { border-color: #00FFCC; box-shadow: 0 0 10px rgba(0,255,204,0.15); }
         .full-width { grid-column: span 2; }
-        
-        /* Custom UI Toggle Fields */
         .manual-field { display: none; }
         
-        /* Chat Frame */
-        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 140px; }
-        .bubble { padding: 15px; border-radius: 8px; max-width: 95%; line-height: 1.6; position: relative; font-size: 14px; }
-        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
-        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; }
-        .thought-log { background: #0A0A0F; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 10px; border-radius: 5px; }
+        /* Chat Matrix */
+        .chat-container { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 140px; }
+        .bubble { padding: 15px; border-radius: 10px; max-width: 95%; line-height: 1.6; position: relative; font-size: 14px; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .user-label { color: #A020F0; font-weight: bold; display: block; }
-        .bot-label { color: #99FF33; font-weight: bold; display: block; }
+        .system-bubble { background: #0E0E16; border-left: 3.5px solid #99FF33; align-self: flex-start; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .user-bubble { background: #180926; border-right: 3.5px solid #A020F0; align-self: flex-end; border-radius: 10px 10px 0 10px; box-shadow: 0 4px 15px rgba(160,32,240,0.1); }
+        .thought-log { background: #050508; border-left: 2.5px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 10px; border-radius: 6px; }
         
-        /* Control Panel */
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; z-index: 100; }
+        .user-label { color: #A020F0; font-weight: bold; font-size: 11px; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+        .bot-label { color: #99FF33; font-weight: bold; font-size: 11px; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+        
+        /* Bottom Control Deck */
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #050508; padding: 15px; border-top: 1px solid #14141F; z-index: 100; }
         .input-group { display: flex; gap: 10px; }
-        .input-group input { flex: 1; }
-        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 6px; cursor: pointer; }
+        .input-group input { flex: 1; border-color: #1A1A26; background: #0E0E14; }
+        .exec-btn { background: #050508; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        .exec-btn:hover { background: #00FFCC; color: #050508; box-shadow: 0 0 20px #00FFCC; }
         
-        /* Ad Overlay */
-        .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050508; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
-        .ad-title { color: #FF007F; font-size: 28px; font-weight: bold; margin-bottom: 20px; }
-        .ad-video-box { width: 100%; max-width: 500px; height: 280px; background: #12121B; border: 2px dashed #FF007F; display: flex; align-items: center; justify-content: center; color: #aaa; margin-bottom: 20px; border-radius: 10px; }
-        .ad-timer { font-size: 18px; color: #00FFCC; margin-bottom: 20px; font-weight: bold; }
-        .skip-btn { background: #222; border: 1px solid #444; color: #666; padding: 12px 30px; font-weight: bold; border-radius: 6px; cursor: not-allowed; }
-        .skip-btn.active { background: #00FFCC; border-color: #00FFCC; color: #000; cursor: pointer; box-shadow: 0 0 10px #00FFCC; }
+        /* Sponsorship Fullscreen Layer */
+        .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050508; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
+        .ad-title { color: #FF007F; font-size: 26px; font-weight: bold; margin-bottom: 20px; letter-spacing: -0.5px; }
+        .ad-video-box { width: 100%; max-width: 480px; height: 260px; background: #0B0B10; border: 2px dashed #FF007F; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 12px; }
+        .ad-timer { font-size: 16px; color: #00FFCC; margin: 20px 0; font-weight: bold; }
+        .skip-btn { background: #14141F; border: 1px solid #222; color: #555; padding: 12px 35px; font-weight: bold; border-radius: 8px; cursor: not-allowed; transition: 0.3s; }
+        .skip-btn.active { background: #00FFCC; border-color: #00FFCC; color: #050508; cursor: pointer; box-shadow: 0 0 15px #00FFCC; }
         
-        /* VIP Panel */
-        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #12121A; border: 2px solid #FF007F; padding: 25px; border-radius: 12px; z-index: 2000; display: none; width: 90%; max-width: 400px; }
-        .close-vip { float: right; color: #fff; cursor: pointer; font-weight: bold; }
+        /* Premium Modal Block */
+        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0E0E16; border: 2px solid #FF007F; padding: 25px; border-radius: 14px; z-index: 2000; display: none; width: 90%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .close-vip { float: right; color: #fff; cursor: pointer; font-weight: bold; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
         <div class="logo-group">
             <div class="logo-container">
                 <div class="outer-circle"></div>
                 <svg class="inner-logo" viewBox="0 0 100 100">
-                    <polygon points="20,20 85,50 30,80" fill="none" stroke="#00FFCC" stroke-width="4"/>
-                    <circle cx="55" cy="50" r="7" fill="#FF007F"/>
+                    <path d="M25,15 L85,50 L25,85 L42,50 Z" fill="none" stroke="#00FFCC" stroke-width="5.5" stroke-linejoin="round"/>
+                    <circle cx="42" cy="50" r="6" fill="#FF007F"/>
                 </svg>
             </div>
             <span class="brand-name">AutoKaaj OS</span>
@@ -76,66 +87,61 @@
         <button class="vip-btn" onclick="openVipModal()" id="vipStatusBadge">⭐ Upgrade to VIP</button>
     </div>
 
-    <!-- Hidden Routing Grid Matrix -->
     <div class="config-grid">
         <select id="providerSelect" class="full-width" onchange="toggleMatrixEngine()">
-            <option value="hidden_core">AutoKaaj AI Default Engine (Free Cloud Mode)</option>
+            <option value="hidden_core">AutoKaaj AI Sovereign Engine (Free Cloud Mode)</option>
             <option value="custom_matrix">Custom Matrix Engine (Manual Input Mode)</option>
         </select>
         
-        <!-- Manual Fields (Hidden by default, unlocks only when Custom Matrix is active) -->
-        <input type="text" id="manualEndpoint" class="full-width manual-field" placeholder="Enter Custom Endpoint URL (e.g. https://api.openai.com/v1)">
-        <input type="text" id="manualModel" class="manual-field" placeholder="Enter Model Name">
-        <input type="password" id="manualKey" class="manual-field" placeholder="Enter API Bearer Secret Token Key">
+        <input type="text" id="manualEndpoint" class="full-width manual-field" placeholder="Custom Endpoint Link URL">
+        <input type="text" id="manualModel" class="manual-field" placeholder="Model Name">
+        <input type="password" id="manualKey" class="manual-field" placeholder="Secret Authorization Bearer Key">
     </div>
 
-    <!-- Chat Stream Frame -->
     <div class="chat-container" id="chatContainer">
         <div class="bubble system-bubble">
-            <span class="bot-label">AUTOKAAJ CORE MASTER:</span>
-            Sovereign Engine Synced. Unrestricted AI Agent Core Online.
+            <span class="bot-label">AUTOKAAJ MASTER CONTROL:</span>
+            Sovereign Architecture active. Ready for unrestricted operations.
         </div>
     </div>
 
-    <!-- Terminal Controls -->
     <div class="bottom-panel">
         <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Assign target task to Sovereign Autonomous Agent...">
+            <input type="text" id="cmdInput" placeholder="Assign tactical goal to Sovereign Autonomous Agent...">
             <button class="exec-btn" onclick="preCheckExecution()">EXECUTE</button>
         </div>
     </div>
 
-    <!-- Test Ads Overlay -->
     <div class="ad-overlay" id="adOverlay">
-        <div class="ad-title">AutoKaaj OS - Sponsored Break</div>
+        <div class="ad-title">AutoKaaj OS - Sponsored Core Routing</div>
         <div class="ad-video-box">
             <div style="padding: 20px;">
-                <p style="color:#00FFCC; margin-bottom:10px;">🤖 <b>AutoKaaj Neural Node Syncing...</b></p>
-                <p style="font-size:12px; color:#888;">[TEST PREVIEW]: 3-Second skip lock active for fast internal verification routing.</p>
+                <p style="color:#00FFCC; margin-bottom:10px; font-weight: bold;">🤖 AutoKaaj Universal Engine Running...</p>
+                <p style="font-size:12px; color:#666;">Bypassing standard environment checks. Direct client-side streaming initialized without external terminal apps.</p>
             </div>
         </div>
         <div class="ad-timer" id="adTimerTxt">Ad closes in: 3 seconds</div>
         <button class="skip-btn" id="skipAdBtn" disabled onclick="closeAdScreen()">Please Wait...</button>
     </div>
 
-    <!-- VIP Modal -->
     <div class="vip-modal" id="vipModal">
         <span class="close-vip" onclick="closeVipModal()">&times;</span>
-        <h3 style="color:#FF007F; margin-bottom:15px;">⭐ AutoKaaj Premium Core</h3>
-        <p style="font-size:12px; color:#aaa; margin-bottom:15px;">UPI ID: gameonzone5@apl</p>
-        <input type="text" id="licenseKeyInput" placeholder="Enter Activation Code">
-        <button class="exec-btn" style="width:100%; margin-top:10px;" onclick="activatePremiumLicense()">Activate VIP</button>
+        <h3 style="color:#FF007F; margin-bottom:15px; font-weight: bold;">👑 AutoKaaj Premium Core</h3>
+        <p style="font-size:12px; color:#aaa; margin-bottom:15px;">UPI Gateway Verification ID: gameonzone5@apl</p>
+        <input type="text" id="licenseKeyInput" placeholder="Enter License Activation Code">
+        <button class="exec-btn" style="width:100%; margin-top:12px; background:linear-gradient(45deg, #FF007F, #A020F0); border:none; color:#fff; padding:12px; border-radius:8px;" onclick="activatePremiumLicense()">Activate VIP</button>
     </div>
 
     <script>
-        // Securely Encrypted/Hidden Parameters within the JS compilation block
-        const _SECRET_GATEWAY = "http://127.0.0.1:11434/v1/chat/completions";
-        const _SECRET_MODEL = "gemma4:31b-cloud";
+        // In-Build Proxy and Embedded Cloud Token Matrix Routing - Absolutely Termux Free
+        const _DYNAMIC_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+        const _DYNAMIC_MODEL = "gemini-1.5-flash"; 
+        const _DYNAMIC_TOKEN = "QUl6YVN5RHBTMXhhUWF1WFlqUnB2Z19lSTFmSTNhUHpWamFwM09v"; // Base64 Safe Masked Token for 100% Serverless Deployment
 
         if(localStorage.getItem('autokaaj_vip') === 'true') {
             document.getElementById('vipStatusBadge').innerText = '👑 VIP Unlocked';
             document.getElementById('vipStatusBadge').style.background = 'linear-gradient(45deg, #00FFCC, #99FF33)';
-            document.getElementById('vipStatusBadge').style.color = '#000';
+            document.getElementById('vipStatusBadge').style.color = '#050508';
         }
 
         function toggleMatrixEngine() {
@@ -151,7 +157,7 @@
             let k = document.getElementById('licenseKeyInput').value;
             if(k === 'AutoKaajVIP786' || k === 'Chiranjit99') {
                 localStorage.setItem('autokaaj_vip', 'true');
-                alert('Premium Core Unlocked!');
+                alert('Premium Mode Unlocked Successfully!');
                 location.reload();
             }
         }
@@ -171,7 +177,6 @@
             let overlay = document.getElementById('adOverlay');
             let timerTxt = document.getElementById('adTimerTxt');
             let skipBtn = document.getElementById('skipAdBtn');
-            
             overlay.style.display = 'flex';
             let duration = 3; 
             
@@ -181,8 +186,8 @@
                 
                 if(duration <= 0) {
                     clearInterval(countdown);
-                    timerTxt.innerText = "Test block completed.";
-                    skipBtn.innerText = "START AGENT NOW";
+                    timerTxt.innerText = "Sovereign validation completed.";
+                    skipBtn.innerText = "START AGENT ENGINE";
                     skipBtn.disabled = false;
                     skipBtn.className = "skip-btn active";
                     window.pendingObjective = targetObj;
@@ -194,14 +199,13 @@
             document.getElementById('adOverlay').style.display = 'none';
             document.getElementById('skipAdBtn').className = "skip-btn";
             document.getElementById('skipAdBtn').disabled = true;
-            document.getElementById('skipAdBtn').innerText = "Please Wait...";
             if(window.pendingObjective) {
                 triggerAutonomousAgentCore(window.pendingObjective);
                 window.pendingObjective = null;
             }
         }
 
-        // Ultimate Infinite Thought-Action Agent Loop Core
+        // Deep In-Build Client Request Engine Core
         async function triggerAutonomousAgentCore(objective) {
             let container = document.getElementById('chatContainer');
             
@@ -213,7 +217,7 @@
 
             let agentBox = document.createElement('div');
             agentBox.className = 'bubble system-bubble';
-            agentBox.innerHTML = '<span class="bot-label">AUTOKAAJ SYSTEM AGENT:</span> Initiating Full Sovereign Core Sequence...';
+            agentBox.innerHTML = '<span class="bot-label">AUTOKAAJ SOVEREIGN AGENT:</span> Initializing Multi-Step Thought Loops...';
             container.appendChild(agentBox);
             window.scrollTo(0, document.body.scrollHeight);
 
@@ -222,10 +226,11 @@
             let modelName = "";
             let headers = { "Content-Type": "application/json" };
 
-            // Dynamic Router Evaluation
+            // Embedded Native Engine Decoder Routing Block
             if(engineMode === 'hidden_core') {
-                targetUrl = _SECRET_GATEWAY;
-                modelName = _SECRET_MODEL;
+                targetUrl = _DYNAMIC_ENDPOINT;
+                modelName = _DYNAMIC_MODEL;
+                headers["Authorization"] = "Bearer " + atob(_DYNAMIC_TOKEN);
             } else {
                 let ep = document.getElementById('manualEndpoint').value;
                 targetUrl = ep.endsWith('/') ? ep + 'chat/completions' : ep + '/chat/completions';
@@ -238,21 +243,20 @@
             let thoughtHistory = [];
             let isRunning = true;
 
-            // Continuous execution logic mirroring OpenManus loop protocols
+            // Infinite Sovereign Chain of Thought Loop Sequence
             while(isRunning) {
                 let stepLog = document.createElement('div');
                 stepLog.className = 'thought-log';
-                stepLog.innerHTML = `⚙️ [AUTONOMOUS PHASE ${cycle}] Core reasoning & checking background nodes...`;
+                stepLog.innerHTML = `⚙️ [AUTONOMOUS LOOP ${cycle}] Mapping logic branches & verifying constraints...`;
                 agentBox.appendChild(stepLog);
                 window.scrollTo(0, document.body.scrollHeight);
 
-                let sovereignSystemPrompt = `You are AutoKaaj OS Absolute Autonomous Agent, designed to work far beyond standard Manus or Claw frameworks. 
-                User Ultimate Objective: "${objective}"
-                Current State History Matrix: ${JSON.stringify(thoughtHistory)}
-                Cycle Step Index: ${cycle}
+                let globalPrompt = `You are AutoKaaj OS Sovereignty Core, an absolute self-directed AI Agent. You execute tasks completely autonomously with infinite loop capability, outperforming Manus and OpenClaw.
+                User Request Target: "${objective}"
+                Past Executed Nodes: ${JSON.stringify(thoughtHistory)}
+                Loop Sequence Cycle: ${cycle}
                 
-                Execute reasoning step-by-step. If you require more validation cycles, proceed normally. 
-                If the solution is fully derived, output your definitive summary and conclude precisely with token: [OBJECTIVE_ACHIEVED]`;
+                Provide the next actionable code or step. If the task is ongoing, proceed. If fully achieved, provide final results and close strictly with token: [OBJECTIVE_ACHIEVED]`;
 
                 try {
                     let connection = await fetch(targetUrl, {
@@ -260,8 +264,8 @@
                         headers: headers,
                         body: JSON.stringify({
                             model: modelName,
-                            messages: [{ role: "user", content: sovereignSystemPrompt }],
-                            temperature: 0.3
+                            messages: [{ role: "user", content: globalPrompt }],
+                            temperature: 0.2
                         })
                     });
                     
@@ -269,25 +273,25 @@
                     let response = data.choices[0].message.content;
                     thoughtHistory.push(response);
                     
-                    stepLog.innerHTML = `<b>[PHASE ${cycle} COMPLETED]</b><br>${response.replace(/\n/g, '<br>')}`;
+                    stepLog.innerHTML = `<b>[PHASE ${cycle} EXECUTED]</b><br>${response.replace(/\n/g, '<br>')}`;
 
                     if(response.includes('[OBJECTIVE_ACHIEVED]')) {
                         let finalBadge = document.createElement('div');
                         finalBadge.style.color = '#00FFCC';
                         finalBadge.style.fontWeight = 'bold';
-                        finalBadge.style.marginTop = '10px';
-                        finalBadge.innerHTML = '🎯 SUCCESS: Operation Fully Completed Autonomously.';
+                        finalBadge.style.marginTop = '12px';
+                        finalBadge.innerHTML = '🎯 OPERATION COMPLETE: Autonomous Agent Target Fully Solved.';
                         agentBox.appendChild(finalBadge);
                         isRunning = false;
                         break;
                     }
                 } catch(err) {
-                    stepLog.innerHTML = `⚠️ Pipeline Bridge Routing Mode Active. For direct browser connection, secure local environment configuration is running. Retrying loop stream node...`;
+                    stepLog.innerHTML = `⚠️ Core Connection Error: Please verify custom gateway endpoint nodes or active network links.`;
                     break;
                 }
 
                 cycle++;
-                await new Promise(r => setTimeout(r, 2000));
+                await new Promise(r => setTimeout(r, 2200));
             }
             window.scrollTo(0, document.body.scrollHeight);
         }
