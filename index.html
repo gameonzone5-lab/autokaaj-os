@@ -3,87 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoKaaj OS | Sovereign Agent</title>
+    <title>AutoKaaj OS</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; }
+        body { background: #0A0A0C; color: #FFFFFF; font-family: 'Inter', sans-serif; padding: 15px; padding-bottom: 90px; }
+
+        /* Header & Logo */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-top: 10px; }
+        .logo-section { display: flex; align-items: center; gap: 12px; }
         
-        /* আগের সেই নিখুঁত লোগো অ্যানিমেশন */
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 15px; }
-        .logo-box { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
-        .outer-ring { position: absolute; width: 100%; height: 100%; border: 3px dashed #00FFCC; border-radius: 50%; animation: rot 10s linear infinite; }
-        .inner-ring { position: absolute; width: 65%; height: 65%; border: 3px solid #A020F0; border-radius: 50%; animation: rot-rev 8s linear infinite; }
-        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rot-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        .logo-box { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .outer-ring { position: absolute; width: 100%; height: 100%; border: 2px dashed #00FFCC; border-radius: 50%; animation: spin 8s linear infinite; }
+        .inner-circle { position: absolute; width: 35px; height: 35px; background: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; border: 1px solid #1A1A24; }
+        .logo-text { color: #A020F0; font-weight: 800; font-size: 16px; letter-spacing: 0.5px; }
         
-        .brand-name { color: #D23B2A; font-size: 24px; font-weight: 900; text-transform: uppercase; text-shadow: 2px 2px 5px #000; }
-        .brand-name span { color: #FFD700; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .brand-name { font-size: 22px; font-weight: 800; }
+        .brand-name .os { color: #00FFCC; }
+
+        .vip-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #FF66FF; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .vip-btn span { color: #FFCC00; }
+
+        /* Custom Agent Factory */
+        .section-title { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .active-tag { color: #00FFCC; font-weight: 800; }
+
+        .agent-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; }
         
-        /* কনফিগারেশন এবং এপিআই গেটওয়ে */
-        .config-box { background: #111118; padding: 15px; border-radius: 12px; border: 1px solid #1A1A26; margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 10px; background: #07070A; border: 1px solid #333; color: #FFF; border-radius: 6px; margin-bottom: 8px; font-family: 'JetBrains Mono'; }
-        
-        /* এজেন্টিক থট প্রসেস ও চ্যাট */
-        .chat-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
-        .thought { background: #07070A; color: #00FFCC; padding: 10px; border-left: 3px solid #00FFCC; font-size: 12px; font-family: 'JetBrains Mono'; }
-        .bubble { background: #19122C; padding: 15px; border-radius: 8px; border-left: 4px solid #A020F0; }
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; }
+        .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #888; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; min-height: 80px; margin-bottom: 25px; resize: vertical; outline: none; }
+        .mission-profile:focus { border-color: #00FFCC; color: #FFF; }
+
+        /* Protocol Deck */
+        .protocol-deck { background: #111116; border: 1px solid #1A1A24; border-radius: 8px; padding: 15px; margin-bottom: 25px; }
+        .protocol-title { color: #00FFCC; font-size: 11px; font-weight: 800; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+        .protocol-text { color: #AAA; font-size: 13px; line-height: 1.5; }
+
+        /* Chat Output (OpenManus Style) */
+        .chat-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .agentic-log { background: #050508; border-left: 2px solid #A020F0; padding: 12px; border-radius: 0 6px 6px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; }
+        .log-step { margin-bottom: 4px; }
+        .log-step.highlight { color: #00FFCC; }
+        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #E4E4ED; }
+        .error-log { color: #FF3333; }
+
+        /* Bottom Panel */
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0C; padding: 15px; border-top: 1px solid #1A1A24; display: flex; gap: 10px; align-items: center; }
+        .input-box { flex: 1; background: transparent; border: none; color: #FFF; font-size: 15px; padding: 10px 0; outline: none; }
+        .input-box::placeholder { color: #555; }
+        .execute-btn { background: #00FFCC; color: #000; font-weight: 800; border: none; padding: 12px 20px; border-radius: 6px; font-size: 13px; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <div style="display:flex; align-items:center; gap:15px;">
-            <div class="logo-box"><div class="outer-ring"></div><div class="inner-ring"></div><div style="font-weight:bold">AK</div></div>
-            <div class="brand-name">AutoKaaj<span>OS</span></div>
+        <div class="logo-section">
+            <div class="logo-box">
+                <div class="outer-ring"></div>
+                <div class="inner-circle"><span class="logo-text">AK</span></div>
+            </div>
+            <div class="brand-name">AutoKaaj<span class="os">OS</span></div>
         </div>
-        <button style="background:none; border:none; color:#FFD700">👑 VIP</button>
+        <button class="vip-btn"><span>⭐</span> Upgrade VIP</button>
     </div>
 
-    <div class="config-box">
-        <select id="engine">
-            <option value="http://127.0.0.1:11434/v1">AutoKaaj Termux Engine</option>
-            <option value="custom">Custom Global API</option>
-        </select>
-        <input type="text" id="endpoint" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint">
-        <input type="text" id="apiKey" placeholder="API Key (যদি প্রয়োজন হয়)">
-        <textarea id="prompt" rows="3" placeholder="System Blueprint (এজেন্টের ক্ষমতা ও নিয়ম)"></textarea>
+    <div class="section-title">
+        🤖 CUSTOM AGENT FACTORY <span class="active-tag">[ACTIVE]</span>
+    </div>
+
+    <div class="agent-tabs">
+        <div class="tab-btn">Sovereign Agent</div>
+        <div class="tab-btn">AutoKaaj Default ∨</div>
+    </div>
+
+    <textarea class="mission-profile" id="systemPrompt" placeholder="Describe Agent Target Mission Profile (System Persona / Instructions)..."></textarea>
+
+    <div class="protocol-deck">
+        <div class="protocol-title">SYSTEM PROTOCOL DECK:</div>
+        <div class="protocol-text">Enterprise Multi-Agent Engine Synced. Unrestricted Operation Terminal Locked.</div>
     </div>
 
     <div class="chat-container" id="chat"></div>
 
     <div class="bottom-panel">
-        <input type="text" id="userInput" placeholder="আপনার নির্দেশ দিন (কোড/ফাইল/গেম)...">
-        <button onclick="runAgent()" style="width:100%; padding:12px; background:#00FFCC; font-weight:900; border-radius:6px; border:none;">EXECUTE TASK</button>
+        <input type="text" class="input-box" id="userInput" placeholder="Assign tactical goal or deploy...">
+        <button class="execute-btn" onclick="runAgent()">EXECUTE</button>
     </div>
 
     <script>
         async function runAgent() {
             let task = document.getElementById('userInput').value;
-            let container = document.getElementById('chat');
-            container.innerHTML += `<div class="bubble"><b>Goal:</b> ${task}</div>`;
+            if(!task) return;
             
-            let thought = document.createElement('div');
-            thought.className = 'thought';
-            thought.innerText = "🔍 Agent is reasoning...";
-            container.appendChild(thought);
+            let container = document.getElementById('chat');
+            document.getElementById('userInput').value = '';
 
-            try {
-                let res = await fetch(document.getElementById('endpoint').value + '/chat/completions', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + document.getElementById('apiKey').value },
-                    body: JSON.stringify({
-                        model: "gemma4:31b-cloud",
-                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\n\nTask: " + task }],
-                        stream: false
-                    })
-                });
-                let data = await res.json();
-                thought.innerText = "✅ Action executed.";
-                container.innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
-            } catch(e) {
-                container.innerHTML += `<div class="thought" style="border-left-color:red">Error: ${e.message}</div>`;
+            // Agentic Log Container (OpenManus Style)
+            let logBox = document.createElement('div');
+            logBox.className = 'agentic-log';
+            container.appendChild(logBox);
+
+            // Simulation of Tool Usage / Thinking Process
+            const steps = [
+                "> [SYSTEM]: AutoKaaj Kernel Initializing...",
+                "> [AGENT]: Analyzing task: '" + task + "'",
+                "> [TOOL_CALL]: Accessing Termux Local Environment...",
+                "> [NETWORK]: Connecting to LLM Engine (127.0.0.1:11434)..."
+            ];
+
+            for (let i = 0; i < steps.length; i++) {
+                setTimeout(() => {
+                    logBox.innerHTML += `<div class="log-step">${steps[i]}</div>`;
+                }, i * 600);
             }
+
+            // Real API Call after simulated thinking
+            setTimeout(async () => {
+                try {
+                    let sysPrompt = document.getElementById('systemPrompt').value || "You are AutoKaaj OS, an advanced autonomous agent running on Termux.";
+                    
+                    let res = await fetch('http://127.0.0.1:11434/api/generate', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            model: "gemma4:31b-cloud", // আপনার ব্যবহার করা মডেল
+                            prompt: sysPrompt + "\n\nUser: " + task + "\nAgent:",
+                            stream: false
+                        })
+                    });
+
+                    if(!res.ok) throw new Error("Connection Refused (CORS or Engine Down)");
+
+                    let data = await res.json();
+                    
+                    logBox.innerHTML += `<div class="log-step highlight">> [SUCCESS]: Response Generated.</div>`;
+                    
+                    let output = document.createElement('div');
+                    output.className = 'final-output';
+                    output.innerText = data.response || data.message?.content;
+                    container.appendChild(output);
+
+                } catch(e) {
+                    logBox.innerHTML += `<div class="log-step error-log">> [ERROR]: ${e.message}. Please check CORS policy.</div>`;
+                }
+                
+                window.scrollTo(0, document.body.scrollHeight);
+            }, steps.length * 600 + 500);
         }
     </script>
 </body>
