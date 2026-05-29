@@ -1,89 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoKaaj OS</title>
     <style>
-        :root { --bg: #07070A; --neon-blue: #00FFCC; --neon-purple: #9D00FF; }
-        body { background: var(--bg); color: #E4E4E7; font-family: 'Courier New', monospace; margin: 0; padding: 10px; }
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .logo-svg { width: 40px; height: 40px; animation: rotate 10s linear infinite; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        .status-box { border: 1px solid var(--neon-blue); padding: 10px; color: var(--neon-blue); text-align: center; margin-bottom: 10px; font-weight: bold; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
+        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .logo-icon { width: 30px; height: 30px; }
+        .brand-name { color: #00FFCC; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
+        .status-box { border: 1px solid #ff3333; background: rgba(255,51,51,0.05); color: #ff3333; padding: 10px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        input, select { background: #12121A; border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; }
-        .chat-container { height: 40vh; overflow-y: auto; border: 1px solid #222; margin-bottom: 10px; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
-        .msg { background: #12121A; padding: 10px; border-left: 3px solid var(--neon-purple); position: relative; word-wrap: break-word; }
-        .msg.agent { border-left-color: var(--neon-blue); }
-        .copy-btn { position: absolute; top: 5px; right: 5px; cursor: pointer; color: var(--neon-blue); font-size: 10px; }
-        .footer-input { display: flex; gap: 10px; }
-        button { background: var(--neon-blue); color: black; border: none; padding: 10px; cursor: pointer; font-weight: bold; border-radius: 5px;}
+        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
+        select:focus, input:focus { border-color: #00FFCC; }
+        .full-width { grid-column: span 2; }
+        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 100px; }
+        .bubble { padding: 15px; border-radius: 8px; max-width: 90%; line-height: 1.5; position: relative; }
+        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
+        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; text-align: left; box-shadow: 3px 3px 10px rgba(160,32,240,0.2); }
+        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 12px; letter-spacing: 1px; }
+        .user-label { color: #A020F0; }
+        .bot-label { color: #99FF33; }
+        .copy-btn { position: absolute; bottom: 5px; right: 5px; background: rgba(153,255,51,0.1); border: 1px solid #99FF33; color: #99FF33; font-size: 10px; padding: 2px 5px; border-radius: 4px; cursor: pointer; }
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; }
+        .file-input-container { margin-bottom: 10px; font-size: 12px; color: #aaa; }
+        .input-group { display: flex; gap: 10px; }
+        .input-group input { flex: 1; }
+        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 20px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
+        .exec-btn:hover { background: #00FFCC; color: #07070A; }
     </style>
 </head>
 <body>
     <div class="header">
-        <svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="#00FFCC" stroke-width="4" fill="none"/></svg>
-        <h1>AutoKaaj OS Agent</h1>
+        <svg class="logo-icon" viewBox="0 0 100 100">
+            <polygon points="20,20 80,45 30,75" fill="none" stroke="#00FFCC" stroke-width="5"/>
+            <circle cx="55" cy="50" r="6" fill="#A020F0"/>
+        </svg>
+        <span class="brand-name">AutoKaaj OS</span>
     </div>
-    <div class="status-box" id="status">✅ System Ready</div>
+    <div class="status-box" id="statusBox">
+        <span>❌ Connection Error</span>
+    </div>
     <div class="config-grid">
-        <select id="preset"><option>Ollama (Auto/Default)</option><option>Gemini</option><option>Groq</option></select>
-        <input type="text" id="model" value="llama3">
-        <input type="text" id="apiUrl" placeholder="http://127.0.0.1:11434/api/generate" style="grid-column: span 2;">
-        <input type="password" id="apiKey" placeholder="API Key (If needed)" style="grid-column: span 2;">
+        <select id="providerSelect">
+            <option value="ollama">Ollama (Auto/Default)</option>
+            <option value="gemini">Gemini Cloud API</option>
+        </select>
+        <input type="text" id="modelInput" value="gemma4:31b-cloud">
+        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
+        <input type="password" id="apiKeyInput" class="full-width" value="......">
     </div>
-    <div class="chat-container" id="chat"></div>
-    <div class="footer-input">
-        <input type="file" id="fileInput">
-        <input type="text" id="prompt" placeholder="Ask Agent..." onkeypress="if(event.key === 'Enter') send()">
-        <button onclick="send()">EXECUTE</button>
+    <div class="chat-container" id="chatContainer">
+        <div class="bubble system-bubble">
+            How can I help you today?
+            <button class="copy-btn">Copy</button>
+        </div>
+        <div class="bubble user-bubble">
+            <span class="user-label">USER:</span> who r u
+        </div>
+        <div class="bubble system-bubble">
+            <span class="bot-label">AUTOKAAJ:</span>
+            I am <b>AutoKaaj OS Agent</b>, an advanced autonomous AI integrated into your Termux environment.<br><br>
+            Unlike standard chatbots, I can interact directly with your system.
+        </div>
+    </div>
+    <div class="bottom-panel">
+        <div class="file-input-container">
+            <input type="file" id="fileChooser" style="display:none;" onchange="document.getElementById('fileName').innerText = this.files[0].name">
+            <button onclick="document.getElementById('fileChooser').click()" style="background:#222; border:none; color:#fff; padding:3px 8px; border-radius:4px; font-family:monospace; margin-right:5px;">Choose file</button>
+            <span id="fileName">No file chosen</span>
+        </div>
+        <div class="input-group">
+            <input type="text" id="cmdInput" placeholder="Ask Agent to build or execute something...">
+            <button class="exec-btn" onclick="executeCommand()">EXECUTE</button>
+        </div>
     </div>
     <script>
-        async function send() {
-            const promptInput = document.getElementById('prompt');
-            const chatBox = document.getElementById('chat');
-            const p = promptInput.value;
-            
-            if(!p) return;
-            promptInput.value = '';
-            
-            // User Message UI
-            chatBox.innerHTML += `<div class="msg"><b>USER:</b> <br>${p}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            document.getElementById('status').innerText = "⏳ Agent Thinking...";
-            document.getElementById('status').style.color = "yellow";
-
-            const payload = {
-                prompt: p,
-                preset: document.getElementById('preset').value,
-                model: document.getElementById('model').value,
-                apiUrl: document.getElementById('apiUrl').value,
-                apiKey: document.getElementById('apiKey').value
-            };
-
-            try {
-                // Real API Request to Backend
-                const response = await fetch('/api/execute', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await response.json();
-                const replyText = data.reply.replace(/\n/g, '<br>');
-                
-                // Agent Message UI
-                chatBox.innerHTML += `<div class="msg agent"><b>AUTOKAAJ:</b> <br>${replyText}<div class="copy-btn" onclick="navigator.clipboard.writeText('${data.reply.replace(/'/g, "\\'")}')">Copy</div></div>`;
-                
-                document.getElementById('status').innerText = "✅ System Ready";
-                document.getElementById('status').style.color = "var(--neon-blue)";
-            } catch (err) {
-                chatBox.innerHTML += `<div class="msg agent" style="border-left-color:red;"><b>ERROR:</b> <br>Failed to connect to backend server.</div>`;
-                document.getElementById('status').innerText = "❌ Connection Failed";
-                document.getElementById('status').style.color = "red";
-            }
-            chatBox.scrollTop = chatBox.scrollHeight;
+        function executeCommand() {
+            let txt = document.getElementById('cmdInput').value;
+            if(!txt) return;
+            let container = document.getElementById('chatContainer');
+            let userDiv = document.createElement('div');
+            userDiv.className = 'bubble user-bubble';
+            userDiv.innerHTML = '<span class="user-label">USER:</span> ' + txt;
+            container.appendChild(userDiv);
+            document.getElementById('cmdInput').value = '';
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </body>
