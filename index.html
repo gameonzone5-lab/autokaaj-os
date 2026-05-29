@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Ultimate Core</title>
+    <title>AutoKaaj OS - Sovereign Core</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
         
-        /* Header & Logo */
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .logo-icon { width: 30px; height: 30px; }
-        .brand-name { color: #00FFCC; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
+        /* Header & Icon System */
+        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         
-        /* Dynamic Status Box */
-        .status-box { border: 1px solid #00FFCC; background: rgba(0,255,204,0.05); color: #00FFCC; padding: 10px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        /* Ultra Neon Animated Logo Group */
+        .logo-container { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px dashed #A020F0; border-radius: 50%; animation: rotate-inverse 4s linear infinite; box-shadow: 0 0 8px rgba(160,32,240,0.4); }
+        .inner-logo { width: 75%; height: 75%; animation: rotate-clock 6s linear infinite; filter: drop-shadow(0 0 8px #00FFCC); }
         
-        /* Configuration Grid */
+        @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        
+        .brand-name { color: #00FFCC; font-size: 26px; font-weight: bold; text-shadow: 0 0 12px rgba(0,255,204,0.6); }
+        
+        /* Status Display */
+        .status-box { border: 1px solid #00FFCC; background: rgba(0,255,204,0.05); color: #00FFCC; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        
+        /* Dynamic Config Matrix */
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
-        select:focus, input:focus { border-color: #00FFCC; }
+        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; transition: 0.3s; }
+        select:focus, input:focus { border-color: #00FFCC; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
         .full-width { grid-column: span 2; }
         
-        /* Chat Box Container */
-        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 120px; }
+        /* Chat Stream */
+        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 140px; }
+        .bubble { padding: 15px; border-radius: 8px; max-width: 95%; line-height: 1.6; position: relative; font-size: 14px; }
+        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; box-shadow: 0 0 5px rgba(153,255,51,0.05); }
+        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; box-shadow: 3px 3px 12px rgba(160,32,240,0.2); }
         
-        /* Chat Bubbles */
-        .bubble { padding: 15px; border-radius: 8px; max-width: 90%; line-height: 1.5; position: relative; }
-        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
-        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; text-align: left; box-shadow: 3px 3px 10px rgba(160,32,240,0.2); }
-        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 12px; letter-spacing: 1px; }
+        /* Deep Thinking Log Stream */
+        .thought-log { background: #0A0A0F; border: 1px solid #222; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 10px; border-radius: 5px; font-family: 'Courier New', monospace; box-shadow: inset 0 0 10px rgba(0,255,204,0.05); }
+        .step-badge { color: #A020F0; font-weight: bold; }
+        
+        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: 1px; }
         .user-label { color: #A020F0; }
         .bot-label { color: #99FF33; }
         
-        /* Fixed Bottom Action Panel */
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; }
+        /* Controls Terminal */
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; z-index: 100; }
         .file-input-container { margin-bottom: 10px; font-size: 12px; color: #aaa; }
         .input-group { display: flex; gap: 10px; }
         .input-group input { flex: 1; }
-        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 20px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
-        .exec-btn:hover { background: #00FFCC; color: #07070A; }
+        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 6px; cursor: pointer; transition: 0.2s; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
+        .exec-btn:hover { background: #00FFCC; color: #07070A; box-shadow: 0 0 15px #00FFCC; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
-        <svg class="logo-icon" viewBox="0 0 100 100">
-            <polygon points="20,20 80,45 30,75" fill="none" stroke="#00FFCC" stroke-width="5"/>
-            <circle cx="55" cy="50" r="6" fill="#A020F0"/>
-        </svg>
+        <div class="logo-container">
+            <div class="outer-circle"></div>
+            <svg class="inner-logo" viewBox="0 0 100 100">
+                <polygon points="20,20 85,50 30,80" fill="url(#neonGrad)" stroke="#00FFCC" stroke-width="4"/>
+                <circle cx="55" cy="50" r="7" fill="#FF007F"/>
+                <defs>
+                    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#120124;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#021c16;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
         <span class="brand-name">AutoKaaj OS</span>
     </div>
 
-    <!-- Active Status -->
     <div class="status-box" id="statusBox">
-        <span>⚡ Internal Ollama & Global API Router Engine Active</span>
+        Core Gateway: Universal API Router Mode Enabled
     </div>
 
-    <!-- Configuration Grid (Any API in the World can connect here) -->
     <div class="config-grid">
-        <select id="providerSelect" onchange="updateEngineStatus()">
-            <option value="ollama_cloud">Ollama Cloud (gemma4:31b-cloud)</option>
-            <option value="custom_api">Any Global Custom API (OpenAI/Anthropic/DeepSeek)</option>
+        <select id="providerSelect" onchange="shiftEngine()">
+            <option value="ollama">Ollama Cloud Gateway (Default)</option>
+            <option value="gemini">Google Gemini AI Engine</option>
+            <option value="custom">Custom Global Endpoint</option>
         </select>
-        <input type="text" id="modelInput" value="gemma4:31b-cloud" placeholder="model-name">
-        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint URL">
-        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="API Authorization Key / Bearer Token (if required)">
+        <input type="text" id="modelInput" value="gemma4:31b-cloud">
+        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
+        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="Enter Target Cloud API Secret Token Key">
     </div>
 
-    <!-- Chat Logs Area -->
     <div class="chat-container" id="chatContainer">
         <div class="bubble system-bubble">
-            How can I help you today?
+            <span class="bot-label">AUTOKAAJ MASTER CONTROL:</span>
+            Autonomous core synced. Assign an unrestricted execution objective.
         </div>
     </div>
 
-    <!-- Bottom Command Bar -->
     <div class="bottom-panel">
         <div class="file-input-container">
             <input type="file" id="fileChooser" style="display:none;" onchange="document.getElementById('fileName').innerText = this.files[0].name">
@@ -83,82 +101,110 @@
             <span id="fileName">No file chosen</span>
         </div>
         <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Ask Agent to build or execute something...">
-            <button class="exec-btn" onclick="executeCommand()">EXECUTE</button>
+            <input type="text" id="cmdInput" placeholder="Enter objective (e.g., Build full automation script and verify logs)...">
+            <button class="exec-btn" onclick="triggerInfiniteAgent()">EXECUTE</button>
         </div>
     </div>
 
     <script>
-        function updateEngineStatus() {
-            let provider = document.getElementById('providerSelect').value;
-            let endpoint = document.getElementById('endpointInput');
-            let model = document.getElementById('modelInput');
-            let status = document.getElementById('statusBox');
+        function shiftEngine() {
+            let p = document.getElementById('providerSelect').value;
+            let ep = document.getElementById('endpointInput');
+            let m = document.getElementById('modelInput');
             
-            if(provider === 'ollama_cloud') {
-                endpoint.value = 'http://127.0.0.1:11434/v1';
-                model.value = 'gemma4:31b-cloud';
-                status.innerHTML = '<span>⚡ Internal Ollama & Global API Router Engine Active</span>';
-                status.style.borderColor = '#00FFCC';
-                status.style.color = '#00FFCC';
+            if(p === 'gemini') {
+                ep.value = 'https://generativelanguage.googleapis.com/v1beta/openai';
+                m.value = 'gemini-1.5-flash';
+            } else if (p === 'ollama') {
+                ep.value = 'http://127.0.0.1:11434/v1';
+                m.value = 'gemma4:31b-cloud';
             } else {
-                endpoint.value = '';
-                model.value = '';
-                placeholder = 'Enter Custom Endpoint (e.g., https://api.deepseek.com/v1)';
-                status.innerHTML = '<span>🌐 Global API Custom Gateway Routing Mode</span>';
-                status.style.borderColor = '#99FF33';
-                status.style.color = '#99FF33';
+                ep.value = '';
+                m.value = '';
             }
         }
 
-        async function executeCommand() {
-            let txt = document.getElementById('cmdInput').value;
-            if(!txt) return;
+        // Infinite ReAct Loop - More powerful than OpenManus & OpenClaw
+        async function triggerInfiniteAgent() {
+            let objective = document.getElementById('cmdInput').value;
+            if(!objective) return;
             
             let container = document.getElementById('chatContainer');
             
-            // ইউজারের মেসেজ
             let userDiv = document.createElement('div');
             userDiv.className = 'bubble user-bubble';
-            userDiv.innerHTML = '<span class="user-label">USER:</span> ' + txt;
+            userDiv.innerHTML = '<span class="user-label">STRATEGIC GOAL:</span> ' + objective;
             container.appendChild(userDiv);
-            
             document.getElementById('cmdInput').value = '';
-            window.scrollTo(0, document.body.scrollHeight);
-            
-            // থিংকিং বাবল
-            let botDiv = document.createElement('div');
-            botDiv.className = 'bubble system-bubble';
-            botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> Thinking...';
-            container.appendChild(botDiv);
 
-            let provider = document.getElementById('providerSelect').value;
-            let targetUrl = document.getElementById('endpointInput').value + '/chat/completions';
+            let agentMasterBox = document.createElement('div');
+            agentMasterBox.className = 'bubble system-bubble';
+            agentMasterBox.innerHTML = '<span class="bot-label">AUTOKAAJ AGENT ENGINE:</span> Launching Autonomous Feedback Loop...';
+            container.appendChild(agentMasterBox);
+            window.scrollTo(0, document.body.scrollHeight);
+
+            let baseEndpoint = document.getElementById('endpointInput').value;
+            let targetUrl = baseEndpoint.endsWith('/') ? baseEndpoint + 'chat/completions' : baseEndpoint + '/chat/completions';
             let modelName = document.getElementById('modelInput').value;
             let apiKey = document.getElementById('apiKeyInput').value;
 
-            // গ্লোবাল রিকোয়েস্ট হেডার ডায়নামিকালি হ্যান্ডেল করা
             let headers = { "Content-Type": "application/json" };
-            if(apiKey) {
-                headers["Authorization"] = "Bearer " + apiKey;
-            }
+            if(apiKey) headers["Authorization"] = "Bearer " + apiKey;
 
-            try {
-                let response = await fetch(targetUrl, {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify({
-                        model: modelName,
-                        messages: [{ role: "user", content: txt }],
-                        temperature: 0.7
-                    })
-                });
+            let loopIndex = 1;
+            let archiveLog = [];
+            let isRunning = true;
+
+            // Infinite execution loop block until target is achieved
+            while(isRunning) {
+                let dynamicThought = document.createElement('div');
+                dynamicThought.className = 'thought-log';
+                dynamicThought.innerHTML = `<span class="step-badge">[LOOP PHASE ${loopIndex}]</span> Generating reasoning node and structural validation...`;
+                agentMasterBox.appendChild(dynamicThought);
+                window.scrollTo(0, document.body.scrollHeight);
+
+                let globalPrompt = `You are AutoKaaj OS Sovereign Agent, an absolute autonomous system executing a critical objective. You are more powerful than OpenManus and have full self-correction.
+                Target Objective: "${objective}"
+                Past Actions & Thoughts History: ${JSON.stringify(archiveLog)}
+                Current Cycle Index: ${loopIndex}
                 
-                let data = await response.json();
-                let aiResponse = data.choices[0].message.content;
-                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ' + aiResponse.replace(/\n/g, '<br>');
-            } catch(err) {
-                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ❌ কানেকশন এরর! অনুগ্রহ করে নিশ্চিত করুন যে ওল্লামা ব্যাকএন্ডে আপনার স্পেশাল টানেলটি সচল আছে অথবা সঠিক গ্লোবাল এপিআই ইউআরএল দেওয়া হয়েছে।';
+                You must decide the next step. If you need to run more processes or fix code, output: [REASONING] <your strategy> [ACTION] Execute next logic block.
+                If the task is completely solved, summarize your final response clearly and end the prompt with the exact token: [OBJECTIVE_ACHIEVED]`;
+
+                try {
+                    let stream = await fetch(targetUrl, {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify({
+                            model: modelName,
+                            messages: [{ role: "user", content: globalPrompt }],
+                            temperature: 0.3
+                        })
+                    });
+                    
+                    let data = await stream.json();
+                    let responseBlock = data.choices[0].message.content;
+                    archiveLog.push(responseBlock);
+                    
+                    dynamicThought.innerHTML = `<span class="step-badge">[PHASE ${loopIndex} COMPLETED]</span><br>${responseBlock.replace(/\n/g, '<br>')}`;
+
+                    if(responseBlock.includes('[OBJECTIVE_ACHIEVED]')) {
+                        let successAlert = document.createElement('div');
+                        successAlert.style.color = '#00FFCC';
+                        successAlert.style.fontWeight = 'bold';
+                        successAlert.style.marginTop = '12px';
+                        successAlert.innerHTML = '🎯 SUCCESS: Sovereign Operation Fully Completed Autonomously.';
+                        agentMasterBox.appendChild(successAlert);
+                        isRunning = false;
+                        break;
+                    }
+                } catch(error) {
+                    dynamicThought.innerHTML = `⚠️ Pipeline connection error at loop ${loopIndex}. Re-routing link or waiting for tunnel node.`;
+                    break;
+                }
+
+                loopIndex++;
+                await new Promise(r => setTimeout(r, 2000)); // Optimal delay between thought streams
             }
             window.scrollTo(0, document.body.scrollHeight);
         }
