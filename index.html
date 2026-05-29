@@ -4,321 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AutoKaaj OS - Sovereign Autonomous Agent</title>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
-        
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; overflow-x: hidden; }
-        
-        /* Premium Header */
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 18px; }
-        .logo-group { display: flex; align-items: center; gap: 15px; }
-        
-        /* Twin-Orbit AK Logo */
         .logo-container { position: relative; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
-        .outer-circle { position: absolute; width: 100%; height: 100%; border: 3.5px dashed #00FFCC; border-radius: 50%; animation: rotate-inverse 6s linear infinite; filter: drop-shadow(0 0 8px rgba(0,255,204,0.4)); }
-        .inner-svg { width: 75%; height: 75%; animation: rotate-clock 12s linear infinite; }
-        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; text-shadow: 0 0 10px #A020F0; animation: ak-pulse-scan 3s infinite; }
-        
-        @keyframes ak-pulse-scan {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.15); filter: brightness(1.5) drop-shadow(0 0 10px #00FFCC); color: #00FFCC; }
-            100% { transform: scale(1); filter: brightness(1); color: #FFF; }
-        }
-        @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-        
-        /* ANIMATED 3D BRICK RED & GOLD TYPOGRAPHY */
-        .brand-name { 
-            color: #D23B2A; font-size: 28px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; position: relative; display: inline-block; 
-            animation: brick-breathe 4s ease-in-out infinite alternate;
-        }
-        @keyframes brick-breathe {
-            0% { text-shadow: 1px 1px 0px #8B2519, 2px 2px 0px #791D11, 3px 3px 0px #63140A, 4px 4px 10px rgba(210,59,42,0.4); transform: translateY(0); }
-            100% { text-shadow: 1px 1px 0px #8B2519, 2px 2px 0px #791D11, 3px 3px 0px #63140A, 4px 4px 0px #4F0E06, 5px 5px 0px #3D0A04, 6px 6px 20px rgba(0,0,0,0.8); transform: translateY(-2px); }
-        }
-        .brand-name span { color: #FFD700; text-shadow: 1px 1px 0px #B8860B, 2px 2px 0px #8B6508, 3px 3px 15px rgba(255,215,0,0.6); margin-left: 5px; }
-        
-        .vip-btn { background: #13131F; border: 1px solid #FF007F; color: #FF007F; padding: 8px 16px; font-weight: 600; border-radius: 20px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-        /* Open Architecture Agent Factory */
-        .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-        .factory-title { font-size: 13px; font-weight: 700; color: #8F8F9E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-        .factory-title span { color: #00FFCC; }
-        
-        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        select, input, textarea { width: 100%; padding: 14px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; transition: 0.3s; }
-        select:focus, input:focus, textarea:focus { border-color: #00FFCC; }
-        .full-width { grid-column: span 2; }
-        
+        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; animation: ak-pulse-scan 3s infinite; }
+        @keyframes ak-pulse-scan { 0% { transform: scale(1); } 50% { transform: scale(1.15); color: #00FFCC; } 100% { transform: scale(1); } }
+        .brand-name { color: #D23B2A; font-size: 28px; font-weight: 900; text-transform: uppercase; animation: brick-breathe 4s infinite alternate; }
+        @keyframes brick-breathe { 0% { text-shadow: 2px 2px 5px rgba(210,59,42,0.4); } 100% { text-shadow: 6px 6px 20px rgba(0,0,0,0.8); transform: translateY(-2px); } }
+        .brand-name span { color: #FFD700; }
+        .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .config-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        input, textarea, select { width: 100%; padding: 12px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 13px; }
         .chat-container { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
-        .bubble { padding: 16px; border-radius: 12px; max-width: 95%; line-height: 1.6; font-size: 14px; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .system-bubble { background: #111118; border: 1px solid #1A1A26; border-left: 4px solid #00FFCC; align-self: flex-start; }
-        .user-bubble { background: #19122C; border: 1px solid #2B1D42; border-right: 4px solid #A020F0; align-self: flex-end; border-radius: 12px 12px 0 12px; }
-        .thought-log { background: #07070A; border: 1px solid #161622; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 12px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; word-break: break-word; }
-        
-        .user-label { color: #A020F0; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
-        .bot-label { color: #00FFCC; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
-        
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; z-index: 100; }
-        .input-group { display: flex; gap: 10px; }
-        .input-group input { flex: 1; background: #111118; border-color: #1C1C2D; }
-        .exec-btn { background: #00FFCC; border: none; color: #0A0A0E; font-weight: 700; padding: 0 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 13px; text-transform: uppercase; }
-        
-        .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0A0A0E; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
-        .ad-video-box { width: 100%; max-width: 460px; height: 240px; background: #111118; border: 1px dashed #FF007F; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
-        .ad-timer { font-size: 16px; color: #00FFCC; margin: 20px 0; font-weight: 700; }
-        .skip-btn { background: #161622; border: none; color: #444; padding: 12px 35px; font-weight: bold; border-radius: 8px; cursor: not-allowed; }
-        .skip-btn.active { background: #00FFCC; color: #0A0A0E; cursor: pointer; }
-        
-        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111118; border: 1px solid #FF007F; padding: 25px; border-radius: 14px; z-index: 2000; display: none; width: 90%; max-width: 380px; }
-        .close-vip { float: right; color: #8F8F9E; cursor: pointer; font-weight: bold; }
+        .bubble { padding: 16px; border-radius: 12px; background: #111118; border-left: 4px solid #00FFCC; }
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; }
+        .exec-btn { background: #00FFCC; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 700; color: #000; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo-group">
-            <div class="logo-container">
-                <div class="outer-circle"></div>
-                <svg class="inner-svg" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(160,32,240,0.3)" stroke-width="4"/>
-                    <path d="M50,10 L50,20 M50,80 L50,90 M10,50 L20,50 M80,50 L90,50 M22,22 L29,29 M71,71 L78,78 M22,78 L29,71 M71,22 L78,29" stroke="#A020F0" stroke-width="6" stroke-linecap="round"/>
-                </svg>
-                <div class="logo-text">AK</div>
-            </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo-container"><div class="logo-text">AK</div></div>
             <div class="brand-name">AutoKaaj<span>OS</span></div>
         </div>
-        <button class="vip-btn" onclick="openVipModal()" id="vipStatusBadge">⭐ Upgrade VIP</button>
     </div>
-
-    <!-- OPEN ARCHITECTURE MODEL CONFIGURATION -->
     <div class="agent-factory-box">
-        <div class="factory-title">🤖 Matrix & Agent Core <span>[Fully Open]</span></div>
-        <div class="config-grid">
-            <select id="providerSelect" class="full-width" onchange="toggleMatrixEngine()">
-                <option value="ollama">AutoKaaj Termux Engine (Ollama Localhost - Default)</option>
-                <option value="custom">Custom Global API (Gemini/Groq/OpenAI)</option>
-            </select>
-            
-            <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint URL">
-            <input type="text" id="modelInput" value="gemma4:31b-cloud" placeholder="Target Model Name">
-            <input type="password" id="apiKeyInput" value="" placeholder="API Key (Leave blank for Termux)">
-            
-            <input type="text" id="customAgentName" class="full-width" value="Sovereign Agent" placeholder="Give your Agent a Name...">
-            <textarea id="customAgentPrompt" class="full-width" rows="2" placeholder="System Blueprint: You are a coding agent with Termux execution capability..."></textarea>
-        </div>
+        <select id="providerSelect" onchange="toggleEngine()">
+            <option value="ollama">AutoKaaj Termux Engine (Ollama Local)</option>
+            <option value="custom">Custom API Gateway</option>
+        </select>
+        <input type="text" id="endpoint" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint">
+        <input type="text" id="model" value="gemma4:31b-cloud" placeholder="Model Name">
+        <textarea id="prompt" rows="3" placeholder="You are an expert Autonomous Coding Agent. Write python scripts, manage files, and execute commands to solve the user's task."></textarea>
     </div>
-    <div class="chat-container" id="chatContainer">
-        <div class="bubble system-bubble">
-            <span class="bot-label">SYSTEM PROTOCOL DECK:</span>
-            Enterprise Multi-Agent Engine Synced. Termux & Open API Core Ready.
-        </div>
-    </div>
-
+    <div class="chat-container" id="chatContainer"></div>
     <div class="bottom-panel">
-        <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Assign task (e.g., Write a python script and save it)...">
-            <button class="exec-btn" onclick="preCheckExecution()">EXECUTE</button>
-        </div>
+        <input type="text" id="cmdInput" placeholder="Assign task...">
+        <button class="exec-btn" onclick="runAgent()">EXECUTE</button>
     </div>
-
-    <!-- 3 Sec Fast Overlay -->
-    <div class="ad-overlay" id="adOverlay">
-        <div class="ad-video-box">
-            <div style="padding: 20px; text-align: center;">
-                <p style="color:#00FFCC; margin-bottom:8px; font-weight:700;">🌐 Syncing with Termux Core...</p>
-                <p style="font-size:12px; color:#555;">Establishing direct connection with local Ollama Matrix.</p>
-            </div>
-        </div>
-        <div class="ad-timer" id="adTimerTxt">Ad closes in: 3 seconds</div>
-        <button class="skip-btn" id="skipAdBtn" disabled onclick="closeAdScreen()">Please Wait...</button>
-    </div>
-    
-    <div class="vip-modal" id="vipModal">
-        <span class="close-vip" onclick="closeVipModal()">&times;</span>
-        <h3 style="color:#FF007F; margin-bottom:12px; font-weight:800;">👑 Upgrade to VIP</h3>
-        <p style="font-size:12px; color:#8F8F9E; margin-bottom:15px;">UPI Gateway Target ID: gameonzone5@apl</p>
-        <input type="text" id="licenseKeyInput" placeholder="Enter License Activation Code">
-        <button class="exec-btn" style="width:100%; margin-top:12px; background:#FF007F; color:#FFF;" onclick="activatePremiumLicense()">Activate License</button>
-    </div>
-
     <script>
-        if(localStorage.getItem('autokaaj_vip') === 'true') {
-            document.getElementById('vipStatusBadge').innerText = '👑 Premium Core Active';
-            document.getElementById('vipStatusBadge').style.borderColor = '#00FFCC';
-            document.getElementById('vipStatusBadge').style.color = '#00FFCC';
-        }
-
-        function toggleMatrixEngine() {
+        function toggleEngine() {
             let mode = document.getElementById('providerSelect').value;
-            let ep = document.getElementById('endpointInput');
-            let md = document.getElementById('modelInput');
-            let ak = document.getElementById('apiKeyInput');
-
-            if(mode === 'ollama') {
-                ep.value = "http://127.0.0.1:11434/v1";
-                md.value = "gemma4:31b-cloud";
-                ak.value = "";
-                ak.placeholder = "API Key (Leave blank for Termux)";
-            } else {
-                ep.value = "https://generativelanguage.googleapis.com/v1beta/openai";
-                md.value = "gemini-1.5-flash";
-                ak.value = "";
-                ak.placeholder = "Enter your custom API Key here";
-            }
+            if(mode === 'ollama') document.getElementById('endpoint').value = "http://127.0.0.1:11434/v1";
         }
-
-        function openVipModal() { document.getElementById('vipModal').style.display = 'block'; }
-        function closeVipModal() { document.getElementById('vipModal').style.display = 'none'; }
-
-        function activatePremiumLicense() {
-            let k = document.getElementById('licenseKeyInput').value;
-            if(k === 'AutoKaajVIP786' || k === 'Chiranjit99') {
-                localStorage.setItem('autokaaj_vip', 'true');
-                alert('Premium Core Unlocked Successfully!');
-                location.reload();
-            } else {
-                alert('Invalid License Code!');
-            }
-        }
-
-        function preCheckExecution() {
-            let targetObj = document.getElementById('cmdInput').value;
-            if(!targetObj) return;
-
-            if(localStorage.getItem('autokaaj_vip') === 'true') {
-                triggerAutonomousAgentCore(targetObj);
-            } else {
-                launchAdCycle(targetObj);
-            }
-        }
-
-        function launchAdCycle(targetObj) {
-            let overlay = document.getElementById('adOverlay');
-            let timerTxt = document.getElementById('adTimerTxt');
-            let skipBtn = document.getElementById('skipAdBtn');
-            overlay.style.display = 'flex';
-            let duration = 3; 
-            
-            let countdown = setInterval(() => {
-                duration--;
-                timerTxt.innerText = `Ad closes in: ${duration} seconds`;
-                
-                if(duration <= 0) {
-                    clearInterval(countdown);
-                    timerTxt.innerText = "Sovereign validation completed.";
-                    skipBtn.innerText = "START AUTOMATION AGENT";
-                    skipBtn.disabled = false;
-                    skipBtn.className = "skip-btn active";
-                    window.pendingObjective = targetObj;
-                }
-            }, 1000);
-        }
-
-        function closeAdScreen() {
-            document.getElementById('adOverlay').style.display = 'none';
-            document.getElementById('skipAdBtn').className = "skip-btn";
-            document.getElementById('skipAdBtn').disabled = true;
-            if(window.pendingObjective) {
-                triggerAutonomousAgentCore(window.pendingObjective);
-                window.pendingObjective = null;
-            }
-        }
-
-        async function triggerAutonomousAgentCore(objective) {
+        async function runAgent() {
+            let objective = document.getElementById('cmdInput').value;
             let container = document.getElementById('chatContainer');
-            let agentLabelName = document.getElementById('customAgentName').value || "Sovereign Agent";
-            let customBlueprintPrompt = document.getElementById('customAgentPrompt').value || "You are a coding agent with Termux execution capability. Execute the objective step by step.";
-            
-            let userDiv = document.createElement('div');
-            userDiv.className = 'bubble user-bubble';
-            userDiv.innerHTML = '<span class="user-label">STRATEGIC GOAL:</span> ' + objective;
-            container.appendChild(userDiv);
-            document.getElementById('cmdInput').value = '';
-
-            let agentBox = document.createElement('div');
-            agentBox.className = 'bubble system-bubble';
-            agentBox.innerHTML = `<span class="bot-label">${agentLabelName.toUpperCase()} CORE:</span> Deploying agent workflow node...`;
-            container.appendChild(agentBox);
-            window.scrollTo(0, document.body.scrollHeight);
-
-            let cycle = 1;
-            let thoughtHistory = [];
-            let isRunning = true;
-
-            while(isRunning) {
-                let stepLog = document.createElement('div');
-                stepLog.className = 'thought-log';
-                stepLog.innerHTML = `⚙️ [${agentLabelName.toUpperCase()} - PHASE ${cycle}] Sending payload to Matrix Endpoint...`;
-                agentBox.appendChild(stepLog);
-                window.scrollTo(0, document.body.scrollHeight);
-
-                let globalPrompt = `[System Blueprint]: ${customBlueprintPrompt}\n\n[User Goal]: ${objective}\n[Past Execution History]: ${JSON.stringify(thoughtHistory)}\n[Current Cycle]: ${cycle}\n\nThink and write code step-by-step. If you have fully completed the requested task, output the results and close your response strictly with the exact token: [OBJECTIVE_ACHIEVED]`;
-
-                try {
-                    let targetUrl = document.getElementById('endpointInput').value;
-                    let modelName = document.getElementById('modelInput').value;
-                    let token = document.getElementById('apiKeyInput').value;
-                    
-                    if(!targetUrl || !modelName) throw new Error("Endpoint URL or Model Name is missing!");
-
-                    let finalUrl = targetUrl.endsWith('/') ? targetUrl + 'chat/completions' : targetUrl + '/chat/completions';
-                    let headers = { "Content-Type": "application/json" };
-                    if(token) headers["Authorization"] = "Bearer " + token;
-
-                    if(!finalUrl.includes('localhost') && !finalUrl.includes('127.0.0.1') && !finalUrl.includes('generativelanguage')) {
-                        finalUrl = "https://corsproxy.io/?" + encodeURIComponent(finalUrl);
-                    }
-
-                    let connection = await fetch(finalUrl, {
-                        method: "POST",
-                        headers: headers,
-                        body: JSON.stringify({
-                            model: modelName,
-                            messages: [
-                                { role: "system", content: customBlueprintPrompt },
-                                { role: "user", content: globalPrompt }
-                            ],
-                            temperature: 0.2
-                        })
-                    });
-
-                    if (!connection.ok) {
-                        let errText = await connection.text();
-                        throw new Error(`Server returned Status ${connection.status}`);
-                    }
-
-                    let data = await connection.json();
-                    let responseBlock = data.choices[0].message.content;
-
-                    thoughtHistory.push(responseBlock);
-                    stepLog.innerHTML = `<b>[PHASE ${cycle} COMPLETED]</b><br>${responseBlock.replace(/\n/g, '<br>')}`;
-
-                    if(responseBlock.includes('[OBJECTIVE_ACHIEVED]')) {
-                        let finalBadge = document.createElement('div');
-                        finalBadge.style.color = '#00FFCC';
-                        finalBadge.style.fontWeight = '700';
-                        finalBadge.style.marginTop = '12px';
-                        finalBadge.innerHTML = `🎯 SUCCESS: [${agentLabelName}] operation fully concluded autonomously.`;
-                        agentBox.appendChild(finalBadge);
-                        isRunning = false;
-                        break;
-                    }
-                } catch(error) {
-                    let helpMsg = "";
-                    if(error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
-                        helpMsg = `<br><br><span style="color:#FF007F; font-size:11px;"><b>TERMUX OLLAMA FIX:</b> Ensure Termux is running in the background. Stop your current ollama and start it with this exact command to allow browser connection:<br><code>OLLAMA_ORIGINS="*" ollama serve</code></span>`;
-                    }
-                    stepLog.innerHTML = `⚠️ Connection Failed: <b>${error.message}</b>${helpMsg}`;
-                    break;
-                }
-
-                cycle++;
-                await new Promise(r => setTimeout(r, 2000));
+            container.innerHTML += `<div class="bubble"><b>Goal:</b> ${objective}</div>`;
+            try {
+                let response = await fetch(document.getElementById('endpoint').value + '/chat/completions', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: document.getElementById('model').value,
+                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\nTask: " + objective }],
+                        stream: false
+                    })
+                });
+                let data = await response.json();
+                container.innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
+            } catch(e) {
+                container.innerHTML += `<div class="bubble" style="color:#FF007F">Agent Error: ${e.message}</div>`;
             }
-            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </body>
