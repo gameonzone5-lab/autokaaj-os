@@ -1,37 +1,19 @@
 package com.autokaaj.os
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
-import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var webView: WebView
-
-    @SuppressLint("SetJavaScriptEnabled")
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        webView = WebView(this)
-        setContentView(webView)
-
+        val webView = WebView(this)
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
         webView.webViewClient = WebViewClient()
-        val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true
-        webSettings.domStorageEnabled = true
-        webSettings.allowFileAccess = true
-
-        // Connects to your local AutoKaaj Engine
-        webView.loadUrl("http://127.0.0.1:8000")
-    }
-
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
-        }
+        // এটি আপনার টার্মাক্সের লোকালহোস্টের সাথে কানেক্ট করবে
+        webView.loadUrl("http://127.0.0.1:8000") 
+        setContentView(webView)
     }
 }
