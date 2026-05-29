@@ -2,60 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AutoKaaj OS - Sovereign Agent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AutoKaaj OS | Sovereign Agent</title>
     <style>
-        body { background: #050508; color: #E4E4ED; font-family: 'JetBrains Mono', monospace; padding: 20px; }
-        .header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; }
         
-        /* Twin-Orbit Logo */
-        .logo { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
-        .r1 { position: absolute; width: 100%; height: 100%; border: 2px dashed #00FFCC; border-radius: 50%; animation: rot 10s linear infinite; }
-        .r2 { position: absolute; width: 65%; height: 65%; border: 2px solid #A020F0; border-radius: 50%; animation: rot-rev 8s linear infinite; }
+        /* আগের সেই নিখুঁত লোগো অ্যানিমেশন */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 15px; }
+        .logo-box { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+        .outer-ring { position: absolute; width: 100%; height: 100%; border: 3px dashed #00FFCC; border-radius: 50%; animation: rot 10s linear infinite; }
+        .inner-ring { position: absolute; width: 65%; height: 65%; border: 3px solid #A020F0; border-radius: 50%; animation: rot-rev 8s linear infinite; }
         @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rot-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         
-        .thought-box { background: #0F0F1A; border: 1px solid #1C1C2D; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #FFD700; }
-        .exec-btn { width: 100%; background: #00FFCC; border: none; padding: 15px; color: #000; font-weight: 900; border-radius: 8px; cursor: pointer; }
+        .brand-name { color: #D23B2A; font-size: 24px; font-weight: 900; text-transform: uppercase; text-shadow: 2px 2px 5px #000; }
+        .brand-name span { color: #FFD700; }
+        
+        /* কনফিগারেশন এবং এপিআই গেটওয়ে */
+        .config-box { background: #111118; padding: 15px; border-radius: 12px; border: 1px solid #1A1A26; margin-bottom: 20px; }
+        input, select, textarea { width: 100%; padding: 10px; background: #07070A; border: 1px solid #333; color: #FFF; border-radius: 6px; margin-bottom: 8px; font-family: 'JetBrains Mono'; }
+        
+        /* এজেন্টিক থট প্রসেস ও চ্যাট */
+        .chat-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
+        .thought { background: #07070A; color: #00FFCC; padding: 10px; border-left: 3px solid #00FFCC; font-size: 12px; font-family: 'JetBrains Mono'; }
+        .bubble { background: #19122C; padding: 15px; border-radius: 8px; border-left: 4px solid #A020F0; }
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo"><div class="r1"></div><div class="r2"></div><b>AK</b></div>
-        <h1 style="font-size:24px; color:#D23B2A;">AUTOKAAJ<span style="color:#FFD700">OS</span></h1>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo-box"><div class="outer-ring"></div><div class="inner-ring"></div><div style="font-weight:bold">AK</div></div>
+            <div class="brand-name">AutoKaaj<span>OS</span></div>
+        </div>
+        <button style="background:none; border:none; color:#FFD700">👑 VIP</button>
     </div>
-    
-    <div id="thoughtDisplay" class="thought-box">Waiting for task...</div>
-    <div id="chat" style="display:flex; flex-direction:column; gap:10px;"></div>
-    
-    <div style="position:fixed; bottom:20px; width:90%;">
-        <input type="text" id="userInput" style="width:100%; padding:10px; background:#111; border:1px solid #333; color:#fff;" placeholder="Assign complex task (File/Game/Code)...">
-        <button class="exec-btn" onclick="agentLoop()">EXECUTE AGENT</button>
+
+    <div class="config-box">
+        <select id="engine">
+            <option value="http://127.0.0.1:11434/v1">AutoKaaj Termux Engine</option>
+            <option value="custom">Custom Global API</option>
+        </select>
+        <input type="text" id="endpoint" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint">
+        <input type="text" id="apiKey" placeholder="API Key (যদি প্রয়োজন হয়)">
+        <textarea id="prompt" rows="3" placeholder="System Blueprint (এজেন্টের ক্ষমতা ও নিয়ম)"></textarea>
+    </div>
+
+    <div class="chat-container" id="chat"></div>
+
+    <div class="bottom-panel">
+        <input type="text" id="userInput" placeholder="আপনার নির্দেশ দিন (কোড/ফাইল/গেম)...">
+        <button onclick="runAgent()" style="width:100%; padding:12px; background:#00FFCC; font-weight:900; border-radius:6px; border:none;">EXECUTE TASK</button>
     </div>
 
     <script>
-        async function agentLoop() {
+        async function runAgent() {
             let task = document.getElementById('userInput').value;
-            let display = document.getElementById('thoughtDisplay');
+            let container = document.getElementById('chat');
+            container.innerHTML += `<div class="bubble"><b>Goal:</b> ${task}</div>`;
             
-            // এজেন্টিক লুপ: এজেন্ট নিজের চিন্তা এবং কাজের স্টেপগুলো নিজে নির্ধারণ করবে
-            let systemPrompt = `You are an Autonomous AI OS Agent (AutoKaaj OS). 
-            Skills: Python coding, File I/O, APK building, 3D Asset creation, Video Editing automation.
-            Rules: Use JSON tool-calls for actions.
-            Format: Always output your 'Thought Process' followed by 'Action'.`;
+            let thought = document.createElement('div');
+            thought.className = 'thought';
+            thought.innerText = "🔍 Agent is reasoning...";
+            container.appendChild(thought);
 
-            display.innerText = "Agent is reasoning on: " + task;
-
-            let res = await fetch("http://127.0.0.1:11434/v1/chat/completions", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    model: "gemma4:31b-cloud",
-                    messages: [{ role: "system", content: systemPrompt }, { role: "user", content: task }],
-                    stream: false
-                })
-            });
-            let data = await res.json();
-            document.getElementById('chat').innerHTML = `<div style="background:#19122C; padding:15px; border-radius:8px;">${data.choices[0].message.content}</div>`;
+            try {
+                let res = await fetch(document.getElementById('endpoint').value + '/chat/completions', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + document.getElementById('apiKey').value },
+                    body: JSON.stringify({
+                        model: "gemma4:31b-cloud",
+                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\n\nTask: " + task }],
+                        stream: false
+                    })
+                });
+                let data = await res.json();
+                thought.innerText = "✅ Action executed.";
+                container.innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
+            } catch(e) {
+                container.innerHTML += `<div class="thought" style="border-left-color:red">Error: ${e.message}</div>`;
+            }
         }
     </script>
 </body>
