@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoKaaj OS - Serverless Edition</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
+        
+        /* Header & Logo */
+        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .logo-icon { width: 30px; height: 30px; }
+        .brand-name { color: #00FFCC; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
+        
+        /* Serverless Status Box */
+        .status-box { border: 1px solid #00FFCC; background: rgba(0,255,204,0.05); color: #00FFCC; padding: 10px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        
+        /* Configuration Grid */
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
+        select:focus, input:focus { border-color: #00FFCC; }
+        .full-width { grid-column: span 2; }
+        
+        /* Chat Box Container */
+        .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 120px; }
+        
+        /* Chat Bubbles */
+        .bubble { padding: 15px; border-radius: 8px; max-width: 90%; line-height: 1.5; position: relative; }
+        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
+        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; text-align: left; box-shadow: 3px 3px 10px rgba(160,32,240,0.2); }
+        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 12px; letter-spacing: 1px; }
+        .user-label { color: #A020F0; }
+        .bot-label { color: #99FF33; }
+        
+        /* Fixed Bottom Action Panel */
+        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; }
+        .file-input-container { margin-bottom: 10px; font-size: 12px; color: #aaa; }
+        .input-group { display: flex; gap: 10px; }
+        .input-group input { flex: 1; }
+        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 20px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
+        .exec-btn:hover { background: #00FFCC; color: #07070A; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <svg class="logo-icon" viewBox="0 0 100 100">
+            <polygon points="20,20 80,45 30,75" fill="none" stroke="#00FFCC" stroke-width="5"/>
+            <circle cx="55" cy="50" r="6" fill="#A020F0"/>
+        </svg>
+        <span class="brand-name">AutoKaaj OS</span>
+    </div>
+
+    <!-- Active Serverless Badge -->
+    <div class="status-box" id="statusBox">
+        <span>⚡ System Mode: Serverless Direct Link</span>
+    </div>
+
+    <!-- Dropdowns & Inputs -->
+    <div class="config-grid">
+        <select id="providerSelect" onchange="toggleProvider()">
+            <option value="ollama">Ollama Local API</option>
+            <option value="gemini">Gemini Cloud API</option>
+        </select>
+        <input type="text" id="modelInput" value="gemma4:31b-cloud" placeholder="model-name">
+        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
+        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="Enter Gemini API Key (if cloud selected)">
+    </div>
+
+    <!-- Chat Logs Area -->
+    <div class="chat-container" id="chatContainer">
+        <div class="bubble system-bubble">
+            How can I help you today?
+        </div>
+    </div>
+
+    <!-- Bottom Command Bar -->
+    <div class="bottom-panel">
+        <div class="file-input-container">
+            <input type="file" id="fileChooser" style="display:none;" onchange="document.getElementById('fileName').innerText = this.files[0].name">
+            <button onclick="document.getElementById('fileChooser').click()" style="background:#222; border:none; color:#fff; padding:3px 8px; border-radius:4px; font-family:monospace; margin-right:5px;">Choose file</button>
+            <span id="fileName">No file chosen</span>
+        </div>
+        <div class="input-group">
+            <input type="text" id="cmdInput" placeholder="Ask Agent to build or execute something...">
+            <button class="exec-btn" onclick="executeCommand()">EXECUTE</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleProvider() {
+            let provider = document.getElementById('providerSelect').value;
+            let endpoint = document.getElementById('endpointInput');
+            let model = document.getElementById('modelInput');
+            
+            if(provider === 'gemini') {
+                endpoint.value = 'https://generativelanguage.googleapis.com/v1beta/openai/';
+                model.value = 'gemini-1.5-flash';
+            } else {
+                endpoint.value = 'http://127.0.0.1:11434/v1';
+                model.value = 'gemma4:31b-cloud';
+            }
+        }
+
+        async function executeCommand() {
+            let txt = document.getElementById('cmdInput').value;
+            if(!txt) return;
+            
+            let container = document.getElementById('chatContainer');
+            
+            // ইউজারের মেসেজ UI-তে প্রিন্ট করা
+            let userDiv = document.createElement('div');
+            userDiv.className = 'bubble user-bubble';
+            userDiv.innerHTML = '<span class="user-label">USER:</span> ' + txt;
+            container.appendChild(userDiv);
+            
+            document.getElementById('cmdInput').value = '';
+            window.scrollTo(0, document.body.scrollHeight);
+            
+            // এজেন্ট রেসপন্স বাবল তৈরি করা
+            let botDiv = document.createElement('div');
+            botDiv.className = 'bubble system-bubble';
+            botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> Thinking...';
+            container.appendChild(botDiv);
+
+            // সেটিংস থেকে সরাসরি API কল কনফিগার করা (নো ব্যাকএন্ড সার্ভার রিকোয়ার্ড)
+            let provider = document.getElementById('providerSelect').value;
+            let targetUrl = document.getElementById('endpointInput').value + '/chat/completions';
+            let modelName = document.getElementById('modelInput').value;
+            let apiKey = document.getElementById('apiKeyInput').value;
+
+            let headers = { "Content-Type": "application/json" };
+            if(provider === 'gemini' && apiKey) {
+                headers["Authorization"] = "Bearer " + apiKey;
+            }
+
+            try {
+                let response = await fetch(targetUrl, {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify({
+                        model: modelName,
+                        messages: [{ role: "user", content: txt }]
+                    })
+                });
+                
+                let data = await response.json();
+                let aiResponse = data.choices[0].message.content;
+                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ' + aiResponse.replace(/\n/g, '<br>');
+            } catch(err) {
+                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ❌ সরাসরি কানেকশন এরর! অনুগ্রহ করে নিশ্চিত করুন যে আপনার লোকাল ওল্লামা চলছে অথবা সঠিক ক্লাউড API Key দেওয়া হয়েছে।';
+            }
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>
