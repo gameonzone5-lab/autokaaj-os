@@ -3,77 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Sovereign Agent</title>
+    <title>AutoKaaj OS | Sovereign Agent</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
-        body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; margin: 0; }
-        
-        /* লোগো অ্যানিমেশন পারফেক্ট করা হয়েছে */
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 18px; border-bottom: 1px solid #161622; }
-        .logo-container { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
-        .outer-circle { position: absolute; width: 100%; height: 100%; border: 3px dashed #00FFCC; border-radius: 50%; animation: rotate-inverse 6s linear infinite; }
-        .inner-circle { position: absolute; width: 70%; height: 70%; border: 3px solid #A020F0; border-radius: 50%; animation: rotate-clock 8s linear infinite; }
-        .ak-text { font-family: 'JetBrains Mono'; font-weight: 800; font-size: 16px; color: #FFF; z-index: 10; animation: spin-pulse 3s infinite; }
-        @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-        @keyframes spin-pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        .brand-name { color: #D23B2A; font-size: 28px; font-weight: 900; text-transform: uppercase; text-shadow: 6px 6px 20px rgba(0,0,0,0.8); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;900&family=JetBrains+Mono&display=swap');
+        body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 15px; }
+        .header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #161622; }
+        .logo-box { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+        .outer-ring { position: absolute; width: 100%; height: 100%; border: 3px dashed #00FFCC; border-radius: 50%; animation: rot 10s linear infinite; }
+        .inner-ring { position: absolute; width: 65%; height: 65%; border: 3px solid #A020F0; border-radius: 50%; animation: rot-rev 8s linear infinite; }
+        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rot-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        .brand-name { color: #D23B2A; font-size: 26px; font-weight: 900; text-transform: uppercase; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
         .brand-name span { color: #FFD700; }
-        
-        .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        input, textarea, select { width: 100%; padding: 12px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; margin-bottom: 10px; }
-        
-        .chat-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
-        .bubble { padding: 16px; border-radius: 12px; background: #111118; border-left: 4px solid #00FFCC; }
+        .dashboard { background: #111118; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #1A1A26; }
+        .chat-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 180px; }
+        .thought { color: #00FFCC; font-family: 'JetBrains Mono'; font-size: 12px; padding: 10px; background: #07070A; border-left: 3px solid #00FFCC; border-radius: 4px; }
+        .response { padding: 12px; background: #19122C; border-left: 4px solid #A020F0; border-radius: 8px; }
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; }
-        .exec-btn { background: #00FFCC; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div style="display:flex; align-items:center; gap:20px;">
-            <div class="logo-container">
-                <div class="outer-circle"></div>
-                <div class="inner-circle"></div>
-                <div class="ak-text">AK</div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo-box">
+                <div class="outer-ring"></div><div class="inner-ring"></div>
+                <div style="font-weight:bold;">AK</div>
             </div>
             <div class="brand-name">AutoKaaj<span>OS</span></div>
         </div>
+        <button style="background:none; border:none; color:#FFD700">👑 VIP</button>
     </div>
-    <div class="agent-factory-box">
-        <textarea id="prompt" rows="4" placeholder="Agent Skills: Code execution, File creation, Game Dev, 3D Asset generation. Your Agent Mission:"></textarea>
+    <div class="dashboard">
+        <input type="text" id="endpoint" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint">
+        <input type="text" id="model" value="gemma4:31b-cloud" placeholder="Model Name">
+        <textarea id="prompt" rows="3" placeholder="System Blueprint..."></textarea>
     </div>
-    <div class="chat-container" id="chatContainer"></div>
+    <div class="chat-container" id="chat"></div>
     <div class="bottom-panel">
-        <input type="text" id="cmdInput" placeholder="Assign tactical goal...">
-        <button class="exec-btn" id="execBtn" onclick="runAgent()">EXECUTE</button>
+        <input type="file" id="fileIn" style="display:none">
+        <button onclick="document.getElementById('fileIn').click()">📎</button>
+        <input type="text" id="userInput" placeholder="Ask agent...">
+        <button onclick="runAgent()">EXECUTE</button>
     </div>
-
     <script>
         async function runAgent() {
-            let objective = document.getElementById('cmdInput').value;
-            let btn = document.getElementById('execBtn');
-            btn.innerText = "PROCESSING...";
-            btn.style.background = "#A020F0";
+            let task = document.getElementById('userInput').value;
+            let container = document.getElementById('chat');
+            container.innerHTML += `<div class="response"><b>Goal:</b> ${task}</div>`;
+            
+            // লাইভ থট প্রসেস মনিটর
+            let thought = document.createElement('div');
+            thought.className = 'thought';
+            thought.innerText = "🔍 Agent is reasoning and planning...";
+            container.appendChild(thought);
 
             try {
-                let response = await fetch("http://127.0.0.1:11434/v1/chat/completions", {
+                let res = await fetch(document.getElementById('endpoint').value + '/chat/completions', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        model: "gemma4:31b-cloud",
-                        messages: [{ role: "user", content: `You are an Autonomous Coding Agent with Termux execution access. Your task: ${objective}. Write all code, save files, and explain actions.` }],
+                        model: document.getElementById('model').value,
+                        messages: [{ role: "user", content: document.getElementById('prompt').value + "\n\nTask: " + task }],
                         stream: false
                     })
                 });
-                let data = await response.json();
-                document.getElementById('chatContainer').innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
+                let data = await res.json();
+                thought.innerText = "✅ Reasoning complete. Executing action...";
+                container.innerHTML += `<div class="bubble">${data.choices[0].message.content}</div>`;
             } catch(e) {
-                document.getElementById('chatContainer').innerHTML += `<div class="bubble" style="color:red">Agent Error: ${e.message}</div>`;
+                container.innerHTML += `<div class="bubble">Agent Error: ${e.message}</div>`;
             }
-            btn.innerText = "EXECUTE";
-            btn.style.background = "#00FFCC";
         }
     </script>
 </body>
