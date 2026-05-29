@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Serverless Edition</title>
+    <title>AutoKaaj OS - Ultimate Core</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
@@ -12,7 +12,7 @@
         .logo-icon { width: 30px; height: 30px; }
         .brand-name { color: #00FFCC; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
         
-        /* Serverless Status Box */
+        /* Dynamic Status Box */
         .status-box { border: 1px solid #00FFCC; background: rgba(0,255,204,0.05); color: #00FFCC; padding: 10px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
         
         /* Configuration Grid */
@@ -52,20 +52,20 @@
         <span class="brand-name">AutoKaaj OS</span>
     </div>
 
-    <!-- Active Serverless Badge -->
+    <!-- Active Status -->
     <div class="status-box" id="statusBox">
-        <span>⚡ System Mode: Serverless Direct Link</span>
+        <span>⚡ Internal Ollama & Global API Router Engine Active</span>
     </div>
 
-    <!-- Dropdowns & Inputs -->
+    <!-- Configuration Grid (Any API in the World can connect here) -->
     <div class="config-grid">
-        <select id="providerSelect" onchange="toggleProvider()">
-            <option value="ollama">Ollama Local API</option>
-            <option value="gemini">Gemini Cloud API</option>
+        <select id="providerSelect" onchange="updateEngineStatus()">
+            <option value="ollama_cloud">Ollama Cloud (gemma4:31b-cloud)</option>
+            <option value="custom_api">Any Global Custom API (OpenAI/Anthropic/DeepSeek)</option>
         </select>
         <input type="text" id="modelInput" value="gemma4:31b-cloud" placeholder="model-name">
-        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
-        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="Enter Gemini API Key (if cloud selected)">
+        <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint URL">
+        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="API Authorization Key / Bearer Token (if required)">
     </div>
 
     <!-- Chat Logs Area -->
@@ -89,17 +89,25 @@
     </div>
 
     <script>
-        function toggleProvider() {
+        function updateEngineStatus() {
             let provider = document.getElementById('providerSelect').value;
             let endpoint = document.getElementById('endpointInput');
             let model = document.getElementById('modelInput');
+            let status = document.getElementById('statusBox');
             
-            if(provider === 'gemini') {
-                endpoint.value = 'https://generativelanguage.googleapis.com/v1beta/openai/';
-                model.value = 'gemini-1.5-flash';
-            } else {
+            if(provider === 'ollama_cloud') {
                 endpoint.value = 'http://127.0.0.1:11434/v1';
                 model.value = 'gemma4:31b-cloud';
+                status.innerHTML = '<span>⚡ Internal Ollama & Global API Router Engine Active</span>';
+                status.style.borderColor = '#00FFCC';
+                status.style.color = '#00FFCC';
+            } else {
+                endpoint.value = '';
+                model.value = '';
+                placeholder = 'Enter Custom Endpoint (e.g., https://api.deepseek.com/v1)';
+                status.innerHTML = '<span>🌐 Global API Custom Gateway Routing Mode</span>';
+                status.style.borderColor = '#99FF33';
+                status.style.color = '#99FF33';
             }
         }
 
@@ -109,7 +117,7 @@
             
             let container = document.getElementById('chatContainer');
             
-            // ইউজারের মেসেজ UI-তে প্রিন্ট করা
+            // ইউজারের মেসেজ
             let userDiv = document.createElement('div');
             userDiv.className = 'bubble user-bubble';
             userDiv.innerHTML = '<span class="user-label">USER:</span> ' + txt;
@@ -118,20 +126,20 @@
             document.getElementById('cmdInput').value = '';
             window.scrollTo(0, document.body.scrollHeight);
             
-            // এজেন্ট রেসপন্স বাবল তৈরি করা
+            // থিংকিং বাবল
             let botDiv = document.createElement('div');
             botDiv.className = 'bubble system-bubble';
             botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> Thinking...';
             container.appendChild(botDiv);
 
-            // সেটিংস থেকে সরাসরি API কল কনফিগার করা (নো ব্যাকএন্ড সার্ভার রিকোয়ার্ড)
             let provider = document.getElementById('providerSelect').value;
             let targetUrl = document.getElementById('endpointInput').value + '/chat/completions';
             let modelName = document.getElementById('modelInput').value;
             let apiKey = document.getElementById('apiKeyInput').value;
 
+            // গ্লোবাল রিকোয়েস্ট হেডার ডায়নামিকালি হ্যান্ডেল করা
             let headers = { "Content-Type": "application/json" };
-            if(provider === 'gemini' && apiKey) {
+            if(apiKey) {
                 headers["Authorization"] = "Bearer " + apiKey;
             }
 
@@ -141,7 +149,8 @@
                     headers: headers,
                     body: JSON.stringify({
                         model: modelName,
-                        messages: [{ role: "user", content: txt }]
+                        messages: [{ role: "user", content: txt }],
+                        temperature: 0.7
                     })
                 });
                 
@@ -149,7 +158,7 @@
                 let aiResponse = data.choices[0].message.content;
                 botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ' + aiResponse.replace(/\n/g, '<br>');
             } catch(err) {
-                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ❌ সরাসরি কানেকশন এরর! অনুগ্রহ করে নিশ্চিত করুন যে আপনার লোকাল ওল্লামা চলছে অথবা সঠিক ক্লাউড API Key দেওয়া হয়েছে।';
+                botDiv.innerHTML = '<span class="bot-label">AUTOKAAJ:</span> ❌ কানেকশন এরর! অনুগ্রহ করে নিশ্চিত করুন যে ওল্লামা ব্যাকএন্ডে আপনার স্পেশাল টানেলটি সচল আছে অথবা সঠিক গ্লোবাল এপিআই ইউআরএল দেওয়া হয়েছে।';
             }
             window.scrollTo(0, document.body.scrollHeight);
         }
