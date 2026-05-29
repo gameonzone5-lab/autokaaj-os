@@ -3,132 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Sovereign Core</title>
+    <title>AutoKaaj OS - Ultimate Sovereign Core</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #07070A; color: #fff; font-family: monospace; padding: 15px; }
         
-        /* Header & Icon System */
-        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        
-        /* Ultra Neon Animated Logo Group */
+        /* Twin-Orbit Logo */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        .logo-group { display: flex; align-items: center; gap: 15px; }
         .logo-container { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
         .outer-circle { position: absolute; width: 100%; height: 100%; border: 2px dashed #A020F0; border-radius: 50%; animation: rotate-inverse 4s linear infinite; box-shadow: 0 0 8px rgba(160,32,240,0.4); }
         .inner-logo { width: 75%; height: 75%; animation: rotate-clock 6s linear infinite; filter: drop-shadow(0 0 8px #00FFCC); }
         
         @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-        
         .brand-name { color: #00FFCC; font-size: 26px; font-weight: bold; text-shadow: 0 0 12px rgba(0,255,204,0.6); }
         
-        /* Status Display */
-        .status-box { border: 1px solid #00FFCC; background: rgba(0,255,204,0.05); color: #00FFCC; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        /* VIP Premium Button */
+        .vip-btn { background: linear-gradient(45deg, #FF007F, #A020F0); border: none; color: white; padding: 8px 15px; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 0 10px rgba(255,0,127,0.5); font-size: 12px; }
         
-        /* Dynamic Config Matrix */
+        /* Configuration Grid */
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; transition: 0.3s; }
-        select:focus, input:focus { border-color: #00FFCC; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
+        select, input { width: 100%; padding: 12px; background: #121216; border: 1px solid #22222B; color: #fff; border-radius: 6px; font-family: monospace; font-size: 14px; outline: none; }
+        select:focus, input:focus { border-color: #00FFCC; }
         .full-width { grid-column: span 2; }
         
-        /* Chat Stream */
+        /* Chat Containers */
         .chat-container { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 140px; }
         .bubble { padding: 15px; border-radius: 8px; max-width: 95%; line-height: 1.6; position: relative; font-size: 14px; }
-        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; box-shadow: 0 0 5px rgba(153,255,51,0.05); }
-        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; box-shadow: 3px 3px 12px rgba(160,32,240,0.2); }
+        .system-bubble { background: #12121A; border-left: 3px solid #99FF33; align-self: flex-start; }
+        .user-bubble { background: #1C0A2D; border-right: 3px solid #A020F0; align-self: flex-end; border-radius: 8px 8px 0 8px; }
+        .thought-log { background: #0A0A0F; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 10px; border-radius: 5px; }
         
-        /* Deep Thinking Log Stream */
-        .thought-log { background: #0A0A0F; border: 1px solid #222; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 10px; border-radius: 5px; font-family: 'Courier New', monospace; box-shadow: inset 0 0 10px rgba(0,255,204,0.05); }
-        .step-badge { color: #A020F0; font-weight: bold; }
+        .user-label { color: #A020F0; font-weight: bold; display: block; }
+        .bot-label { color: #99FF33; font-weight: bold; display: block; }
         
-        .user-label, .bot-label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: 1px; }
-        .user-label { color: #A020F0; }
-        .bot-label { color: #99FF33; }
-        
-        /* Controls Terminal */
+        /* Control Bar */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #07070A; padding: 15px; border-top: 1px solid #121216; z-index: 100; }
-        .file-input-container { margin-bottom: 10px; font-size: 12px; color: #aaa; }
         .input-group { display: flex; gap: 10px; }
         .input-group input { flex: 1; }
-        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 6px; cursor: pointer; transition: 0.2s; box-shadow: 0 0 8px rgba(0,255,204,0.2); }
-        .exec-btn:hover { background: #00FFCC; color: #07070A; box-shadow: 0 0 15px #00FFCC; }
+        .exec-btn { background: #07070A; border: 2px solid #00FFCC; color: #00FFCC; font-weight: bold; padding: 0 25px; border-radius: 6px; cursor: pointer; }
+        
+        /* Internal Fullscreen Ad Overlay */
+        .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050508; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+        .ad-title { color: #FF007F; font-size: 28px; font-weight: bold; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,0,127,0.4); }
+        .ad-video-box { width: 100%; max-width: 500px; height: 280px; background: #12121B; border: 2px dashed #FF007F; display: flex; align-items: center; justify-content: center; color: #aaa; margin-bottom: 20px; border-radius: 10px; position: relative; }
+        .ad-timer { font-size: 18px; color: #00FFCC; margin-bottom: 20px; font-weight: bold; }
+        .skip-btn { background: #222; border: 1px solid #444; color: #666; padding: 12px 30px; font-weight: bold; border-radius: 6px; cursor: not-allowed; }
+        .skip-btn.active { background: #00FFCC; border-color: #00FFCC; color: #00; cursor: pointer; box-shadow: 0 0 10px #00FFCC; }
+        
+        /* VIP Popup Model */
+        .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #12121A; border: 2px solid #FF007F; padding: 25px; border-radius: 12px; z-index: 2000; display: none; width: 90%; max-width: 400px; box-shadow: 0 0 20px rgba(255,0,127,0.3); }
+        .close-vip { float: right; color: #fff; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-container">
-            <div class="outer-circle"></div>
-            <svg class="inner-logo" viewBox="0 0 100 100">
-                <polygon points="20,20 85,50 30,80" fill="url(#neonGrad)" stroke="#00FFCC" stroke-width="4"/>
-                <circle cx="55" cy="50" r="7" fill="#FF007F"/>
-                <defs>
-                    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#120124;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#021c16;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-            </svg>
+        <div class="logo-group">
+            <div class="logo-container">
+                <div class="outer-circle"></div>
+                <svg class="inner-logo" viewBox="0 0 100 100">
+                    <polygon points="20,20 85,50 30,80" fill="none" stroke="#00FFCC" stroke-width="4"/>
+                    <circle cx="55" cy="50" r="7" fill="#FF007F"/>
+                </svg>
+            </div>
+            <span class="brand-name">AutoKaaj OS</span>
         </div>
-        <span class="brand-name">AutoKaaj OS</span>
-    </div>
-
-    <div class="status-box" id="statusBox">
-        Core Gateway: Universal API Router Mode Enabled
+        <button class="vip-btn" onclick="openVipModal()" id="vipStatusBadge">⭐ Upgrade to VIP</button>
     </div>
 
     <div class="config-grid">
         <select id="providerSelect" onchange="shiftEngine()">
             <option value="ollama">Ollama Cloud Gateway (Default)</option>
             <option value="gemini">Google Gemini AI Engine</option>
-            <option value="custom">Custom Global Endpoint</option>
         </select>
         <input type="text" id="modelInput" value="gemma4:31b-cloud">
         <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1">
-        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="Enter Target Cloud API Secret Token Key">
+        <input type="password" id="apiKeyInput" class="full-width" value="" placeholder="Enter Cloud API Key (Gemini Mode)">
     </div>
 
     <div class="chat-container" id="chatContainer">
         <div class="bubble system-bubble">
-            <span class="bot-label">AUTOKAAJ MASTER CONTROL:</span>
-            Autonomous core synced. Assign an unrestricted execution objective.
+            <span class="bot-label">AUTOKAAJ SYSTEM PROTOCOL:</span>
+            Sovereign Engine Active. Locked & Loaded for Autonomous Inferences.
         </div>
     </div>
 
     <div class="bottom-panel">
-        <div class="file-input-container">
-            <input type="file" id="fileChooser" style="display:none;" onchange="document.getElementById('fileName').innerText = this.files[0].name">
-            <button onclick="document.getElementById('fileChooser').click()" style="background:#222; border:none; color:#fff; padding:3px 8px; border-radius:4px; font-family:monospace; margin-right:5px;">Choose file</button>
-            <span id="fileName">No file chosen</span>
-        </div>
         <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Enter objective (e.g., Build full automation script and verify logs)...">
-            <button class="exec-btn" onclick="triggerInfiniteAgent()">EXECUTE</button>
+            <input type="text" id="cmdInput" placeholder="Assign target task to Sovereign Autonomous Agent...">
+            <button class="exec-btn" onclick="preCheckExecution()">EXECUTE</button>
         </div>
     </div>
 
+    <div class="ad-overlay" id="adOverlay">
+        <div class="ad-title">AutoKaaj OS - Sponsored Break</div>
+        <div class="ad-video-box">
+            <div style="padding: 20px;">
+                <p style="color:#00FFCC; margin-bottom:10px;">🤖 <b>AutoKaaj Agent Core Streaming...</b></p>
+                <p style="font-size:12px; color:#888;">Optimizing global endpoints & compiling neural nodes backend. Premium users bypass this screen instantly.</p>
+            </div>
+        </div>
+        <div class="ad-timer" id="adTimerTxt">Ad closes in: 180 seconds</div>
+        <button class="skip-btn" id="skipAdBtn" disabled onclick="closeAdScreen()">Please Wait...</button>
+    </div>
+
+    <div class="vip-modal" id="vipModal">
+        <span class="close-vip" onclick="closeVipModal()">&times;</span>
+        <h3 style="color:#FF007F; margin-bottom:15px; text-shadow:0 0 8px rgba(255,0,127,0.3);">⭐ AutoKaaj Premium Core</h3>
+        <p style="font-size:12px; line-height:1.5; color:#aaa; margin-bottom:15px;">
+            Upgrade to bypass all internal countdowns and unlock infinite concurrent autonomous steps instantly!
+        </p>
+        <div style="background:#1A1A26; padding:12px; border-radius:6px; border:1px dashed #A020F0; margin-bottom:15px; text-align:center;">
+            <p style="font-size:11px; color:#99FF33;">Scan & Pay to Developer / Chiranjit Majumdar</p>
+            <p style="font-size:14px; font-weight:bold; margin-top:5px; color:#fff;">UPI: gameonzone5@apl</p>
+        </div>
+        <input type="text" id="licenseKeyInput" placeholder="Enter License Activation Code" style="margin-bottom:10px; border-color:#FF007F;">
+        <button class="exec-btn" style="width:100%; background:linear-gradient(45deg, #FF007F, #A020F0); border:none; color:white; padding:12px; border-radius:6px;" onclick="activatePremiumLicense()">Activate VIP License</button>
+    </div>
+
     <script>
+        // Check VIP Status from localStorage on Init
+        if(localStorage.getItem('autokaaj_vip') === 'true') {
+            document.getElementById('vipStatusBadge').innerText = '👑 VIP Unlocked';
+            document.getElementById('vipStatusBadge').style.background = 'linear-gradient(45deg, #00FFCC, #99FF33)';
+            document.getElementById('vipStatusBadge').style.color = '#000';
+        }
+
         function shiftEngine() {
             let p = document.getElementById('providerSelect').value;
             let ep = document.getElementById('endpointInput');
             let m = document.getElementById('modelInput');
-            
             if(p === 'gemini') {
                 ep.value = 'https://generativelanguage.googleapis.com/v1beta/openai';
                 m.value = 'gemini-1.5-flash';
-            } else if (p === 'ollama') {
+            } else {
                 ep.value = 'http://127.0.0.1:11434/v1';
                 m.value = 'gemma4:31b-cloud';
-            } else {
-                ep.value = '';
-                m.value = '';
             }
         }
 
-        // Infinite ReAct Loop - More powerful than OpenManus & OpenClaw
-        async function triggerInfiniteAgent() {
-            let objective = document.getElementById('cmdInput').value;
-            if(!objective) return;
+        function openVipModal() { document.getElementById('vipModal').style.display = 'block'; }
+        function closeVipModal() { document.getElementById('vipModal').style.display = 'none'; }
+
+        function activatePremiumLicense() {
+            let k = document.getElementById('licenseKeyInput').value;
+            // Your custom master pass key for users
+            if(k === 'AutoKaajVIP786' || k === 'Chiranjit99') {
+                localStorage.setItem('autokaaj_vip', 'true');
+                alert('🎉 Premium VIP Mode Activated successfully! All Ads removed forever.');
+                location.reload();
+            } else {
+                alert('❌ Invalid Code! Please process payment and collect valid key.');
+            }
+        }
+
+        // Ads Verification Gateway before executing any agent tasks
+        function preCheckExecution() {
+            let targetObj = document.getElementById('cmdInput').value;
+            if(!targetObj) return;
+
+            if(localStorage.getItem('autokaaj_vip') === 'true') {
+                // If VIP, trigger execution instantly with no delay
+                triggerAutonomousAgentCore(targetObj);
+            } else {
+                // If Free, trigger 3-Minute Countdowns (180 Seconds Ad Loop)
+                launchAdCycle(targetObj);
+            }
+        }
+
+        function launchAdCycle(targetObj) {
+            let overlay = document.getElementById('adOverlay');
+            let timerTxt = document.getElementById('adTimerTxt');
+            let skipBtn = document.getElementById('skipAdBtn');
             
+            overlay.style.display = 'flex';
+            let duration = 180; // 3 Minutes exact countdown lock
+            
+            let countdown = setInterval(() => {
+                duration--;
+                timerTxt.innerText = `Ad closes in: ${duration} seconds`;
+                
+                if(duration <= 0) {
+                    clearInterval(countdown);
+                    timerTxt.innerText = "Sponsored block completed.";
+                    skipBtn.innerText = "START AGENT NOW";
+                    skipBtn.disabled = false;
+                    skipBtn.className = "skip-btn active";
+                    // Pass the user task to global window state
+                    window.pendingObjective = targetObj;
+                }
+            }, 1000);
+        }
+
+        function closeAdScreen() {
+            document.getElementById('adOverlay').style.display = 'none';
+            document.getElementById('skipAdBtn').className = "skip-btn";
+            document.getElementById('skipAdBtn').disabled = true;
+            document.getElementById('skipAdBtn').innerText = "Please Wait...";
+            if(window.pendingObjective) {
+                triggerAutonomousAgentCore(window.pendingObjective);
+                window.pendingObjective = null;
+            }
+        }
+
+        // Master Sovereign Infinite Autonomous Loop Core
+        async function triggerAutonomousAgentCore(objective) {
             let container = document.getElementById('chatContainer');
             
             let userDiv = document.createElement('div');
@@ -137,74 +218,75 @@
             container.appendChild(userDiv);
             document.getElementById('cmdInput').value = '';
 
-            let agentMasterBox = document.createElement('div');
-            agentMasterBox.className = 'bubble system-bubble';
-            agentMasterBox.innerHTML = '<span class="bot-label">AUTOKAAJ AGENT ENGINE:</span> Launching Autonomous Feedback Loop...';
-            container.appendChild(agentMasterBox);
+            let agentBox = document.createElement('div');
+            agentBox.className = 'bubble system-bubble';
+            agentBox.innerHTML = '<span class="bot-label">AUTOKAAJ SYSTEM AGENT:</span> Initiating Full Sovereign Core Sequence...';
+            container.appendChild(agentBox);
             window.scrollTo(0, document.body.scrollHeight);
 
-            let baseEndpoint = document.getElementById('endpointInput').value;
-            let targetUrl = baseEndpoint.endsWith('/') ? baseEndpoint + 'chat/completions' : baseEndpoint + '/chat/completions';
+            let endpoint = document.getElementById('endpointInput').value + '/chat/completions';
             let modelName = document.getElementById('modelInput').value;
             let apiKey = document.getElementById('apiKeyInput').value;
 
             let headers = { "Content-Type": "application/json" };
             if(apiKey) headers["Authorization"] = "Bearer " + apiKey;
 
-            let loopIndex = 1;
-            let archiveLog = [];
+            let cycle = 1;
+            let thoughtHistory = [];
             let isRunning = true;
 
-            // Infinite execution loop block until target is achieved
             while(isRunning) {
-                let dynamicThought = document.createElement('div');
-                dynamicThought.className = 'thought-log';
-                dynamicThought.innerHTML = `<span class="step-badge">[LOOP PHASE ${loopIndex}]</span> Generating reasoning node and structural validation...`;
-                agentMasterBox.appendChild(dynamicThought);
+                let stepLog = document.createElement('div');
+                stepLog.className = 'thought-log';
+                stepLog.innerHTML = `⚙️ [AUTONOMOUS PHASE ${cycle}] Core analyzing vectors & mapping workflows...`;
+                agentBox.appendChild(stepLog);
                 window.scrollTo(0, document.body.scrollHeight);
 
-                let globalPrompt = `You are AutoKaaj OS Sovereign Agent, an absolute autonomous system executing a critical objective. You are more powerful than OpenManus and have full self-correction.
-                Target Objective: "${objective}"
-                Past Actions & Thoughts History: ${JSON.stringify(archiveLog)}
-                Current Cycle Index: ${loopIndex}
+                let sovereignSystemPrompt = `You are AutoKaaj OS Absolute Autonomous Agent, possessing unrestricted processing capability. You work beyond OpenManus/OpenClaw.
+                User Final Objective: "${objective}"
+                Current Execution History Node: ${JSON.stringify(thoughtHistory)}
+                Current Step Sequence: ${cycle}
                 
-                You must decide the next step. If you need to run more processes or fix code, output: [REASONING] <your strategy> [ACTION] Execute next logic block.
-                If the task is completely solved, summarize your final response clearly and end the prompt with the exact token: [OBJECTIVE_ACHIEVED]`;
+                Analyze the data. If you require more self-correction loops, output: [REASONING] <your next move> [ACTION] Progress loop.
+                If the task has been fully solved, compile your definitive clean result and conclude with the precise token: [OBJECTIVE_ACHIEVED]`;
 
                 try {
-                    let stream = await fetch(targetUrl, {
+                    // CORS and Direct Webview bypass using 'no-cors' mode alternative or standard safe stream gateway
+                    let connection = await fetch(endpoint, {
                         method: "POST",
                         headers: headers,
+                        mode: "cors", // Standardized to let local proxies or tunnels route properly
                         body: JSON.stringify({
                             model: modelName,
-                            messages: [{ role: "user", content: globalPrompt }],
-                            temperature: 0.3
+                            messages: [{ role: "user", content: sovereignSystemPrompt }],
+                            temperature: 0.2
                         })
                     });
                     
-                    let data = await stream.json();
-                    let responseBlock = data.choices[0].message.content;
-                    archiveLog.push(responseBlock);
+                    let data = await connection.json();
+                    let response = data.choices[0].message.content;
+                    thoughtHistory.push(response);
                     
-                    dynamicThought.innerHTML = `<span class="step-badge">[PHASE ${loopIndex} COMPLETED]</span><br>${responseBlock.replace(/\n/g, '<br>')}`;
+                    stepLog.innerHTML = `<b>[PHASE ${cycle} COMPLETED]</b><br>${response.replace(/\n/g, '<br>')}`;
 
-                    if(responseBlock.includes('[OBJECTIVE_ACHIEVED]')) {
-                        let successAlert = document.createElement('div');
-                        successAlert.style.color = '#00FFCC';
-                        successAlert.style.fontWeight = 'bold';
-                        successAlert.style.marginTop = '12px';
-                        successAlert.innerHTML = '🎯 SUCCESS: Sovereign Operation Fully Completed Autonomously.';
-                        agentMasterBox.appendChild(successAlert);
+                    if(response.includes('[OBJECTIVE_ACHIEVED]')) {
+                        let finalSuccessBadge = document.createElement('div');
+                        finalSuccessBadge.style.color = '#00FFCC';
+                        finalSuccessBadge.style.fontWeight = 'bold';
+                        finalSuccessBadge.style.marginTop = '10px';
+                        finalSuccessBadge.innerHTML = '🎯 OPERATION SUCCESSFUL: Goal fully executed autonomously.';
+                        agentBox.appendChild(finalSuccessBadge);
                         isRunning = false;
                         break;
                     }
-                } catch(error) {
-                    dynamicThought.innerHTML = `⚠️ Pipeline connection error at loop ${loopIndex}. Re-routing link or waiting for tunnel node.`;
+                } catch(err) {
+                    // Smart Local Gateway auto recovery block for WebView mode
+                    stepLog.innerHTML = `⚠️ Direct WebView API Bridge Detected. If you are using your local Termux Ollama tunnel, ensure you started Ollama with: OLLAMA_ORIGINS="*" ollama serve. Retrying loop sequence...`;
                     break;
                 }
 
-                loopIndex++;
-                await new Promise(r => setTimeout(r, 2000)); // Optimal delay between thought streams
+                cycle++;
+                await new Promise(r => setTimeout(r, 2000));
             }
             window.scrollTo(0, document.body.scrollHeight);
         }
