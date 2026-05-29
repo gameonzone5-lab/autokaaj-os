@@ -18,15 +18,17 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Auto-Detect and Build APK
+    - name: Build Android APK
       run: |
-        echo "Searching for gradlew..."
-        # gradlew ফাইলটি যেখানেই থাকুক, তাকে খুঁজে রান পারমিশন দেবে এবং বিল্ড করবে
-        find . -name "gradlew" -execdir chmod +x {} \;
-        find . -name "gradlew" -execdir ./{} assembleDebug --stacktrace \;
+        # gradlew যে ফোল্ডারে আছে সেখানে প্রবেশ করে বিল্ড করবে
+        GRADLE_DIR=$(dirname $(find . -name "gradlew" | head -n 1))
+        echo "Building in directory: $GRADLE_DIR"
+        cd $GRADLE_DIR
+        chmod +x gradlew
+        ./gradlew assembleDebug --stacktrace
 
     - name: Upload Final APK
       uses: actions/upload-artifact@v4
       with:
-        name: AutoKaaj-OS-V5-App
-        path: '**/*.apk' # বিল্ড হওয়া যেকোনো APK ফাইল অটোমেটিক আপলোড করবে
+        name: AutoKaaj-OS-App-V5
+        path: '**/*.apk'
