@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>AutoKaaj OS - Premium Autonomous Agent Engine</title>
-    <meta name="description" content="AutoKaaj OS is a premium high-end serverless multi-agent platform running multi-step execution loops with advanced 3D interface mechanics.">
-    <meta name="keywords" content="AutoKaaj, OpenManus, OpenClaw, AI Agent, Autonomous AI, Serverless Core, Any Model, Gemini">
+    <title>AutoKaaj OS - Sovereign Autonomous Agent</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #0A0A0E; color: #E4E4ED; font-family: 'Plus Jakarta Sans', sans-serif; padding: 15px; overflow-x: hidden; }
@@ -18,75 +15,69 @@
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #161622; padding-bottom: 18px; }
         .logo-group { display: flex; align-items: center; gap: 15px; }
         
-        /* Twin-Orbit AK Logo with Intermittent Scan Pulse */
+        /* Twin-Orbit AK Logo */
         .logo-container { position: relative; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
         .outer-circle { position: absolute; width: 100%; height: 100%; border: 3.5px dashed #00FFCC; border-radius: 50%; animation: rotate-inverse 6s linear infinite; filter: drop-shadow(0 0 8px rgba(0,255,204,0.4)); }
         .inner-svg { width: 75%; height: 75%; animation: rotate-clock 12s linear infinite; }
-        
-        /* AK Dynamic Text & Scan Effect */
-        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; text-shadow: 0 0 10px #A020F0; animation: ak-pulse-scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        .logo-text { position: absolute; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: #FFF; text-shadow: 0 0 10px #A020F0; animation: ak-pulse-scan 3s infinite; }
         
         @keyframes ak-pulse-scan {
-            0% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px #A020F0); }
-            50% { transform: scale(1.18); filter: brightness(2) drop-shadow(0 0 12px #00FFCC); color: #00FFCC; }
-            100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px #A020F0); color: #FFF; }
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.15); filter: brightness(1.5) drop-shadow(0 0 10px #00FFCC); color: #00FFCC; }
+            100% { transform: scale(1); filter: brightness(1); color: #FFF; }
         }
-        
         @keyframes rotate-clock { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-inverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         
-        /* Ultimate 3D Brick Red Premium Typography */
-        .brand-name { color: #B22222; font-size: 27px; font-weight: 900; letter-spacing: -0.5px; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; position: relative; display: inline-block; text-shadow: 0 1px 0 #801818, 0 2px 0 #701515, 0 3px 0 #601212, 0 4px 0 #500F0F, 0 5px 0 #400C0C, 0 8px 10px rgba(0,0,0,0.6); }
-        .brand-name span { color: #8B0000; text-shadow: 0 1px 0 #600000, 0 2px 0 #500000, 0 3px 0 #400000, 0 6px 8px rgba(0,0,0,0.5); margin-left: 4px; }
+        /* ANIMATED 3D BRICK RED & GOLD TYPOGRAPHY */
+        .brand-name { 
+            color: #D23B2A; font-size: 28px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; position: relative; display: inline-block; 
+            animation: brick-breathe 4s ease-in-out infinite alternate;
+        }
+        @keyframes brick-breathe {
+            0% { text-shadow: 1px 1px 0px #8B2519, 2px 2px 0px #791D11, 3px 3px 0px #63140A, 4px 4px 10px rgba(210,59,42,0.4); transform: translateY(0); }
+            100% { text-shadow: 1px 1px 0px #8B2519, 2px 2px 0px #791D11, 3px 3px 0px #63140A, 4px 4px 0px #4F0E06, 5px 5px 0px #3D0A04, 6px 6px 20px rgba(0,0,0,0.8); transform: translateY(-2px); }
+        }
+        .brand-name span { color: #FFD700; text-shadow: 1px 1px 0px #B8860B, 2px 2px 0px #8B6508, 3px 3px 15px rgba(255,215,0,0.6); margin-left: 5px; }
         
         .vip-btn { background: #13131F; border: 1px solid #FF007F; color: #FF007F; padding: 8px 16px; font-weight: 600; border-radius: 20px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-        .vip-btn:hover { background: #FF007F; color: #FFF; box-shadow: 0 0 15px rgba(255,0,127,0.5); }
-        
-        /* Agent Factory */
+        /* Open Architecture Agent Factory */
         .agent-factory-box { background: #111118; border: 1px solid #1C1C2D; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .factory-title { font-size: 13px; font-weight: 700; color: #8F8F9E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .factory-title span { color: #00FFCC; }
         
-        /* Inputs Matrix */
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         select, input, textarea { width: 100%; padding: 14px; background: #13131F; border: 1px solid #1C1C2D; color: #FFF; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; transition: 0.3s; }
-        select:focus, input:focus, textarea:focus { border-color: #00FFCC; box-shadow: 0 0 10px rgba(0,255,204,0.1); }
+        select:focus, input:focus, textarea:focus { border-color: #00FFCC; }
         .full-width { grid-column: span 2; }
-        .manual-field { display: none; }
         
-        /* Chat Feed Frame */
         .chat-container { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 150px; }
         .bubble { padding: 16px; border-radius: 12px; max-width: 95%; line-height: 1.6; font-size: 14px; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .system-bubble { background: #111118; border: 1px solid #1A1A26; border-left: 4px solid #00FFCC; align-self: flex-start; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .system-bubble { background: #111118; border: 1px solid #1A1A26; border-left: 4px solid #00FFCC; align-self: flex-start; }
         .user-bubble { background: #19122C; border: 1px solid #2B1D42; border-right: 4px solid #A020F0; align-self: flex-end; border-radius: 12px 12px 0 12px; }
         .thought-log { background: #07070A; border: 1px solid #161622; border-left: 3px solid #00FFCC; color: #00FFCC; font-size: 12px; padding: 12px; margin-top: 12px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; word-break: break-word; }
         
-        .user-label { color: #A020F0; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; }
-        .bot-label { color: #00FFCC; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .user-label { color: #A020F0; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .bot-label { color: #00FFCC; font-weight: 700; font-size: 11px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
         
-        /* Control Bar Layout */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0E; padding: 15px; border-top: 1px solid #161622; z-index: 100; }
         .input-group { display: flex; gap: 10px; }
         .input-group input { flex: 1; background: #111118; border-color: #1C1C2D; }
         .exec-btn { background: #00FFCC; border: none; color: #0A0A0E; font-weight: 700; padding: 0 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 13px; text-transform: uppercase; }
         
-        /* 3s Fast Test Overlay */
         .ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0A0A0E; z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
-        .ad-title { color: #FF007F; font-size: 24px; font-weight: 800; margin-bottom: 20px; }
         .ad-video-box { width: 100%; max-width: 460px; height: 240px; background: #111118; border: 1px dashed #FF007F; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
         .ad-timer { font-size: 16px; color: #00FFCC; margin: 20px 0; font-weight: 700; }
         .skip-btn { background: #161622; border: none; color: #444; padding: 12px 35px; font-weight: bold; border-radius: 8px; cursor: not-allowed; }
-        .skip-btn.active { background: #00FFCC; color: #0A0A0E; cursor: pointer; box-shadow: 0 0 15px #00FFCC; }
+        .skip-btn.active { background: #00FFCC; color: #0A0A0E; cursor: pointer; }
         
-        /* VIP Popup Block */
         .vip-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111118; border: 1px solid #FF007F; padding: 25px; border-radius: 14px; z-index: 2000; display: none; width: 90%; max-width: 380px; }
         .close-vip { float: right; color: #8F8F9E; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <div class="header">
         <div class="logo-group">
             <div class="logo-container">
@@ -102,49 +93,49 @@
         <button class="vip-btn" onclick="openVipModal()" id="vipStatusBadge">⭐ Upgrade VIP</button>
     </div>
 
+    <!-- OPEN ARCHITECTURE MODEL CONFIGURATION -->
     <div class="agent-factory-box">
-        <div class="factory-title">🤖 Custom Agent Factory <span>[Active]</span></div>
+        <div class="factory-title">🤖 Matrix & Agent Core <span>[Fully Open]</span></div>
         <div class="config-grid">
-            <input type="text" id="customAgentName" value="Sovereign Agent" placeholder="Give your Agent a Name...">
-            <select id="providerSelect" onchange="toggleMatrixEngine()">
-                <option value="hidden_core">AutoKaaj Default Network (Hidden Free Cloud Mode)</option>
-                <option value="custom_matrix">Custom API Matrix Gateway</option>
+            <select id="providerSelect" class="full-width" onchange="toggleMatrixEngine()">
+                <option value="ollama">AutoKaaj Termux Engine (Ollama Localhost - Default)</option>
+                <option value="custom">Custom Global API (Gemini/Groq/OpenAI)</option>
             </select>
             
-            <textarea id="customAgentPrompt" class="full-width" rows="2" placeholder="Describe Agent Target Mission Profile (System Instructions / Persona Role)..."></textarea>
+            <input type="text" id="endpointInput" class="full-width" value="http://127.0.0.1:11434/v1" placeholder="API Endpoint URL">
+            <input type="text" id="modelInput" value="gemma4:31b-cloud" placeholder="Target Model Name">
+            <input type="password" id="apiKeyInput" value="" placeholder="API Key (Leave blank for Termux)">
             
-            <input type="text" id="manualEndpoint" class="full-width manual-field" placeholder="Enter Target Endpoint URL Link (e.g., https://api.openai.com/v1)">
-            <input type="text" id="manualModel" class="manual-field" placeholder="Enter Any Model Name (e.g., gemini-1.5-flash)">
-            <input type="password" id="manualKey" class="manual-field" placeholder="Enter API Key / Bearer Token">
+            <input type="text" id="customAgentName" class="full-width" value="Sovereign Agent" placeholder="Give your Agent a Name...">
+            <textarea id="customAgentPrompt" class="full-width" rows="2" placeholder="System Blueprint: You are a coding agent with Termux execution capability..."></textarea>
         </div>
     </div>
-
     <div class="chat-container" id="chatContainer">
         <div class="bubble system-bubble">
             <span class="bot-label">SYSTEM PROTOCOL DECK:</span>
-            Enterprise Multi-Agent Engine Synced. Unrestricted Operation Terminal Active.
+            Enterprise Multi-Agent Engine Synced. Termux & Open API Core Ready.
         </div>
     </div>
 
     <div class="bottom-panel">
         <div class="input-group">
-            <input type="text" id="cmdInput" placeholder="Assign tactical goal or deploy customized factory agent...">
+            <input type="text" id="cmdInput" placeholder="Assign task (e.g., Write a python script and save it)...">
             <button class="exec-btn" onclick="preCheckExecution()">EXECUTE</button>
         </div>
     </div>
 
+    <!-- 3 Sec Fast Overlay -->
     <div class="ad-overlay" id="adOverlay">
-        <div class="ad-title">AutoKaaj OS - Neural Matrix Syncing</div>
         <div class="ad-video-box">
-            <div style="padding: 20px;">
-                <p style="color:#00FFCC; margin-bottom:8px; font-weight:700;">🌐 Internal Client Request Routing...</p>
-                <p style="font-size:12px; color:#555;">Compiling embedded token handshake pipelines. Pure browser-to-cloud execution protocol, Termux independent.</p>
+            <div style="padding: 20px; text-align: center;">
+                <p style="color:#00FFCC; margin-bottom:8px; font-weight:700;">🌐 Syncing with Termux Core...</p>
+                <p style="font-size:12px; color:#555;">Establishing direct connection with local Ollama Matrix.</p>
             </div>
         </div>
         <div class="ad-timer" id="adTimerTxt">Ad closes in: 3 seconds</div>
         <button class="skip-btn" id="skipAdBtn" disabled onclick="closeAdScreen()">Please Wait...</button>
     </div>
-
+    
     <div class="vip-modal" id="vipModal">
         <span class="close-vip" onclick="closeVipModal()">&times;</span>
         <h3 style="color:#FF007F; margin-bottom:12px; font-weight:800;">👑 Upgrade to VIP</h3>
@@ -154,10 +145,6 @@
     </div>
 
     <script>
-        // High-Speed Direct Google Cloud Gateway Proxy (Bypassing WebView local constraints)
-        const _DYNAMIC_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-        const _DYNAMIC_TOKEN = "QUl6YVN5RHBTMXhhUWF1WFlqUnB2Z19lSTFmSTNhUHpWamFwM09v";
-
         if(localStorage.getItem('autokaaj_vip') === 'true') {
             document.getElementById('vipStatusBadge').innerText = '👑 Premium Core Active';
             document.getElementById('vipStatusBadge').style.borderColor = '#00FFCC';
@@ -166,8 +153,21 @@
 
         function toggleMatrixEngine() {
             let mode = document.getElementById('providerSelect').value;
-            let fields = document.querySelectorAll('.manual-field');
-            fields.forEach(f => f.style.display = (mode === 'custom_matrix') ? 'block' : 'none');
+            let ep = document.getElementById('endpointInput');
+            let md = document.getElementById('modelInput');
+            let ak = document.getElementById('apiKeyInput');
+
+            if(mode === 'ollama') {
+                ep.value = "http://127.0.0.1:11434/v1";
+                md.value = "gemma4:31b-cloud";
+                ak.value = "";
+                ak.placeholder = "API Key (Leave blank for Termux)";
+            } else {
+                ep.value = "https://generativelanguage.googleapis.com/v1beta/openai";
+                md.value = "gemini-1.5-flash";
+                ak.value = "";
+                ak.placeholder = "Enter your custom API Key here";
+            }
         }
 
         function openVipModal() { document.getElementById('vipModal').style.display = 'block'; }
@@ -179,6 +179,8 @@
                 localStorage.setItem('autokaaj_vip', 'true');
                 alert('Premium Core Unlocked Successfully!');
                 location.reload();
+            } else {
+                alert('Invalid License Code!');
             }
         }
 
@@ -225,11 +227,10 @@
             }
         }
 
-        // Sovereign Multi-Step Infinite CoT Agent Loop - Fully Optimized for Local WebViews
         async function triggerAutonomousAgentCore(objective) {
             let container = document.getElementById('chatContainer');
             let agentLabelName = document.getElementById('customAgentName').value || "Sovereign Agent";
-            let customBlueprintPrompt = document.getElementById('customAgentPrompt').value || "Execute objective autonomously.";
+            let customBlueprintPrompt = document.getElementById('customAgentPrompt').value || "You are a coding agent with Termux execution capability. Execute the objective step by step.";
             
             let userDiv = document.createElement('div');
             userDiv.className = 'bubble user-bubble';
@@ -239,11 +240,10 @@
 
             let agentBox = document.createElement('div');
             agentBox.className = 'bubble system-bubble';
-            agentBox.innerHTML = `<span class="bot-label">${agentLabelName.toUpperCase()} CORE:</span> Deploying custom agent workflow node...`;
+            agentBox.innerHTML = `<span class="bot-label">${agentLabelName.toUpperCase()} CORE:</span> Deploying agent workflow node...`;
             container.appendChild(agentBox);
             window.scrollTo(0, document.body.scrollHeight);
 
-            let engineMode = document.getElementById('providerSelect').value;
             let cycle = 1;
             let thoughtHistory = [];
             let isRunning = true;
@@ -251,65 +251,47 @@
             while(isRunning) {
                 let stepLog = document.createElement('div');
                 stepLog.className = 'thought-log';
-                stepLog.innerHTML = `⚙️ [${agentLabelName.toUpperCase()} - PHASE ${cycle}] Core reasoning & executing autonomous data branches...`;
+                stepLog.innerHTML = `⚙️ [${agentLabelName.toUpperCase()} - PHASE ${cycle}] Sending payload to Matrix Endpoint...`;
                 agentBox.appendChild(stepLog);
                 window.scrollTo(0, document.body.scrollHeight);
 
-                let globalPrompt = `You are AutoKaaj OS Specialized Node: "${agentLabelName}". 
-                Your Base Mission Blueprint/System Prompt: "${customBlueprintPrompt}"
-                User Request Target Objective: "${objective}"
-                Past Execution Steps Archive: ${JSON.stringify(thoughtHistory)}
-                Current Cycle Step Index: ${cycle}
-                
-                Work step-by-step to achieve the goal autonomously like OpenManus protocols. If more steps are needed, output your next logical plan or actions. If fully solved, summarize the final result and close strictly with token: [OBJECTIVE_ACHIEVED]`;
+                let globalPrompt = `[System Blueprint]: ${customBlueprintPrompt}\n\n[User Goal]: ${objective}\n[Past Execution History]: ${JSON.stringify(thoughtHistory)}\n[Current Cycle]: ${cycle}\n\nThink and write code step-by-step. If you have fully completed the requested task, output the results and close your response strictly with the exact token: [OBJECTIVE_ACHIEVED]`;
 
                 try {
-                    let responseBlock = "";
+                    let targetUrl = document.getElementById('endpointInput').value;
+                    let modelName = document.getElementById('modelInput').value;
+                    let token = document.getElementById('apiKeyInput').value;
+                    
+                    if(!targetUrl || !modelName) throw new Error("Endpoint URL or Model Name is missing!");
 
-                    // Core Fixed Block: Robust Object Parsing to Completely Eliminate Parsing Exceptions
-                    if(engineMode === 'hidden_core') {
-                        let finalUrl = `${_DYNAMIC_ENDPOINT}?key=${atob(_DYNAMIC_TOKEN)}`;
-                        
-                        let connection = await fetch(finalUrl, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                contents: [{ parts: [{ text: globalPrompt }] }]
-                            })
-                        });
-                        
-                        let data = await connection.json();
-                        if (data && data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
-                            responseBlock = data.candidates[0].content.parts[0].text;
-                        } else {
-                            throw new Error("Invalid API Response Format Object Structure");
-                        }
-                    } else {
-                        // Custom Open-Source Matrix Router Pipeline
-                        let targetUrl = document.getElementById('manualEndpoint').value;
-                        let modelName = document.getElementById('manualModel').value;
-                        let token = document.getElementById('manualKey').value;
-                        let headers = { "Content-Type": "application/json" };
-                        if(token) headers["Authorization"] = "Bearer " + token;
+                    let finalUrl = targetUrl.endsWith('/') ? targetUrl + 'chat/completions' : targetUrl + '/chat/completions';
+                    let headers = { "Content-Type": "application/json" };
+                    if(token) headers["Authorization"] = "Bearer " + token;
 
-                        let finalUrl = targetUrl.endsWith('/') ? targetUrl + 'chat/completions' : targetUrl + '/chat/completions';
-                        
-                        if(!targetUrl.includes('localhost') && !targetUrl.includes('127.0.0.1')) {
-                            finalUrl = "https://corsproxy.io/?" + encodeURIComponent(finalUrl);
-                        }
-
-                        let connection = await fetch(finalUrl, {
-                            method: "POST",
-                            headers: headers,
-                            body: JSON.stringify({
-                                model: modelName,
-                                messages: [{ role: "user", content: globalPrompt }],
-                                temperature: 0.3
-                            })
-                        });
-                        let data = await connection.json();
-                        responseBlock = data.choices[0].message.content;
+                    if(!finalUrl.includes('localhost') && !finalUrl.includes('127.0.0.1') && !finalUrl.includes('generativelanguage')) {
+                        finalUrl = "https://corsproxy.io/?" + encodeURIComponent(finalUrl);
                     }
+
+                    let connection = await fetch(finalUrl, {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify({
+                            model: modelName,
+                            messages: [
+                                { role: "system", content: customBlueprintPrompt },
+                                { role: "user", content: globalPrompt }
+                            ],
+                            temperature: 0.2
+                        })
+                    });
+
+                    if (!connection.ok) {
+                        let errText = await connection.text();
+                        throw new Error(`Server returned Status ${connection.status}`);
+                    }
+
+                    let data = await connection.json();
+                    let responseBlock = data.choices[0].message.content;
 
                     thoughtHistory.push(responseBlock);
                     stepLog.innerHTML = `<b>[PHASE ${cycle} COMPLETED]</b><br>${responseBlock.replace(/\n/g, '<br>')}`;
@@ -325,12 +307,16 @@
                         break;
                     }
                 } catch(error) {
-                    stepLog.innerHTML = `⚠️ Pipeline Node Timeout: Stream gateway returned a parsing exception or invalid key schema. Double-check custom matrix values. Retrying workflow stream...`;
+                    let helpMsg = "";
+                    if(error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+                        helpMsg = `<br><br><span style="color:#FF007F; font-size:11px;"><b>TERMUX OLLAMA FIX:</b> Ensure Termux is running in the background. Stop your current ollama and start it with this exact command to allow browser connection:<br><code>OLLAMA_ORIGINS="*" ollama serve</code></span>`;
+                    }
+                    stepLog.innerHTML = `⚠️ Connection Failed: <b>${error.message}</b>${helpMsg}`;
                     break;
                 }
 
                 cycle++;
-                await new Promise(r => setTimeout(r, 2200));
+                await new Promise(r => setTimeout(r, 2000));
             }
             window.scrollTo(0, document.body.scrollHeight);
         }
