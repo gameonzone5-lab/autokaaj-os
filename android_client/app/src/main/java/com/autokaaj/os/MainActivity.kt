@@ -13,7 +13,7 @@ class MainActivity : Activity() {
         webView.settings.domStorageEnabled = true
         webView.webViewClient = WebViewClient()
         // এটি আপনার টার্মাক্সের লোকালহোস্টের সাথে কানেক্ট করবে
-        webView.loadUrl("http://127.0.0.1:3000") 
+        webView.loadUrl("https://app.roservicekolkata.info") 
         setContentView(webView)
     }
 }
