@@ -10,6 +10,7 @@
         android:label="AutoKaaj OS"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
         
         <activity android:name=".MainActivity"
