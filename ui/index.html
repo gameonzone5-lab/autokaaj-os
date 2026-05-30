@@ -6,29 +6,29 @@
     <title>AutoKaaj OS | Autonomous Agent</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
-        
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #0A0A0C; color: #FFFFFF; font-family: 'Inter', sans-serif; padding: 15px; padding-bottom: 110px; overflow-x: hidden; }
+        body { background: #0A0A0C; color: #FFFFFF; font-family: 'Inter', sans-serif; padding: 15px; padding-top: 0; padding-bottom: 110px; overflow-x: hidden; }
 
         /* Tech Background */
         #tech-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; opacity: 0.15; }
         .tech-symbol { position: absolute; font-size: 24px; animation: floatUp linear infinite; filter: grayscale(50%); }
         @keyframes floatUp { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        /* Header & Logo */
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-top: 10px; }
+        /* 🟢 STICKY HEADER (লোগো সবসময় উপরে ভাসবে) */
+        .header { display: flex; align-items: center; justify-content: space-between; margin: 0 -15px 25px -15px; padding: 15px; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1A1A24; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .logo-section { display: flex; align-items: center; gap: 8px; }
         .logo-box { position: relative; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
         .outer-ring { position: absolute; width: 100%; height: 100%; animation: spin 8s linear infinite; }
         .inner-gear { position: absolute; width: 100%; height: 100%; animation: spin-rev 6s linear infinite; }
         .logo-text { position: absolute; z-index: 2; color: #FFD700; font-weight: 900; font-size: 11px; animation: panZoomText 2.5s ease-in-out infinite; }
-        
+
         @keyframes panZoomText { 0%, 100% { transform: translateX(-2px) scale(0.95); } 50% { transform: translateX(2px) scale(1.15); } }
-        @keyframes spin { 100% { transform: rotate(360deg); } } 
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes spin-rev { 100% { transform: rotate(-360deg); } }
 
-        .logo-box.processing .outer-ring circle { stroke: #39FF14; filter: drop-shadow(0 0 8px #39FF14); } 
-        .logo-box.processing .outer-ring { animation: spin 2.5s linear infinite; } 
+        .logo-box.processing .outer-ring circle { stroke: #39FF14; filter: drop-shadow(0 0 8px #39FF14); }
+        .logo-box.processing .outer-ring { animation: spin 2.5s linear infinite; }
 
         .brand-name { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #FFFFFF; text-shadow: 1px 1px 0px #A020F0, 2px 2px 0px #7000FF; margin-left: 8px; }
         .brand-name .os { color: #00FFCC; text-shadow: 1px 1px 0px #00B38F, 2px 2px 0px #008066; }
@@ -37,7 +37,7 @@
         .section-title { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .active-tag { color: #00FFCC; font-weight: 800; }
         .quota-badge { background: #16161E; border: 1px solid #FFD700; color: #FFD700; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; }
-        
+
         .agent-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
         .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.3s; }
         .tab-btn.active { background: #A020F0; border-color: #A020F0; color: #FFFFFF; }
@@ -46,7 +46,7 @@
         /* Inputs & Textareas */
         .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; min-height: 80px; margin-bottom: 20px; outline: none; }
         .mission-profile:focus { border-color: #00FFCC; }
-        
+
         .api-panel { background: #111116; border: 1px solid #2A2A35; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
         .input-label { display: block; color: #00FFCC; font-size: 11px; font-weight: 800; margin-bottom: 6px; margin-top: 10px; text-transform: uppercase; }
         .api-input { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 12px; border-radius: 6px; font-size: 12px; }
@@ -63,7 +63,7 @@
         .chat-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .agentic-log { background: #050508; border-left: 2px solid #A020F0; padding: 12px; border-radius: 0 6px 6px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; }
         .log-step { margin-bottom: 4px; }
-        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #E4E4ED; white-space: pre-wrap; word-wrap: break-word; margin-top: 5px; }
+        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #E4E4ED; white-space: pre-wrap; word-wrap: break-word; }
 
         /* Bottom Panel */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0C; padding: 15px; border-top: 1px solid #1A1A24; display: flex; gap: 10px; z-index: 100; }
@@ -90,7 +90,7 @@
         <div>🤖 AUTONOMOUS KERNEL <span class="active-tag">[ACTIVE]</span></div>
         <div class="quota-badge">Free Quota: 3</div>
     </div>
-    
+
     <div class="agent-tabs">
         <div class="tab-btn active" id="btn-agent" onclick="switchTab('agent')">💻 Agent</div>
         <div class="tab-btn" id="btn-api" onclick="switchTab('api')">🔌 API Config</div>
@@ -111,13 +111,13 @@
                 <option value="gemini_pro">Google - Gemini 1.5 Pro</option>
             </optgroup>
         </select>
-        
+
         <label class="input-label">🧠 Model Name</label>
         <input type="text" id="apiModel" class="api-input" placeholder="gemma4:31b-cloud">
-        
+
         <label class="input-label">🌐 API Endpoint URL</label>
         <input type="text" id="apiEndpoint" class="api-input" placeholder="http://127.0.0.1:11434/api/generate">
-        
+
         <label class="input-label">🔑 Custom API Key</label>
         <input type="password" id="apiKey" class="api-input" placeholder="Enter API Key (Leave blank for local)" onchange="saveKey()">
     </div>
@@ -130,9 +130,9 @@
             <button class="action-btn btn-model" onclick="document.getElementById('userInput').value='Pull and run gemma4:31b-cloud'; runAgent(); switchTab('agent');">📦 2. Auto-Setup Gemma4 Model</button>
         </div>
     </div>
-    
+
     <div class="chat-container" id="chat"></div>
-    
+
     <div class="bottom-panel">
         <input type="file" id="fileUploader" style="display: none;">
         <button class="attach-btn" onclick="document.getElementById('fileUploader').click()">📎</button>
@@ -175,21 +175,35 @@
             updateProvider();
         }
 
+        // 🟢 COPY BUTTON FUNCTION
+        function copyToClipboard(btnElement, textContainerId) {
+            const content = document.getElementById(textContainerId).innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "✅ COPIED";
+                btnElement.style.color = "#000";
+                btnElement.style.background = "#00FFCC";
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.color = "#00FFCC";
+                    btnElement.style.background = "#2A2A35";
+                }, 2000);
+            }).catch(err => console.error('Copy failed', err));
+        }
+
         async function runAgent() {
             const task = document.getElementById('userInput').value;
             const fileInput = document.getElementById('fileUploader').files[0];
             if(!task && !fileInput) return;
-            
+
             document.getElementById('userInput').value = '';
             const container = document.getElementById('chat');
             document.getElementById('mainLogo').classList.add('processing');
 
-            // 1. Create the dark terminal log box
             let logBox = document.createElement('div');
             logBox.className = 'agentic-log';
             container.appendChild(logBox);
 
-            // 2. Define the exact animated steps from the video
             const steps = [
                 `> [SYSTEM]: AutoKaaj Kernel Initializing...`,
                 `> [CONFIG]: Checking Local Environment...`,
@@ -197,42 +211,44 @@
                 `> [NETWORK]: Executing Autonomous Task...`
             ];
 
-            // 3. Animate the typing effect (600ms gap between each line)
             for (let i = 0; i < steps.length; i++) {
-                setTimeout(() => { 
-                    logBox.innerHTML += `<div class="log-step">${steps[i]}</div>`; 
-                    window.scrollTo(0, document.body.scrollHeight);
+                setTimeout(() => {
+                    logBox.innerHTML += `<div class="log-step">${steps[i]}</div>`;
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 }, i * 600);
             }
 
-            // 4. Wait for the animation to finish, then fetch real data
             setTimeout(async () => {
                 const fd = new FormData();
-                fd.append('prompt', task); 
+                fd.append('prompt', task);
                 fd.append('model', document.getElementById('apiModel').value);
-                // Hardcoded local server link to fix Connection Failed
-                fd.append('apiUrl', document.getElementById('apiEndpoint').value); 
+                fd.append('apiUrl', document.getElementById('apiEndpoint').value);
                 fd.append('apiKey', document.getElementById('apiKey').value);
                 if(fileInput) fd.append('file', fileInput);
 
                 try {
-                    // Send to your Node.js Server
-                    const res = await fetch('https://app.roservicekolkata.info/api/execute', { method: 'POST', body: fd, mode: 'cors', credentials: 'omit' }); // { method: 'POST', body: fd });
+                    const res = await fetch('https://app.roservicekolkata.info/api/execute', { method: 'POST', body: fd, mode: 'cors', credentials: 'omit' });
                     if(!res.ok) throw new Error("Backend connection failed.");
                     const data = await res.json();
-                    
-                    // Show actual AI output
+
+                    // 🟢 FINAL OUTPUT WITH COPY BUTTON
+                    let outputId = "out_" + Date.now();
                     let outputWrapper = document.createElement('div');
-                    outputWrapper.innerHTML = `<div class="final-output">${data.reply.replace(/\n/g, '<br>')}</div>`;
+                    outputWrapper.style.position = 'relative';
+                    outputWrapper.style.marginTop = '10px';
+                    
+                    outputWrapper.innerHTML = `
+                        <button onclick="copyToClipboard(this, '${outputId}')" style="position:absolute; top: 15px; right: 15px; background: #2A2A35; border: 1px solid #00FFCC; color: #00FFCC; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 800; z-index: 10; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">📋 COPY</button>
+                        <div class="final-output" id="${outputId}" style="padding-top: 45px;">${data.reply.replace(/\n/g, '<br>')}</div>
+                    `;
                     container.appendChild(outputWrapper);
                 } catch(e) {
-                    // Show error in red if server is off
                     logBox.innerHTML += `<div class="log-step" style="color:red; margin-top:5px;">> [ERROR]: Failed to fetch. Ensure Node.js Backend (server.js) is running on port 3000.</div>`;
                 }
-                
+
                 document.getElementById('mainLogo').classList.remove('processing');
                 document.getElementById('fileUploader').value = '';
-                window.scrollTo(0, document.body.scrollHeight);
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }, steps.length * 600 + 500);
         }
     </script>
