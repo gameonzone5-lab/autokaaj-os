@@ -7,7 +7,6 @@ CORS(app)
 def execute():
     cmd = request.json.get('cmd', '')
     try:
-        # লিনাক্স কমান্ড সরাসরি রান করা
         out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
         return jsonify({"result": out, "status": "success"})
     except subprocess.CalledProcessError as e:

@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# ১. মাস্টার পাইথন ইঞ্জিন (এটি কমান্ডের আউটপুট সরাসরি অ্যাপে দেবে)
 cat << 'PY' > agent_core.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -11,15 +9,12 @@ CORS(app)
 def execute():
     cmd = request.json.get('cmd', '')
     try:
-        # লিনাক্স কমান্ড সরাসরি রান করা
         out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
         return jsonify({"result": out, "status": "success"})
     except subprocess.CalledProcessError as e:
         return jsonify({"result": e.output, "status": "error"})
 if __name__ == '__main__': app.run(host='127.0.0.1', port=5000)
 PY
-
-# ২. মাস্টার অ্যাপ ইন্টারফেস
 cat << 'HTML' > index.html
 <!DOCTYPE html>
 <html>
@@ -44,9 +39,6 @@ async function run() {
 </body>
 </html>
 HTML
-
-# ৩. অটো-পুশ
 git add -A
 git commit -m "AutoKaaj OS: Pro Build Final"
 git push origin main
-echo "--- সব সেটআপ হয়েছে, গিট-এ পুশ হয়েছে ---"
