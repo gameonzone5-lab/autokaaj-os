@@ -1,24 +1,14 @@
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import subprocess
-import os
-
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/api/generate', methods=['POST'])
-def generate():
-    cmd = request.json.get('prompt', '').strip()
-    def stream():
-        yield "data: [SYSTEM]: Kernel active. Processing...\n"
-        try:
-            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            for line in process.stdout:
-                yield f"data: {line.decode('utf-8', 'ignore')}"
-            yield "data: \n[SUCCESS]: Task Completed.\n"
-        except Exception as e:
-            yield f"data: \n[ERROR]: {str(e)}\n"
-    return Response(stream(), mimetype='text/event-stream')
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+@app.route('/api/execute', methods=['POST'])
+def execute():
+    cmd = request.json.get('cmd', '')
+    try:
+        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
+        return jsonify({"result": out, "status": "success"})
+    except subprocess.CalledProcessError as e:
+        return jsonify({"result": e.output, "status": "error"})
+if __name__ == '__main__': app.run(host='127.0.0.1', port=5000)

@@ -10,3 +10,6 @@ time=2026-06-07T07:33:34.284Z level=INFO source=server.go:433 msg="starting runn
 time=2026-06-07T07:33:34.474Z level=INFO source=types.go:60 msg="inference compute" id=cpu library=cpu compute="" name=cpu description=cpu libdirs=ollama driver="" pci_id="" type="" total="5.3 GiB" available="1.5 GiB"
 time=2026-06-07T07:33:34.474Z level=INFO source=routes.go:1914 msg="vram-based default context" total_vram="0 B" default_num_ctx=4096
 time=2026-06-07T07:33:35.983Z level=INFO source=model_recommendations.go:177 msg="model recommendations cache sleep scheduled" wait=3h28m54.747298273s consecutive_failures=0
+[GIN] 2026/06/07 - 08:45:46 | 200 |   10.158077ms |       127.0.0.1 | HEAD     "/"
+time=2026-06-07T08:45:50.802Z level=INFO source=download.go:179 msg="downloading 416e45a35835 in 16 379 MB part(s)"
+[GIN] 2026/06/07 - 08:47:46 | 200 |         1m59s |       127.0.0.1 | POST     "/api/pull"
