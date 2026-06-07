@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoKaaj OS</title>
+    <title>AutoKaaj OS - Master Build</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
         
@@ -15,41 +15,57 @@
         .tech-symbol { position: absolute; font-size: 24px; animation: floatUp linear infinite; filter: grayscale(50%); }
         @keyframes floatUp { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        /* Master Logo (Same for App Icon) */
-        .logo-box { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+        /* Master Logo */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-top: 10px; }
+        .logo-section { display: flex; align-items: center; gap: 8px; }
+        .logo-box { position: relative; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
         .master-logo-svg { width: 100%; height: 100%; animation: spin 8s linear infinite; }
-        .logo-text { position: absolute; color: #FFD700; font-weight: 900; font-size: 16px; font-family: 'Inter', sans-serif; text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8); animation: pulseText 2.5s ease-in-out infinite; }
+        .logo-text { position: absolute; color: #FFD700; font-weight: 900; font-size: 14px; font-family: 'Inter', sans-serif; animation: pulseText 2.5s ease-in-out infinite; }
         @keyframes pulseText { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .processing .master-logo-svg { animation: spin 2s linear infinite; }
         .processing .logo-text { animation: pulseText 0.8s ease-in-out infinite; }
 
-        .brand-name { font-size: 24px; font-weight: 900; color: #FFFFFF; animation: smoothFloat 4s ease-in-out infinite; margin-left: 12px; }
+        .brand-name { font-size: 22px; font-weight: 900; color: #FFFFFF; animation: smoothFloat 4s ease-in-out infinite; margin-left: 8px; }
+        .brand-name .os { color: #00FFCC; }
         @keyframes smoothFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-3px); } }
 
-        .section-title { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase; }
-        .quota-badge { background: #16161E; border: 1px solid #FFD700; color: #FFD700; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; }
-        
-        .agent-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.3s; }
+        /* Tabs */
+        .agent-tabs { display: flex; gap: 6px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 10px 5px; border-radius: 8px; font-size: 10px; font-weight: 800; text-align: center; cursor: pointer; text-transform: uppercase; }
         .tab-btn.active { background: #A020F0; border-color: #A020F0; color: #FFFFFF; }
         .panel { display: none; } .panel.active { display: block; }
 
-        .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; min-height: 80px; margin-bottom: 20px; outline: none; }
-        
+        /* Terminal UI */
+        .terminal-box { background: #000; border: 1px solid #333; border-radius: 8px; padding: 15px; height: 350px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00FF00; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); margin-bottom: 20px;}
+        .terminal-output { margin-bottom: 10px; white-space: pre-wrap; line-height: 1.5; }
+        .terminal-input-line { display: flex; align-items: center; gap: 8px; color: #FFF; }
+        .terminal-prompt { color: #A020F0; font-weight: bold; }
+        .term-input { background: transparent; border: none; color: #00FFCC; font-family: 'JetBrains Mono', monospace; font-size: 11px; width: 100%; outline: none; }
+
+        /* API & Chat */
+        .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-bottom: 10px; outline: none; }
         .chat-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .agentic-log { background: #050508; border-left: 2px solid #A020F0; padding: 12px; border-radius: 0 6px 6px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; }
-        .log-step { margin-bottom: 4px; } .log-step.highlight { color: #00FFCC; }
-        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px 15px 15px 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #E4E4ED; position: relative; }
+        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #E4E4ED; position: relative; }
         
         .output-toolbar { position: absolute; top: 5px; right: 5px; display: flex; gap: 5px; }
-        .output-toolbar button { background: #2A2A35; border: none; color: #FFF; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+        .output-toolbar button { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #FFF; padding: 5px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .output-toolbar button:hover { background: #00FFCC; color: #000; }
 
+        /* Installer Cards */
+        .env-card { background: #111116; border: 1px solid #2A2A35; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .env-card h3 { font-size: 13px; color: #00FFCC; margin-bottom: 5px; font-weight: 800; }
+        .env-card p { font-size: 11px; color: #888; margin-bottom: 12px; }
+        .action-btn { display: block; width: 100%; text-align: left; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; border: 1px solid #2A2A35; margin-bottom: 8px; background: #16161E; color: #FFF; transition: 0.3s; }
+        .action-btn:hover { border-color: #A020F0; background: #1A1A24; }
+        .action-btn span { color: #A020F0; margin-right: 8px; font-size: 14px; }
+
+        /* Bottom Controls */
         .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0C; padding: 15px; border-top: 1px solid #1A1A24; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
         .input-row { display: flex; gap: 10px; align-items: center; width: 100%; }
-        .attach-btn { background: #16161E; border: 1px solid #2A2A35; color: #00FFCC; width: 45px; height: 45px; border-radius: 6px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .input-box { flex: 1; background: transparent; border: none; color: #FFF; font-size: 14px; padding: 10px 0; outline: none; }
-        .execute-btn { background: #00FFCC; color: #000; font-weight: 800; border: none; padding: 0 20px; height: 45px; border-radius: 6px; font-size: 13px; cursor: pointer; text-transform: uppercase; }
+        .input-box { flex: 1; background: transparent; border: 1px solid #2A2A35; border-radius: 6px; color: #FFF; font-size: 13px; padding: 12px; outline: none; }
+        .execute-btn { background: #00FFCC; color: #000; font-weight: 800; border: none; padding: 0 15px; height: 42px; border-radius: 6px; font-size: 12px; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -58,57 +74,109 @@
     <div class="header">
         <div class="logo-section">
             <div class="logo-box" id="mainLogo">
-                <svg class="master-logo-svg" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#00FFCC" stroke-width="6" stroke-dasharray="10 7" stroke-linecap="round" />
-                    <circle cx="50" cy="50" r="20" fill="none" stroke="#A020F0" stroke-width="3" />
-                </svg>
+                <svg class="master-logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#00FFCC" stroke-width="6" stroke-dasharray="10 7" stroke-linecap="round" /><circle cx="50" cy="50" r="20" fill="none" stroke="#A020F0" stroke-width="3" /></svg>
                 <span class="logo-text">AK</span>
             </div>
             <div class="brand-name">AutoKaaj<span class="os">OS</span></div>
         </div>
     </div>
-
-    <div class="section-title">
-        <div>🤖 AUTONOMOUS KERNEL <span class="active-tag">[ACTIVE]</span></div>
-        <div class="quota-badge" id="quotaDisplay">Free Quota: 3</div>
-    </div>
     
     <div class="agent-tabs">
-        <div class="tab-btn active" id="btn-agent" onclick="switchTab('agent')">💻 Agent</div>
-        <div class="tab-btn" id="btn-api" onclick="switchTab('api')">🔌 API Config</div>
+        <div class="tab-btn active" id="btn-terminal" onclick="switchTab('terminal')">💻 Terminal</div>
+        <div class="tab-btn" id="btn-agent" onclick="switchTab('agent')">🤖 AI Agent</div>
+        <div class="tab-btn" id="btn-env" onclick="switchTab('env')">⚡ Installer Hub</div>
+        <div class="tab-btn" id="btn-api" onclick="switchTab('api')">🔌 Settings</div>
     </div>
 
-    <div id="view-agent" class="panel active">
-        <textarea class="mission-profile" id="systemPrompt" placeholder="Describe Task..."></textarea>
+    <div id="view-terminal" class="panel active">
+        <div style="color: #888; font-size: 11px; margin-bottom: 10px;">Native Bash Shell Environment</div>
+        <div class="terminal-box" id="termConsole">
+            <div class="terminal-output" id="termOutput">AutoKaaj OS [Core Kernel]<br>(c) Chiranjit Majumdar. All rights reserved.<br><br>Ready for deployment...</div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">root@autokaaj:~#</span>
+                <input type="text" id="termCmdInput" class="term-input" onkeypress="handleTerminalEnter(event)" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <div id="view-agent" class="panel">
+        <div class="chat-container" id="chat"></div>
+    </div>
+
+    <div id="view-env" class="panel">
+        <div class="env-card">
+            <h3>📦 1. Core Environment</h3>
+            <p>Essential libraries (Git, Python, Node, Build-tools)</p>
+            <button class="action-btn" onclick="runCommand(`apt update -y && apt install git python3 python3-pip nodejs npm wget curl nano clang build-essential -y`)"><span>▶</span> Install Core Packages</button>
+        </div>
+
+        <div class="env-card">
+            <h3>🧠 2. Sovereign Agents</h3>
+            <p>Autonomous workflow agents</p>
+            <button class="action-btn" onclick="runCommand(`cd ~ && git clone https://github.com/mannaandpoem/OpenManus.git && cd OpenManus && pip3 install -r requirements.txt --break-system-packages`)"><span>▶</span> Install OpenManus</button>
+            <button class="action-btn" onclick="runCommand(`cd ~ && git clone https://github.com/OpenClaw/OpenClaw.git && cd OpenClaw && pip3 install -r requirements.txt --break-system-packages`)"><span>▶</span> Install OpenClaw</button>
+        </div>
+
+        <div class="env-card">
+            <h3>💻 3. AI Coding Assistants</h3>
+            <p>Next-gen terminal AI code generators</p>
+            <button class="action-btn" onclick="runCommand(`npm install -g @anthropic-ai/claude-code`)"><span>▶</span> Install Claude Code</button>
+            <button class="action-btn" onclick="runCommand(`pip3 install aider-chat --break-system-packages`)"><span>▶</span> Install Codex (Aider)</button>
+        </div>
+
+        <div class="env-card">
+            <h3>⚙️ 4. Automation Platform</h3>
+            <p>Local n8n workflow server</p>
+            <button class="action-btn" onclick="runCommand(`npm install -g n8n`)"><span>▶</span> Install n8n Automation</button>
+            <button class="action-btn" onclick="runCommand(`nohup n8n start > n8n.log 2>&1 &`)"><span>▶</span> Start n8n Server (Background)</button>
+        </div>
+
+        <div class="env-card">
+            <h3>🦙 5. Local AI Engine</h3>
+            <p>Offline model execution (Ollama & Hermes)</p>
+            <button class="action-btn" onclick="runCommand(`pkg install ollama -y && nohup env OLLAMA_ORIGINS=\"*\" ollama serve > ollama.log 2>&1 &`)"><span>▶</span> Install & Start Ollama</button>
+            <button class="action-btn" onclick="runCommand(`ollama pull nous-hermes2`)"><span>▶</span> Download Hermes Agent Model</button>
+        </div>
     </div>
 
     <div id="view-api" class="panel">
-        <div style="color: #FFF; font-weight: bold; margin-bottom: 10px; font-size: 12px;">SYSTEM CONFIGURATION</div>
-        <label style="color:#00FFCC; font-size:10px; display:block; margin-top:5px;">🌐 API URL</label>
-        <input type="text" id="apiEndpoint" class="mission-profile" style="min-height:40px; margin-bottom:5px;">
-        <label style="color:#00FFCC; font-size:10px; display:block;">🔑 API KEY</label>
-        <input type="password" id="apiKey" class="mission-profile" style="min-height:40px; margin-bottom:5px;">
-        <label style="color:#00FFCC; font-size:10px; display:block;">🧠 MODEL</label>
-        <input type="text" id="apiModel" class="mission-profile" style="min-height:40px; margin-bottom:15px;">
-        <button onclick="saveApiSettings()" class="execute-btn" style="width:100%">SAVE SETTINGS</button>
+        <div class="env-card">
+            <h3>⚙️ SYSTEM SETTINGS</h3>
+            <input type="text" id="apiEndpoint" class="mission-profile" placeholder="API URL (e.g., http://127.0.0.1:5000/api/generate)">
+            <input type="password" id="apiKey" class="mission-profile" placeholder="API KEY (Optional)">
+            <input type="text" id="apiModel" class="mission-profile" placeholder="Model (e.g., gemma4:31b-cloud)">
+            <button onclick="saveApiSettings()" class="execute-btn" style="width:100%; background: #A020F0; color: #FFF; margin-top:10px;">SAVE SETTINGS</button>
+        </div>
     </div>
-    
-    <div class="chat-container" id="chat"></div>
-    
+
     <div class="bottom-panel">
         <div class="input-row">
-            <button class="attach-btn" onclick="document.getElementById('fileUploader').click()">📎</button>
-            <input type="text" class="input-box" id="userInput" placeholder="Deploy task...">
-            <button class="execute-btn" onclick="runAgent()">EXECUTE</button>
+            <input type="file" id="fileUploader" style="display: none;" multiple>
+            <button class="execute-btn" style="background:#16161E; color:#00FFCC; border:1px solid #2A2A35; padding:0 15px;" onclick="document.getElementById('fileUploader').click()">📎</button>
+            <input type="text" class="input-box" id="userInput" placeholder="Deploy task or command...">
+            <button class="execute-btn" onclick="handleGlobalExecute()">EXECUTE</button>
         </div>
     </div>
 
     <script>
+        function createTechBackground() {
+            const container = document.getElementById('tech-bg');
+            const symbols = ['🤖', '⚙️', '💻', '🧠', '📄', '⚡', '🔒'];
+            for(let i=0; i<20; i++){ let el=document.createElement('div'); el.className='tech-symbol'; el.innerText=symbols[Math.floor(Math.random()*symbols.length)]; el.style.left=Math.random()*100+'vw'; el.style.animationDuration=(Math.random()*15+10)+'s'; el.style.animationDelay=(Math.random()*5)+'s'; container.appendChild(el); }
+        } createTechBackground();
+
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.getElementById(`btn-${tab}`).classList.add('active');
             document.getElementById(`view-${tab}`).classList.add('active');
+            if(tab === 'terminal') document.getElementById('termCmdInput').focus();
+        }
+
+        window.onload = () => {
+            document.getElementById('apiEndpoint').value = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
+            document.getElementById('apiKey').value = localStorage.getItem('ak_key') || '';
+            document.getElementById('apiModel').value = localStorage.getItem('ak_model') || 'gemma4:31b-cloud';
         }
 
         function saveApiSettings() {
@@ -118,49 +186,92 @@
             alert("Settings Saved!");
         }
 
-        window.onload = () => {
-            document.getElementById('apiEndpoint').value = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
-            document.getElementById('apiModel').value = localStorage.getItem('ak_model') || 'gemma4:31b-cloud';
+        // Run from UI Buttons
+        function runCommand(command) {
+            switchTab('terminal');
+            document.getElementById('termCmdInput').value = command;
+            handleTerminalEnter({key: 'Enter'});
         }
 
-        async function runAgent() {
-            let task = document.getElementById('userInput').value;
-            if(!task) return;
-            document.getElementById('mainLogo').classList.add('processing');
+        // Global Execute Button Logic
+        function handleGlobalExecute() {
+            let activePanel = document.querySelector('.panel.active').id;
+            let inputVal = document.getElementById('userInput').value;
+            if(!inputVal) return;
             
-            let container = document.getElementById('chat');
-            document.getElementById('userInput').value = '';
+            if(activePanel === 'view-terminal' || activePanel === 'view-env' || activePanel === 'view-api') {
+                switchTab('terminal');
+                document.getElementById('termCmdInput').value = inputVal;
+                handleTerminalEnter({key: 'Enter'});
+                document.getElementById('userInput').value = '';
+            } else {
+                runAgent(inputVal);
+            }
+        }
 
-            let logBox = document.createElement('div');
-            logBox.className = 'agentic-log';
-            container.appendChild(logBox);
-            logBox.innerHTML = "> [AGENT]: Processing '" + task + "'...";
-
-            setTimeout(async () => {
+        // Terminal Logic
+        async function handleTerminalEnter(e) {
+            if (e.key === 'Enter') {
+                let cmdInput = document.getElementById('termCmdInput');
+                let command = cmdInput.value.trim();
+                if(!command) return;
+                
+                let termOutput = document.getElementById('termOutput');
+                termOutput.innerHTML += `<br><br><span style="color:#FFF;">root@autokaaj:~# ${command}</span><br>`;
+                cmdInput.value = ''; 
+                document.getElementById('mainLogo').classList.add('processing');
+                
                 try {
-                    let endpoint = localStorage.getItem('ak_endpoint');
+                    let endpoint = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
                     let res = await fetch(endpoint, {
                         method: "POST", headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ model: localStorage.getItem('ak_model'), prompt: task })
+                        body: JSON.stringify({ model: "bash", prompt: "Execute bash: " + command })
                     });
                     let data = await res.json();
-                    
-                    let wrapper = document.createElement('div');
-                    wrapper.style.position = 'relative';
-                    wrapper.innerHTML = `
-                        <div class="output-toolbar">
-                            <button onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.innerText)">📋 Copy</button>
-                            <button onclick="let a=document.createElement('a'); a.href='data:text/plain,'+encodeURIComponent(this.parentElement.nextElementSibling.innerText); a.download='AutoKaaj_Output.txt'; a.click();">💾 Save</button>
-                        </div>
-                        <div class="final-output">${data.response || 'Success'}</div>
-                    `;
-                    container.appendChild(wrapper);
-                } catch(e) {
-                    logBox.innerHTML += `<br>> [ERROR]: Failed to connect to engine.`;
+                    let cleanOutput = data.response.replace("[TERMINAL OUTPUT]:\n", "").replace("\n\n✅ Task Completed!", "");
+                    termOutput.innerHTML += `<span style="color:#00FF00;">${cleanOutput}</span>`;
+                } catch(error) {
+                    termOutput.innerHTML += `<span style="color:#FF3333;">Error: Engine disconnected.</span>`;
                 }
+                
                 document.getElementById('mainLogo').classList.remove('processing');
-                window.scrollTo(0, document.body.scrollHeight);
-            }, 2000);
+                let consoleBox = document.getElementById('termConsole');
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+            }
+        }
+
+        // AI Agent Logic
+        async function runAgent(task) {
+            let container = document.getElementById('chat');
+            document.getElementById('userInput').value = '';
+            document.getElementById('mainLogo').classList.add('processing');
+
+            let logBox = document.createElement('div');
+            logBox.className = 'final-output';
+            logBox.innerHTML = `<b>User:</b> ${task}<br><br><b>Agent:</b> Processing...`;
+            container.appendChild(logBox);
+
+            try {
+                let endpoint = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
+                let res = await fetch(endpoint, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ model: localStorage.getItem('ak_model'), prompt: task })
+                });
+                let data = await res.json();
+                
+                logBox.innerHTML = `
+                    <div class="output-toolbar">
+                        <button onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.innerText)">📋 Copy</button>
+                        <button onclick="let a=document.createElement('a'); a.href='data:text/plain,'+encodeURIComponent(this.parentElement.nextElementSibling.innerText); a.download='AutoKaaj_Agent_Output.txt'; a.click();">💾 Save</button>
+                    </div>
+                    <b>User:</b> ${task}<br><br><b>Agent:</b><br><div>${data.response}</div>
+                `;
+            } catch(e) {
+                logBox.innerHTML = `<b>Error:</b> Engine offline. Ensure Python backend is running.`;
+            }
+            
+            document.getElementById('mainLogo').classList.remove('processing');
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </body>
