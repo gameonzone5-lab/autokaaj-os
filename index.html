@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
-<body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
-    <h3>AutoKaaj OS - Kernel v1.0</h3>
-    <div id="output" style="height:400px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
-    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; border:1px solid #444; padding:10px;" placeholder="Linux Command...">
-    <button onclick="run()" style="width:100%; padding:10px; background:#0f0; color:#000; font-weight:bold;">EXECUTE KERNEL</button>
-
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.1.0/lib/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.1.0/lib/xterm.min.js"></script>
+    <style>body { background: #000; margin: 0; padding: 10px; }</style>
+</head>
+<body>
+    <div id="terminal" style="width:100%; height:90vh;"></div>
     <script>
-        async function run() {
-            let cmd = document.getElementById('cmd').value;
-            let out = document.getElementById('output');
-            out.innerHTML += `<br>> ${cmd}<br>`;
-            let res = await fetch('http://127.0.0.1:5000/api/generate', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({prompt: cmd})
-            });
-            let data = await res.json();
-            out.innerHTML += data.response.replace(/\n/g, '<br>');
-        }
+        const term = new Terminal({cursorBlink: true, theme: {background: '#000', foreground: '#0f0'}});
+        term.open(document.getElementById('terminal'));
+        term.write('AutoKaaj OS Linux Shell Initialized...\r\n$ ');
+        
+        term.onData(async e => {
+            if (e === '\r') {
+                term.write('\r\n');
+                return;
+            }
+            term.write(e);
+        });
     </script>
 </body>
 </html>
