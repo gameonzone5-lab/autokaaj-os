@@ -1,47 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoKaaj OS - Master</title>
-    <style>
-        body { background: #000; color: #0f0; font-family: monospace; padding: 10px; }
-        .tab { display: none; } .tab.active { display: block; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 5px 0; background: #111; color: #0f0; border: 1px solid #333; cursor: pointer; text-align: left; }
-        .btn:hover { background: #222; }
-    </style>
-</head>
-<body>
-    <h3>AutoKaaj OS - Master Control</h3>
-    <button onclick="show('install')">📦 Installer Hub</button>
-    <button onclick="show('term')">💻 Terminal</button>
-
-    <div id="install" class="tab active">
-        <button class="btn" onclick="run('apt update -y && apt install git python3-pip nodejs -y')">Install Core (Git/Python/Node)</button>
-        <button class="btn" onclick="run('git clone https://github.com/mannaandpoem/OpenManus.git && pip3 install -r OpenManus/requirements.txt')">Setup OpenManus</button>
-        <button class="btn" onclick="run('npm install -g @anthropic-ai/claude-code')">Setup Claude Code</button>
-        <button class="btn" onclick="run('pip3 install aider-chat')">Setup Codex (Aider)</button>
-        <button class="btn" onclick="run('npm install -g n8n && n8n start')">Setup & Start n8n</button>
-    </div>
-
-    <div id="term" class="tab">
-        <input type="text" id="cmd" style="width:100%; padding:10px; background:#000; color:#0f0; border:1px solid #333;" placeholder="Bash command...">
-        <button onclick="run(document.getElementById('cmd').value)">RUN COMMAND</button>
-        <pre id="out" style="color:#fff;"></pre>
-    </div>
+<body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
+    <h3>AutoKaaj OS - Kernel v1.0</h3>
+    <div id="output" style="height:400px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
+    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; border:1px solid #444; padding:10px;" placeholder="Linux Command...">
+    <button onclick="run()" style="width:100%; padding:10px; background:#0f0; color:#000; font-weight:bold;">EXECUTE KERNEL</button>
 
     <script>
-        function show(t) {
-            document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-        }
-        async function run(c) {
-            document.getElementById('out').innerText = "Processing...";
+        async function run() {
+            let cmd = document.getElementById('cmd').value;
+            let out = document.getElementById('output');
+            out.innerHTML += `<br>> ${cmd}<br>`;
             let res = await fetch('http://127.0.0.1:5000/api/generate', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({prompt: "Execute bash: " + c})
+                body: JSON.stringify({prompt: cmd})
             });
             let data = await res.json();
-            document.getElementById('out').innerText = data.response;
+            out.innerHTML += data.response.replace(/\n/g, '<br>');
         }
     </script>
 </body>
