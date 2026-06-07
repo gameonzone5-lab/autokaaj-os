@@ -1,246 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoKaaj OS</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #0A0A0C; color: #FFFFFF; padding: 15px; padding-bottom: 110px; overflow-x: hidden; }
-        
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .logo-box { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
-        .master-logo-svg { width: 100%; height: 100%; animation: spin 8s linear infinite; }
-        .logo-text { position: absolute; color: #FFD700; font-weight: 900; font-size: 13px; text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8); }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .brand-name { font-size: 22px; font-weight: 900; color: #FFF; margin-left: 10px; }
-        .brand-name .os { color: #00FFCC; }
-
-        .agent-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; background: #16161E; border: 1px solid #2A2A35; color: #FFF; padding: 10px 5px; border-radius: 6px; font-size: 10px; font-weight: 800; text-align: center; cursor: pointer; text-transform: uppercase; }
-        .tab-btn.active { background: #A020F0; border-color: #A020F0; color: #FFFFFF; }
-        .panel { display: none; } .panel.active { display: block; }
-
-        .chat-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-        .final-output { background: #16161E; border: 1px solid #2A2A35; padding: 15px; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #E4E4ED; position: relative; word-wrap: break-word; }
-        .output-toolbar { position: absolute; top: 5px; right: 5px; display: flex; gap: 5px; }
-        .output-toolbar button { background: #2A2A35; border: none; color: #FFF; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; }
-
-        .env-card { background: #111116; border: 1px solid #2A2A35; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-        .env-card h3 { font-size: 13px; color: #00FFCC; margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
-        .env-card p { font-size: 11px; color: #888; margin-bottom: 12px; }
-        .action-btn { display: block; width: 100%; text-align: left; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; border: 1px solid #2A2A35; margin-bottom: 8px; background: #16161E; color: #FFF; }
-        .action-btn span { color: #A020F0; margin-right: 8px; font-size: 14px; }
-        
-        .input-label { display: block; color: #888; font-size: 10px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; margin-top: 10px;}
-        .mission-profile { width: 100%; background: #0A0A0C; border: 1px solid #2A2A35; color: #FFF; padding: 12px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-bottom: 5px; outline: none; }
-
-        .terminal-box { background: #000; border: 1px solid #333; border-radius: 8px; padding: 15px; height: 350px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00FF00; }
-        .term-input { background: transparent; border: none; color: #00FFCC; width: 100%; outline: none; font-family: inherit; font-size: inherit; }
-
-        .bottom-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0A0A0C; padding: 15px; border-top: 1px solid #1A1A24; display: flex; gap: 8px; z-index: 100; }
-        .input-box { flex: 1; background: transparent; border: 1px solid #2A2A35; border-radius: 6px; color: #FFF; font-size: 13px; padding: 12px; outline: none; }
-        .execute-btn { background: #00FFCC; color: #000; font-weight: 800; border: none; padding: 0 15px; border-radius: 6px; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; }
+        .box { border: 1px solid #333; padding: 10px; margin-bottom: 10px; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; background: #222; color: #fff; border: 1px solid #444; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div style="display: flex; align-items: center;">
-            <div class="logo-box">
-                <svg class="master-logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#00FFCC" stroke-width="6" stroke-dasharray="10 7" stroke-linecap="round" /><circle cx="50" cy="50" r="20" fill="none" stroke="#A020F0" stroke-width="3" /></svg>
-                <span class="logo-text">AK</span>
-            </div>
-            <div class="brand-name">AutoKaaj<span class="os">OS</span></div>
-        </div>
-    </div>
-    
-    <div class="agent-tabs">
-        <div class="tab-btn active" id="btn-agent" onclick="switchTab('agent')">🤖 Agent</div>
-        <div class="tab-btn" id="btn-terminal" onclick="switchTab('terminal')">💻 Terminal</div>
-        <div class="tab-btn" id="btn-env" onclick="switchTab('env')">⚡ Installer</div>
-        <div class="tab-btn" id="btn-api" onclick="switchTab('api')">🔌 Universal API</div>
-    </div>
-
-    <!-- Agent Tab -->
-    <div id="view-agent" class="panel active">
-        <div class="chat-container" id="chat"></div>
-    </div>
-
-    <!-- Terminal Tab -->
-    <div id="view-terminal" class="panel">
-        <div class="terminal-box" id="termConsole">
-            <div id="termOutput">AutoKaaj OS Native Shell<br>Ready...<br></div>
-            <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <span style="color: #A020F0; font-weight: bold;">root@autokaaj:~#</span>
-                <input type="text" id="termCmdInput" class="term-input" onkeypress="handleTerminalEnter(event)" autocomplete="off">
-            </div>
-        </div>
-    </div>
-
-    <!-- Installer Hub Tab -->
-    <div id="view-env" class="panel">
-        <div class="env-card">
-            <h3>⚙️ 1. Core Termux Features</h3>
-            <p>Setup Linux packages, Python, Node.js inside the app.</p>
-            <button class="action-btn" onclick="runCommand(`apt update -y && apt install git python3 python3-pip nodejs npm wget curl nano -y`)"><span>▶</span> Install Base System</button>
-        </div>
-        <div class="env-card">
-            <h3>🧠 2. Sovereign Agents</h3>
-            <p>1-Click Auto Installers</p>
-            <button class="action-btn" onclick="runCommand(`git clone https://github.com/mannaandpoem/OpenManus.git && cd OpenManus && pip3 install -r requirements.txt --break-system-packages`)"><span>▶</span> Setup OpenManus</button>
-            <button class="action-btn" onclick="runCommand(`git clone https://github.com/OpenClaw/OpenClaw.git && cd OpenClaw && pip3 install -r requirements.txt --break-system-packages`)"><span>▶</span> Setup OpenClaw</button>
-        </div>
-        <div class="env-card">
-            <h3>💻 3. AI Coders & Automation</h3>
-            <p>Claude Code, Codex (Aider) & n8n</p>
-            <button class="action-btn" onclick="runCommand(`npm install -g @anthropic-ai/claude-code`)"><span>▶</span> Setup Claude Code</button>
-            <button class="action-btn" onclick="runCommand(`pip3 install aider-chat --break-system-packages`)"><span>▶</span> Setup Codex (Aider)</button>
-            <button class="action-btn" onclick="runCommand(`npm install -g n8n && nohup n8n start > n8n.log 2>&1 &`)"><span>▶</span> Setup & Start n8n</button>
-        </div>
-        <div class="env-card">
-            <h3>🦙 4. Local AI Engines</h3>
-            <p>Ollama & Hermes</p>
-            <button class="action-btn" onclick="runCommand(`pkg install ollama -y && nohup env OLLAMA_ORIGINS=\"*\" ollama serve > ollama.log 2>&1 &`)"><span>▶</span> Start Ollama Engine</button>
-            <button class="action-btn" onclick="runCommand(`ollama pull nous-hermes2`)"><span>▶</span> Download Hermes Agent</button>
-        </div>
-    </div>
-
-    <!-- Universal API Config Tab -->
-    <div id="view-api" class="panel">
-        <div class="env-card">
-            <h3>🔌 UNIVERSAL API CONNECTION</h3>
-            <p>Connect to ANY API in the world. Leave API Key blank if using Local Server.</p>
-            
-            <label class="input-label">🌐 API Endpoint URL</label>
-            <input type="text" id="apiEndpoint" class="mission-profile" placeholder="http://127.0.0.1:5000/api/generate or OpenAI URL">
-            
-            <label class="input-label">🔑 API KEY</label>
-            <input type="password" id="apiKey" class="mission-profile" placeholder="Enter API Key (sk-...)">
-            
-            <label class="input-label">🧠 MODEL NAME</label>
-            <input type="text" id="apiModel" class="mission-profile" placeholder="gemma4:31b-cloud, gpt-4, etc.">
-            
-            <button onclick="saveApiSettings()" class="execute-btn" style="width:100%; background: #A020F0; color: #FFF; margin-top:15px; padding: 12px;">Save Global API</button>
-        </div>
-    </div>
-
-    <!-- Global Input -->
-    <div class="bottom-panel">
-        <button class="execute-btn" style="background:#16161E; color:#00FFCC; border:1px solid #2A2A35;" onclick="alert('File upload coming soon!')">📎</button>
-        <input type="text" class="input-box" id="userInput" placeholder="Deploy task or command...">
-        <button class="execute-btn" onclick="handleGlobalExecute()">EXECUTE</button>
-    </div>
-
+    <h3>AutoKaaj OS - Master Shell</h3>
+    <div class="box" id="output">Status: Ready</div>
+    <input type="text" id="cmd" placeholder="Enter bash command...">
+    <button onclick="run()">EXECUTE</button>
     <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(`btn-${tab}`).classList.add('active');
-            document.getElementById(`view-${tab}`).classList.add('active');
-            if(tab === 'terminal') document.getElementById('termCmdInput').focus();
-        }
-
-        window.onload = () => {
-            document.getElementById('apiEndpoint').value = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
-            document.getElementById('apiKey').value = localStorage.getItem('ak_key') || '';
-            document.getElementById('apiModel').value = localStorage.getItem('ak_model') || 'gemma4:31b-cloud';
-        }
-
-        function saveApiSettings() {
-            localStorage.setItem('ak_endpoint', document.getElementById('apiEndpoint').value.trim());
-            localStorage.setItem('ak_key', document.getElementById('apiKey').value.trim());
-            localStorage.setItem('ak_model', document.getElementById('apiModel').value.trim());
-            alert("✅ Universal API Settings Saved Successfully!");
-        }
-
-        function runCommand(command) {
-            switchTab('terminal');
-            document.getElementById('termCmdInput').value = command;
-            handleTerminalEnter({key: 'Enter'});
-        }
-
-        function handleGlobalExecute() {
-            let activePanel = document.querySelector('.panel.active').id;
-            let inputVal = document.getElementById('userInput').value;
-            if(!inputVal) return;
-            
-            if(activePanel === 'view-terminal' || activePanel === 'view-env') {
-                runCommand(inputVal);
-                document.getElementById('userInput').value = '';
-            } else {
-                runAgent(inputVal);
-            }
-        }
-
-        async function handleTerminalEnter(e) {
-            if (e.key === 'Enter') {
-                let cmdInput = document.getElementById('termCmdInput');
-                let command = cmdInput.value.trim();
-                if(!command) return;
-                
-                let termOutput = document.getElementById('termOutput');
-                termOutput.innerHTML += `<br><span style="color:#FFF;">root@autokaaj:~# ${command}</span><br>`;
-                cmdInput.value = ''; 
-                
-                try {
-                    let endpoint = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
-                    let res = await fetch(endpoint, {
-                        method: "POST", headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ model: "bash", prompt: "Execute bash: " + command })
-                    });
-                    if(!res.ok) throw new Error("Server returned " + res.status);
-                    let data = await res.json();
-                    let cleanOutput = data.response ? data.response.replace("[TERMINAL OUTPUT]:\n", "").replace("\n\n✅ Task Completed!", "") : "No Output";
-                    termOutput.innerHTML += `<span style="color:#00FF00;">${cleanOutput}</span>`;
-                } catch(error) {
-                    termOutput.innerHTML += `<span style="color:#FF3333;">[CONNECTION ERROR]: Could not connect to Engine at ${localStorage.getItem('ak_endpoint')}. Make sure Python backend is running or API URL is correct.</span>`;
-                }
-                
-                let consoleBox = document.getElementById('termConsole');
-                consoleBox.scrollTop = consoleBox.scrollHeight;
-            }
-        }
-
-        async function runAgent(task) {
-            let container = document.getElementById('chat');
-            document.getElementById('userInput').value = '';
-
-            let logBox = document.createElement('div');
-            logBox.className = 'final-output';
-            logBox.innerHTML = `<b style="color:#00FFCC;">User:</b> ${task}<br><br><b style="color:#A020F0;">Agent:</b> Processing via API...`;
-            container.appendChild(logBox);
-            window.scrollTo(0, document.body.scrollHeight);
-
-            try {
-                let endpoint = localStorage.getItem('ak_endpoint') || 'http://127.0.0.1:5000/api/generate';
-                let apiKey = localStorage.getItem('ak_key') || '';
-                
-                // Flexible Headers for Universal API
-                let headers = { "Content-Type": "application/json" };
-                if (apiKey) headers["Authorization"] = "Bearer " + apiKey;
-
-                let res = await fetch(endpoint, {
-                    method: "POST", headers: headers,
-                    body: JSON.stringify({ model: localStorage.getItem('ak_model'), prompt: task, stream: false })
-                });
-                
-                if(!res.ok) throw new Error("HTTP Status " + res.status);
-                let data = await res.json();
-                
-                // Fallback parsing to support different Universal API formats (OpenAI, Ollama, Custom)
-                let finalResponse = data.response || (data.choices && data.choices[0].message.content) || JSON.stringify(data);
-                
-                logBox.innerHTML = `
-                    <div class="output-toolbar">
-                        <button onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.innerText)">📋 Copy</button>
-                    </div>
-                    <b style="color:#00FFCC;">User:</b> ${task}<br><br><b style="color:#A020F0;">Agent:</b><br><div>${finalResponse}</div>
-                `;
-            } catch(e) {
-                logBox.innerHTML = `<b style="color:#00FFCC;">User:</b> ${task}<br><br><b style="color:#FF3333;">[ERROR]: Connection Failed.</b><br><span style="font-size:11px; color:#888;">Ensure your Universal API URL is correct, or if using Local, ensure Python/Termux is running. Error details: ${e.message}</span>`;
-            }
-            window.scrollTo(0, document.body.scrollHeight);
+        async function run() {
+            let cmd = document.getElementById('cmd').value;
+            let res = await fetch('http://127.0.0.1:5000/api/generate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({prompt: "Execute bash: " + cmd})
+            });
+            let data = await res.json();
+            document.getElementById('output').innerText = data.response;
         }
     </script>
 </body>
