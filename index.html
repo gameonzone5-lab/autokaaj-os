@@ -1,51 +1,35 @@
 <!DOCTYPE html>
 <html>
-<body style="background:#000; color:#0f0; font-family:monospace; padding:20px;">
-    <h2>AutoKaaj Installer Hub</h2>
-    <button onclick="install('claude')" style="padding:15px; background:#0f0; border:none; width:100%;">Install Claude Code</button>
-    <button onclick="install('ollama')" style="padding:15px; background:#0f0; border:none; width:100%; margin-top:10px;">Install Ollama</button>
-    <div id="logs" style="margin-top:20px; border:1px solid #333; padding:10px;">Logs: Waiting...</div>
+<body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
+    <h3>AutoKaaj OS - Live Terminal</h3>
+    <div id="output" style="height:300px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
+    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; border:1px solid #333; padding:10px;">
+    <button onclick="run()" style="width:100%; padding:15px; background:#0f0; color:#000;">EXECUTE LIVE</button>
+
     <script>
-        async function install(tool) {
-            document.getElementById('logs').innerText = "Installing " + tool + "... check terminal";
-            await fetch('/api/install', {method: 'POST', body: JSON.stringify({tool: tool})});
+        async function run() {
+            const cmd = document.getElementById('cmd').value;
+            const output = document.getElementById('output');
+            output.innerHTML += `<div>$ ${cmd}</div>`;
+            
+            // লাইভ ফিড শো করা
+            const response = await fetch('http://127.0.0.1:5000/api/execute', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({cmd: cmd})
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const {done, value} = await reader.read();
+                if (done) break;
+                // ডেটা আসার সাথে সাথে স্ক্রিনে যোগ হবে
+                output.innerHTML += decoder.decode(value).replace(/\n/g, '<br>');
+                output.scrollTop = output.scrollHeight; // নিচে স্ক্রল হবে
+            }
         }
     </script>
 </body>
 </html>
-<div id="api-vault" style="margin-top:20px; border:1px solid #0f0; padding:10px;">
-    <h3>API Vault</h3>
-    <input type="text" id="service" placeholder="Service Name (e.g. Claude)">
-    <input type="password" id="key" placeholder="Enter API Key">
-    <button onclick="saveApi()">Save Key</button>
-</div>
-<script>
-async function saveApi() {
-    let service = document.getElementById('service').value;
-    let key = document.getElementById('key').value;
-    await fetch('/api/save-key', {
-        method: 'POST', 
-        body: JSON.stringify({service: service, key: key})
-    });
-    alert("API Key Encrypted and Saved!");
-}
-</script>
-<div id="agent-hub" style="margin-top:20px; border:1px solid #00f; padding:10px;">
-    <h3>Agent-to-Agent Communication</h3>
-    <select id="sender"><option>Coding Agent</option><option>SEO Agent</option></select>
-    <select id="receiver"><option>Research Agent</option><option>Blogger Agent</option></select>
-    <input type="text" id="task-msg" placeholder="Task command...">
-    <button onclick="bridgeTask()">Send Task</button>
-</div>
-<script>
-async function bridgeTask() {
-    let s = document.getElementById('sender').value;
-    let r = document.getElementById('receiver').value;
-    let t = document.getElementById('task-msg').value;
-    await fetch('/api/bridge', {
-        method: 'POST', 
-        body: JSON.stringify({sender: s, receiver: r, task: t})
-    });
-    alert("Task queued to " + r);
-}
-</script>
