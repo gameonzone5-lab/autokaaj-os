@@ -13,3 +13,20 @@
     </script>
 </body>
 </html>
+<div id="api-vault" style="margin-top:20px; border:1px solid #0f0; padding:10px;">
+    <h3>API Vault</h3>
+    <input type="text" id="service" placeholder="Service Name (e.g. Claude)">
+    <input type="password" id="key" placeholder="Enter API Key">
+    <button onclick="saveApi()">Save Key</button>
+</div>
+<script>
+async function saveApi() {
+    let service = document.getElementById('service').value;
+    let key = document.getElementById('key').value;
+    await fetch('/api/save-key', {
+        method: 'POST', 
+        body: JSON.stringify({service: service, key: key})
+    });
+    alert("API Key Encrypted and Saved!");
+}
+</script>
