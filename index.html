@@ -30,3 +30,22 @@ async function saveApi() {
     alert("API Key Encrypted and Saved!");
 }
 </script>
+<div id="agent-hub" style="margin-top:20px; border:1px solid #00f; padding:10px;">
+    <h3>Agent-to-Agent Communication</h3>
+    <select id="sender"><option>Coding Agent</option><option>SEO Agent</option></select>
+    <select id="receiver"><option>Research Agent</option><option>Blogger Agent</option></select>
+    <input type="text" id="task-msg" placeholder="Task command...">
+    <button onclick="bridgeTask()">Send Task</button>
+</div>
+<script>
+async function bridgeTask() {
+    let s = document.getElementById('sender').value;
+    let r = document.getElementById('receiver').value;
+    let t = document.getElementById('task-msg').value;
+    await fetch('/api/bridge', {
+        method: 'POST', 
+        body: JSON.stringify({sender: s, receiver: r, task: t})
+    });
+    alert("Task queued to " + r);
+}
+</script>
