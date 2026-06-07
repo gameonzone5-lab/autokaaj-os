@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html>
 <body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
-    <h3>AutoKaaj OS - Live Terminal</h3>
-    <div id="output" style="height:300px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
-    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; border:1px solid #333; padding:10px;">
-    <button onclick="run()" style="width:100%; padding:15px; background:#0f0; color:#000;">EXECUTE LIVE</button>
-
+    <h3>AutoKaaj Pro - Active</h3>
+    <div id="out" style="height:300px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
+    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; padding:10px;">
+    <button onclick="run()" style="width:100%; padding:15px; background:#0f0; color:#000;">EXECUTE</button>
     <script>
         async function run() {
-            const cmd = document.getElementById('cmd').value;
-            const output = document.getElementById('output');
-            output.innerHTML += `<div>$ ${cmd}</div>`;
-            
-            // লাইভ ফিড শো করা
-            const response = await fetch('http://127.0.0.1:5000/api/execute', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({cmd: cmd})
-            });
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-
-            while (true) {
-                const {done, value} = await reader.read();
-                if (done) break;
-                // ডেটা আসার সাথে সাথে স্ক্রিনে যোগ হবে
-                output.innerHTML += decoder.decode(value).replace(/\n/g, '<br>');
-                output.scrollTop = output.scrollHeight; // নিচে স্ক্রল হবে
+            let cmd = document.getElementById('cmd').value;
+            let out = document.getElementById('out');
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/execute', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({cmd: cmd})
+                });
+                const data = await res.json();
+                out.innerHTML += '<div>$ ' + cmd + '<br>' + data.result.replace(/\n/g, '<br>') + '</div>';
+                out.scrollTop = out.scrollHeight;
+            } catch(e) {
+                out.innerHTML += '<div style="color:red;">Connection Error: Check Python Backend!</div>';
             }
         }
     </script>
