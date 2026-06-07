@@ -1,25 +1,24 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, Response
 from flask_cors import CORS
-import os
 import subprocess
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-# এই ফাংশনটি টার্মাক্সের মতো এনভায়রনমেন্ট সেট করবে
-def run_linux_cmd(cmd):
-    # লিনাক্স সিস্টেম পাথ সেট করা
-    env = os.environ.copy()
-    env['PATH'] = '/data/data/com.termux/files/usr/bin:/bin:/usr/bin'
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
-    output, _ = process.communicate()
-    return output.decode('utf-8')
-
 @app.route('/api/generate', methods=['POST'])
 def generate():
-    data = request.json
-    cmd = data.get('prompt', '').replace("Execute bash:", "").strip()
-    return jsonify({"response": run_linux_cmd(cmd)})
+    cmd = request.json.get('prompt', '').strip()
+    def stream():
+        yield "data: [SYSTEM]: Kernel active. Processing...\n"
+        try:
+            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            for line in process.stdout:
+                yield f"data: {line.decode('utf-8', 'ignore')}"
+            yield "data: \n[SUCCESS]: Task Completed.\n"
+        except Exception as e:
+            yield f"data: \n[ERROR]: {str(e)}\n"
+    return Response(stream(), mimetype='text/event-stream')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, threaded=True)
