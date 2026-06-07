@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
-<body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
-    <h2>AutoKaaj Pro Dashboard</h2>
-    <div id="status" style="border:1px solid #333; padding:10px;">System Ready</div>
-    <input type="text" id="cmd" style="width:80%; background:#111; color:#0f0;">
-    <button onclick="send()">RUN</button>
+<body style="background:#000; color:#0f0; font-family:monospace; padding:20px;">
+    <h2>AutoKaaj Installer Hub</h2>
+    <button onclick="install('claude')" style="padding:15px; background:#0f0; border:none; width:100%;">Install Claude Code</button>
+    <button onclick="install('ollama')" style="padding:15px; background:#0f0; border:none; width:100%; margin-top:10px;">Install Ollama</button>
+    <div id="logs" style="margin-top:20px; border:1px solid #333; padding:10px;">Logs: Waiting...</div>
     <script>
-        async function send() {
-            let cmd = document.getElementById('cmd').value;
-            document.getElementById('status').innerText = "Task Running...";
-            await fetch('/api/execute', {method: 'POST', body: JSON.stringify({cmd: cmd})});
+        async function install(tool) {
+            document.getElementById('logs').innerText = "Installing " + tool + "... check terminal";
+            await fetch('/api/install', {method: 'POST', body: JSON.stringify({tool: tool})});
         }
     </script>
 </body>
