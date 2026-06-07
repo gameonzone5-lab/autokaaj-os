@@ -6,20 +6,22 @@
     <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; padding:10px;">
     <button onclick="run()" style="width:100%; padding:15px; background:#0f0; color:#000;">EXECUTE</button>
     <script>
+        // সেন্ট্রাল ফাংশন যা সব ট্যাব (Agent/Terminal) থেকে কল হবে
         async function run() {
             let cmd = document.getElementById('cmd').value;
             let out = document.getElementById('out');
             try {
+                // এজেন্ট এবং টার্মিনাল উভয়ই এখন এই নির্দিষ্ট ইউআরএল ব্যবহার করবে
                 const res = await fetch('http://127.0.0.1:5000/api/execute', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({cmd: cmd})
                 });
                 const data = await res.json();
-                out.innerHTML += '<div>$ ' + cmd + '<br>' + data.result.replace(/\n/g, '<br>') + '</div>';
+                out.innerHTML += '<div>> ' + cmd + '<br>' + data.result.replace(/\n/g, '<br>') + '</div>';
                 out.scrollTop = out.scrollHeight;
             } catch(e) {
-                out.innerHTML += '<div style="color:red;">Connection Error: Check Python Backend!</div>';
+                out.innerHTML += '<div style="color:red;">[ERROR]: Connection Failed. Check Python Backend!</div>';
             }
         }
     </script>
