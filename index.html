@@ -1,27 +1,105 @@
 <!DOCTYPE html>
-<html>
-<body style="background:#000; color:#0f0; font-family:monospace; padding:10px;">
-    <h3>AutoKaaj Pro - Active</h3>
-    <div id="out" style="height:300px; overflow-y:auto; border:1px solid #333; padding:10px;"></div>
-    <input type="text" id="cmd" style="width:100%; background:#111; color:#0f0; padding:10px;">
-    <button onclick="run()" style="width:100%; padding:15px; background:#0f0; color:#000;">EXECUTE</button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoKaaj AI OS</title>
+    <style>
+        body { background-color: #0b0d17; color: #ffffff; font-family: sans-serif; margin: 0; padding: 10px; }
+        .header { display: flex; align-items: center; margin-bottom: 20px; }
+        .header h2 { margin: 0; color: #fff; font-size: 24px; }
+        .header h2 span { color: #00ffcc; }
+        
+        /* Tabs Design */
+        .tabs { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
+        .tab { background: #1c1f2e; color: #aaa; padding: 10px 15px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; white-space: nowrap; }
+        .tab.active { background: #8a2be2; color: #fff; }
+
+        /* Terminal Design */
+        .terminal-container { background: #000; border: 1px solid #333; border-radius: 10px; padding: 15px; height: 400px; overflow-y: auto; font-family: monospace; font-size: 14px; position: relative; }
+        .terminal-output { color: #00ff00; }
+        
+        /* Loading Animation */
+        #loader { display: none; color: #00ffcc; font-weight: bold; margin-bottom: 10px; }
+        .spinner { display: inline-block; width: 15px; height: 15px; border: 3px solid rgba(0,255,204,.3); border-radius: 50%; border-top-color: #00ffcc; animation: spin 1s ease-in-out infinite; margin-right: 8px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Input Area */
+        .input-area { display: flex; gap: 10px; margin-top: 15px; }
+        .input-box { flex: 1; background: #1c1f2e; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 8px; font-size: 14px; }
+        .exec-btn { background: #00ffcc; color: #000; font-weight: bold; border: none; padding: 15px 20px; border-radius: 8px; cursor: pointer; }
+        .exec-btn:disabled { background: #555; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>AutoKaaj<span>OS</span></h2>
+    </div>
+
+    <div class="tabs">
+        <div class="tab">🤖 AGENT</div>
+        <div class="tab active">💻 TERMINAL</div>
+        <div class="tab">⚡ INSTALLER</div>
+        <div class="tab">🔌 UNIVERSAL API</div>
+    </div>
+
+    <div class="terminal-container" id="term-container">
+        <div id="loader"><div class="spinner"></div> Task is running...</div>
+        <div class="terminal-output" id="output">AutoKaaj OS Native Shell Ready...<br><br></div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="cmd" class="input-box" placeholder="Deploy task or command...">
+        <button id="execBtn" class="exec-btn" onclick="executeCommand()">EXECUTE</button>
+    </div>
+
     <script>
-        // সেন্ট্রাল ফাংশন যা সব ট্যাব (Agent/Terminal) থেকে কল হবে
-        async function run() {
-            let cmd = document.getElementById('cmd').value;
-            let out = document.getElementById('out');
+        async function executeCommand() {
+            const cmdInput = document.getElementById('cmd');
+            const outputDiv = document.getElementById('output');
+            const loader = document.getElementById('loader');
+            const execBtn = document.getElementById('execBtn');
+            const termContainer = document.getElementById('term-container');
+            
+            const cmd = cmdInput.value.trim();
+            if(!cmd) return;
+
+            // UI Update: Disable button & show loader
+            cmdInput.value = '';
+            execBtn.disabled = true;
+            loader.style.display = 'block';
+            outputDiv.innerHTML += `<br><span style="color:#8a2be2;">root@autokaaj:~#</span> ${cmd}<br>`;
+            termContainer.scrollTop = termContainer.scrollHeight;
+
             try {
-                // এজেন্ট এবং টার্মিনাল উভয়ই এখন এই নির্দিষ্ট ইউআরএল ব্যবহার করবে
-                const res = await fetch('http://127.0.0.1:5000/api/execute', {
+                // Fetch API with Real-time Stream Reading
+                const response = await fetch('http://127.0.0.1:5000/api/execute', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({cmd: cmd})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cmd: cmd })
                 });
-                const data = await res.json();
-                out.innerHTML += '<div>> ' + cmd + '<br>' + data.result.replace(/\n/g, '<br>') + '</div>';
-                out.scrollTop = out.scrollHeight;
-            } catch(e) {
-                out.innerHTML += '<div style="color:red;">[ERROR]: Connection Failed. Check Python Backend!</div>';
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    // Decode stream and append to terminal
+                    let text = decoder.decode(value);
+                    text = text.replace(/\n/g, '<br>');
+                    outputDiv.innerHTML += text;
+                    termContainer.scrollTop = termContainer.scrollHeight;
+                }
+            } catch (error) {
+                outputDiv.innerHTML += `<br><span style="color:red;">[CONNECTION ERROR]: Ensure Python backend is running!</span><br>`;
+            } finally {
+                // UI Update: Enable button & hide loader
+                loader.style.display = 'none';
+                execBtn.disabled = false;
+                termContainer.scrollTop = termContainer.scrollHeight;
             }
         }
     </script>

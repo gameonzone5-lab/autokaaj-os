@@ -1,0 +1,4 @@
+Starting: git clone https://github.com/OpenClaw/OpenClaw.git && cd OpenClaw && pip3 install -r requirements.txt --break-system-packages
+fatal: destination path 'OpenClaw' already exists and is not an empty directory.
+
+[Task Completed]
