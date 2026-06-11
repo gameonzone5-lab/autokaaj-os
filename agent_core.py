@@ -1,5 +1,5 @@
 import subprocess
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -13,37 +13,37 @@ def execute_command():
     data = request.json or {}
     prompt = data.get('prompt', data.get('message', data.get('cmd', '')))
     cmd = prompt.replace('Execute bash:', '').strip()
-    if not cmd: return Response("Error: No command received.\n", mimetype='text/plain')
+    
+    if not cmd:
+        return jsonify({"result": "Error: No command received", "status": "error"})
 
     # ==========================================
-    # AUTO-HEALING ENGINE (অটোমেটিক প্রবলেম সলভার)
+    # AUTO-HEALING ENGINE
     # ==========================================
-    # যদি কাস্টমার কোনো প্যাকেজ ইনস্টল করতে চায়, সিস্টেম নিজে থেকেই ডিপেন্ডেন্সি ফিক্স করবে
+    # pip install-এর ক্ষেত্রে setuptools এরর এড়াতে অটো-ফিক্স
     if "pip3 install" in cmd and "setuptools" not in cmd:
         auto_fix = "pip3 install --upgrade pip setuptools wheel --break-system-packages"
         cmd = f"{auto_fix} && {cmd}"
 
-    def generate():
-        yield f"⚙️ [AutoKaaj Engine]: Smart Installer Active...\n"
+    try:
+        # কমান্ড রান হবে এবং ব্যাকগ্রাউন্ডে কাজ শেষ হওয়া পর্যন্ত অপেক্ষা করবে
+        process = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
-        # Popen ব্যবহার করে লাইভ স্ট্রিম করা
-        process = subprocess.Popen(
-            cmd, shell=True, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.STDOUT, 
-            bufsize=1, 
-            universal_newlines=True
-        )
-        for line in process.stdout:
-            yield line # ডেটা আসার সাথে সাথে অ্যাপে লাইভ পুশ করা হবে
+        output = process.stdout.strip()
+        if process.stderr.strip():
+            output += "\n[Logs/Warnings]:\n" + process.stderr.strip()
             
-        process.wait()
-        if process.returncode == 0:
-            yield f"\n✅ [AutoKaaj]: Setup Completed Successfully!\n"
-        else:
-            yield f"\n❌ [AutoKaaj]: Setup Failed. Please check logs.\n"
+        if not output:
+            output = f"Task [{cmd}] executed successfully."
 
-    return Response(generate(), mimetype='text/plain')
+        # অ্যাপ ঠিক যে JSON ফরম্যাটে ডেটা চায়, সেভাবেই পাঠানো হচ্ছে
+        return jsonify({
+            "result": output, 
+            "response": output, 
+            "status": "success"
+        })
+    except Exception as e:
+        return jsonify({"result": f"Execution Error: {str(e)}", "status": "error"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, threaded=True)
